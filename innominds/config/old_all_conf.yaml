@@ -1,0 +1,22 @@
+device:
+  host: "192.168.11.135"
+  port: "22"
+  user: "root"
+  pwd: ""
+  version : "12.7.4"
+  hostname: "ITC005056ADE39C"
+  chrome: "chromium-143.0.7499.+1"
+
+UMS:
+  base_url: "https://192.168.10.28:8443/umsapi/v3"
+  username: "laxmikanth.ghali.ums"
+  password: "igelxinnominds"
+  weburl: "https://192.168.10.28:8443"
+
+logger:
+  logLevel: "INFO"
+
+otp_secret_cred:
+  Entra_ID:
+    testuser1:
+      secret_key: "xz7xrqbgqmdfrlkq"

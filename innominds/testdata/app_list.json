@@ -1,0 +1,28 @@
+{
+    "Install_list": [
+        {
+            "profile_name": "vikas_edge",
+            "app_name": "edge",
+            "install": "True"
+        },
+
+        {
+            "profile_name": "vikas_chromium",
+            "app_name": "chromium",
+            "install": "True"
+        }
+    ],
+    "Other_list": [
+        {
+            "profile_name": "vikas_teams",
+            "app_name": "teams",
+            "install": "False"
+        },
+        {
+            "profile_name": "vikas_firefox",
+            "app_name": "firefox",
+            "install": "True"
+        }
+
+    ]
+}

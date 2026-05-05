@@ -1,0 +1,823 @@
+Date: Thu, 23 Apr 2026 15:31:20 +0000 (UTC)
+Message-ID: <1335714353.73.1776958280652@bd0cb70cc4ed>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_72_675267575.1776958280651"
+
+------=_Part_72_675267575.1776958280651
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>Screenlock / Screensaver Options in IGEL OS 12</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font: var(--ds-font-body-small, Arial, Helvetica, FreeSans, sans-se=
+rif);
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: var(--ds-surface, #fff) !important;
+        color: var(--ds-text, #000) !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: var(--ds-text, #000);
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        page-break-after: avoid;
+    }
+
+    pre {
+        font: var(--ds-font-code, Monaco, "Courier New", monospace);
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0px;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0px;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>Screenlock / Screensaver Options in IGEL OS 12</h1>
+    <div class=3D"Section1">
+        <p local-id=3D"d7fec1fe-8eaa-42ec-b703-41a2588db9c8">This article s=
+hows how to configure the setting options for the screenlock and the screen=
+saver in IGEL OS.</p>
+<hr local-id=3D"bd2978b2-909e-4cda-8096-ed9de1aa5671">
+<p local-id=3D"416b79fa-e157-4e8c-a25e-3a791ba2ae58">Menu path: <strong>Use=
+r Interface &gt; Screenlock / Screensaver &gt; Options</strong><br></p><spa=
+n class=3D"confluence-embedded-file-wrapper image-left-wrapper confluence-e=
+mbedded-manual-size"><img class=3D"confluence-embedded-image confluence-con=
+tent-image-border image-left" alt=3D"Screenlock options in IGEL OS" width=
+=3D"468" loading=3D"lazy" src=3D"9aac83befbdc724ac5f5a74d814834c68968af8de3=
+961a96b73394efd68ebb04" data-image-src=3D"https://igel-jira.atlassian.net/w=
+iki/download/attachments/73302255/image-20260129-130611.png?version=3D1&amp=
+;modificationDate=3D1769691972487&amp;cacheVersion=3D1&amp;api=3Dv2" data-h=
+eight=3D"601" data-width=3D"1153" data-unresolved-comment-count=3D"0" data-=
+linked-resource-id=3D"859930682" data-linked-resource-version=3D"1" data-li=
+nked-resource-type=3D"attachment" data-linked-resource-default-alias=3D"ima=
+ge-20260129-130611.png" data-base-url=3D"https://igel-jira.atlassian.net/wi=
+ki" data-linked-resource-content-type=3D"image/png" data-linked-resource-co=
+ntainer-id=3D"73302255" data-linked-resource-container-version=3D"8" data-m=
+edia-id=3D"dcdead05-c1f5-41db-a5f2-d852f64bed41" data-media-type=3D"file" h=
+eight=3D"243"></span>
+<p local-id=3D"16d42979-2530-4336-9408-ecfabb67d1aa"></p>
+<p local-id=3D"e115483fc4e5"><strong>Start automatically</strong></p>
+<ul class=3D"inline-task-list" data-inline-tasks-content-id=3D"73302255">
+<li class=3D"checked" data-inline-task-id=3D"1"><span class=3D"placeholder-=
+inline-tasks">The screenlock and screensaver starts automatically if there =
+is no activity on the device within the <strong>Timeout</strong> period. De=
+pending on the configurations under <strong>Require password to unlock (scr=
+eenlock)</strong> and&nbsp;<strong>Allow administrator password</strong>, t=
+he screen can be unlocked with the local user/administrator password. (Defa=
+ult)</span></li>
+</ul>
+<p local-id=3D"939d7b30-80a5-49da-a39b-55f76148516b"></p>
+<p local-id=3D"be7b0539-e412-479a-a2b3-330687bd6ab2"><strong>Timeout</stron=
+g></p>
+<p local-id=3D"92625749-0185-4bbd-95a0-b9ca142e6082">Period of time in minu=
+tes before the screenlock and the screensaver starts. (Default:&nbsp;5)</p>
+<p local-id=3D"403213b8-0761-43dd-9c5e-4673cc5d0c86"></p>
+<p local-id=3D"e34c1acc-2eca-46ef-ba28-d4f1dcb82c43"><strong>Require passwo=
+rd to unlock (screenlock)</strong></p>
+<ul class=3D"inline-task-list" data-inline-tasks-content-id=3D"73302255">
+<li class=3D"checked" data-inline-task-id=3D"2"><span class=3D"placeholder-=
+inline-tasks">If a user is logged in, the same authentication is required t=
+o unlock the screen. For example, i<span class=3D"legacy-color-text-blue3">=
+f the user is&nbsp;</span>logged in via Active Directory (AD)<span class=3D=
+"legacy-color-text-blue3">, the AD credentials are used&nbsp;to unlock the =
+screen. For more information, see </span><a href=3D"https://igel-jira.atlas=
+sian.net/wiki/spaces/IGELOS12BSDOCE/pages/73302730/Active+Directory+Kerbero=
+s+-+Enable+Login+in+IGEL+OS+12" data-linked-resource-id=3D"73302730" data-l=
+inked-resource-version=3D"9" data-linked-resource-type=3D"page">Active Dire=
+ctory/Kerberos - Enable Login in IGEL OS 12</a> <span class=3D"legacy-color=
+-text-blue3">. </span>The authentication methods can be configured under <s=
+trong>Security &gt; Logon</strong>. For more information, see <a href=3D"ht=
+tps://igel-jira.atlassian.net/wiki/spaces/IGELOS12BSDOCE/pages/73308605/Log=
+on+Settings+in+IGEL+OS+12" data-linked-resource-id=3D"73308605" data-linked=
+-resource-version=3D"2" data-linked-resource-type=3D"page">Logon Settings i=
+n IGEL OS 12</a> .<span class=3D"legacy-color-text-blue3">&nbsp;</span>(Def=
+ault)</span></li>
+<li data-inline-task-id=3D"3"><span class=3D"placeholder-inline-tasks">The =
+screen can be unlocked without authentication.</span></li>
+</ul>
+<p local-id=3D"7083fe9d-4eed-4b47-aa14-15dc2be429f4"></p>
+<p local-id=3D"a0afd5b7-ab7d-4e72-85c4-cce8ef0ef180"><strong>Different scre=
+enlock timeout</strong></p>
+<ul class=3D"inline-task-list" data-inline-tasks-content-id=3D"73302255">
+<li class=3D"checked" data-inline-task-id=3D"4"><span class=3D"placeholder-=
+inline-tasks">You can specify a time limit for the screenlock to activate s=
+eparately from the screensaver.&nbsp;</span></li>
+<li data-inline-task-id=3D"5"><span class=3D"placeholder-inline-tasks">The =
+same time limit will be used for the screenlock and the screensaver. This m=
+eans that after the set time the screen will be locked and then the screens=
+aver will appear. (Default)</span></li>
+</ul>
+<p local-id=3D"3c791529-d04c-4fe5-a825-f61815f2ec3b"></p>
+<p local-id=3D"445a8873-83c7-4247-bbaf-51a5ea46e5eb"><strong>Screenlock tim=
+eout</strong></p>
+<p local-id=3D"9ee888d7-8efa-4d26-b8be-9dd270a3d9f3">Period of time in minu=
+tes before the screenlock starts. (Default:&nbsp;5)</p>
+<p local-id=3D"0aa84e9363fb"></p>
+<p local-id=3D"e4db1761d7ef"><strong>Hide username</strong></p>
+<ul class=3D"inline-task-list" data-inline-tasks-content-id=3D"73302255">
+<li class=3D"checked" data-inline-task-id=3D"6"><span class=3D"placeholder-=
+inline-tasks">The username is not displayed on the locked screen. This appl=
+ies to the user logged in via <a class=3D"external-link" href=3D"https://kb=
+.igel.com/en/igel-os-base-system/current/active-directory-kerberos-enable-l=
+ogin-in-igel-os-" rel=3D"nofollow">Kerberos / Active Directory</a> or as a =
+<a class=3D"external-link" href=3D"https://kb.igel.com/en/igel-os-base-syst=
+em/current/local-user-login-in-igel-os-12" rel=3D"nofollow">local user</a>.=
+</span></li>
+<li data-inline-task-id=3D"7"><span class=3D"placeholder-inline-tasks">The =
+username is shown on the locked screen. (Default)</span></li>
+</ul>
+<p local-id=3D"8bc3be9d19fe"></p>
+<p local-id=3D"f8e6b2c2-6b4f-4066-ad2a-6fd1c143158b"><strong>Allow administ=
+rator password</strong></p>
+<ul class=3D"inline-task-list" data-inline-tasks-content-id=3D"73302255">
+<li class=3D"checked" data-inline-task-id=3D"8"><span class=3D"placeholder-=
+inline-tasks">Access is allowed for the user and the administrator. The scr=
+een can also be unlocked by the administrator password, if the administrato=
+r password is configured. For more information, see <a href=3D"https://igel=
+-jira.atlassian.net/wiki/spaces/IGELOS12BSDOCE/pages/73302358/Password+and+=
+User+Types+in+IGEL+OS+12" data-linked-resource-id=3D"73302358" data-linked-=
+resource-version=3D"7" data-linked-resource-type=3D"page">Password and User=
+ Types in IGEL OS 12</a> .</span></li>
+<li data-inline-task-id=3D"9"><span class=3D"placeholder-inline-tasks">Acce=
+ss is allowed for the user only. (Default)</span></li>
+</ul>
+<p local-id=3D"6a27e4d3-329c-4ad1-b32e-343e8f633e79"></p>
+<p local-id=3D"6a7d3c0e-d31a-4655-b38e-5d010e4ed721"><strong>Countdown dura=
+tion in seconds</strong></p>
+<p local-id=3D"d1c9991f-97cd-4684-9ee3-ecbcef8b5926">Countdown time after w=
+hich the screenlock is initiated. If the value is 0, the screen is locked w=
+ithout a countdown. (Default:&nbsp;0)</p>
+<div class=3D"confluence-information-macro confluence-information-macro-inf=
+ormation">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-info confluence-informa=
+tion-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p local-id=3D"7d42b7ab-efa9-4248-8bb4-73da05314ec2">The appearance of the =
+digits for the countdown is specified together with the settings for the cl=
+ock display under<strong>&nbsp;Screenlock / Screensaver &gt; Screensaver</s=
+trong>.&nbsp;The following parameters are relevant for the countdown:</p>
+<ul local-id=3D"d71d1a66-6f5b-421f-a1ca-0cdade32c417">
+<li local-id=3D"3f2b6c37-0ed8-4651-bc83-d493b91ac620">
+<p local-id=3D"11022631-178b-4416-aa9f-6d6c844dae3a"><strong>Clock display =
+monitor</strong></p></li>
+<li local-id=3D"7153082b-ad4e-49b4-b771-6269ed47ec06">
+<p local-id=3D"ca34dd16-c6a9-459b-9401-2ea2092c6dcd"><strong>Show seconds</=
+strong></p></li>
+<li local-id=3D"1f4ea5a1-3f35-42ff-84df-688ccdef6909">
+<p local-id=3D"868a9410-43c3-4e4c-a5ee-3055b46ab732"><strong>Horizontal clo=
+ck position</strong></p></li>
+<li local-id=3D"13195111-f7fb-47da-ab51-8654ac6b38c9">
+<p local-id=3D"97c65a03-7e92-4707-b60c-f31e8141c4b5"><strong>Vertical clock=
+ position</strong></p></li>
+<li local-id=3D"50edafca-d2fe-40c8-aca5-ab0b562744be">
+<p local-id=3D"068733c7-7dc7-43cf-8734-44df4507b3ee"><strong>Clock backgrou=
+nd color</strong></p></li>
+<li local-id=3D"e319f0c1-00f7-4b77-b3a8-a24323048bc9">
+<p local-id=3D"5480ed66-14ec-4ec8-bcc3-a9dfcb949737"><strong>Clock foregrou=
+nd color</strong></p></li>
+</ul>
+<p local-id=3D"4cc78401-414e-4bd2-9341-ffe7bdb074ae">For detailed informati=
+on, see <a href=3D"https://igel-jira.atlassian.net/wiki/spaces/IGELOS12BSDO=
+CE/pages/73302353/Screensaver+in+IGEL+OS+12" data-linked-resource-id=3D"733=
+02353" data-linked-resource-version=3D"3" data-linked-resource-type=3D"page=
+">Screensaver in IGEL OS 12</a> .</p>
+</div>
+</div>
+<p local-id=3D"52a74695-5563-4873-8ffe-cfc4d9746df3"></p>
+<p local-id=3D"74974dab-f6d8-49ce-88e7-f01c31ac4f12"><strong>Countdown visu=
+al effect</strong></p>
+<p local-id=3D"9ec95c0a-9e39-4c1d-85e1-86b682f83bf1">While the countdown is=
+ running, a current screenshot is displayed in the background. This paramet=
+er determines the visual effect that the screenshot will be displayed with.=
+<br>
+Possible options:</p>
+<ul local-id=3D"d3ae336d-2288-460b-ac19-d5d71ddbeab1">
+<li local-id=3D"a82763b7-7f49-4569-ad83-b40f1a25e448">
+<p local-id=3D"b6b82ce5-e561-4ca5-a100-4216f9ca231a"><strong>Dark screensho=
+t</strong></p></li>
+<li local-id=3D"7e5db325-b704-4624-8842-0ededa848026">
+<p local-id=3D"7ceb0605-292b-447c-9f1a-e1ee0623f846"><strong>Gray screensho=
+t</strong></p></li>
+</ul>
+<p local-id=3D"aae4d86a-d8cf-4fc6-9788-b8a339fa78e0"></p>
+<p local-id=3D"676a0bc3-482f-4fca-ad1d-2d29cab66365"><strong>Countdown back=
+ground image</strong></p>
+<p local-id=3D"bd789728-c49f-4056-b137-767cbfdc9208">Path and file name of =
+an image file, which is displayed in the background while the countdown is =
+running. This background image is displayed instead of the screenshot, if t=
+he path and file name are valid; if the field is empty, the screenshot is d=
+isplayed. Supported file formats: JPEG, PNG, GIF. Example:&nbsp;<code>/imag=
+es/image.jpg</code></p>
+    </div>
+</body>
+</html>
+------=_Part_72_675267575.1776958280651
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: file:///C:/9aac83befbdc724ac5f5a74d814834c68968af8de3961a96b73394efd68ebb04
+
+iVBORw0KGgoAAAANSUhEUgAAAeAAAAD6CAIAAAD2jAOLAABaeUlEQVR4Ae3AA6AkWZbG8f937o3I
+zKdyS2Oubdu2bdu2bdu2bWmMnpZKr54yMyLu+Xa3anqmhztr1a/a5qqrrrrqqv9xqFx11VVXXfU/
+EZWrrrrqqqv+J6Jy1VVXXXXV/0RU/iW2j9qByc26LYKrrrrqqqv+K1B5wY7a+JN3/fl9q6dtaHcz
+DhZled3s1MudftdFPcVVV1111VX/uSif/dmfzQtw5+rgR+78h1c/9fDB6srGQzYfffvhH52aP/hY
+fwOXXbj9yT/1Mz/3t0946rFrbjq+OeMBnvEPf/xjv/BbZ8+ePX/fPXftrm689hT383T0G7/wM7/6
+23/UH7/22pM7PJdc/+KPfv/fPuXuO+665+YHP6iIF8bTnXfdM9vYrCH+Bfm7v/iTT7sYD7nxNHC4
+e/ef/MWTbrzlhuBf596nPu7xd+7eeO2p+259/E//zM897Z79Bz34li4EuI133X3PfHOnBFddddX/
+GXt7e3/2Z3+WmcePH+dfcvvtt3dd13Ud97t48eLe3t7W1hbP4+Lu7l/89d/eeMP12H/wJ3+6vbW1
+mM95NiovWCOuWdz857v3ft8zfvFEufudb3rNF9t5mebK/W79y9/+pT9++qs9pHzlN97xJi91/aU4
+/pCT/P6fP+F13uD1f+abv+pp8eg339m87e/+4GnlIWfi4i/89p+/6hu85cs+8qbf/9kf+LE/uOP1
+X+amn//FXzv91q/xcz/9sze+xKs/4jR/+dePP8ju5R5x6mu+7jve6gM+Yj0sn/I3f/Tbf/RX15y6
++cabjsXmdWV518T81ic/fuuah83Ge55+Tq/78jd/yqd98bt97Gdfs3rqnz3l0pu+2es/6S//cJft
+t36LN9vseKDVfU/+6q/86vqI13rll//8v/mNn/7tP/yjJ9zJud17X/HlX/Fxf/2np06d+tM/+bOX
+erXX197tT37qM3Ts5rd+g1f8hR//ob3uhrd+o1f+nV/62fXWg9/qjV7pt37pZ3//N3+ze8wbvsJL
+POKHv+FLnxQPf/ju6hmPfuhT/uTXL3Y3vOrDNz7+M77k3T74487szG88Pr/74vLiXbffs3vuQS/x
+mm/0Ki/OVVdd9b/Tr//6r1+6dKmUMgzD05/+9FtuueVpT3vaIx7xiNtuu+3BD37wer0+d+7c9ddf
+//SnP/3YsWO33377Qx/60PPnzz/sYQ/LzKc//enA/v7+Yx/72Ec96lERwQNsbW4+5WlPu3DhQmZe
+vHTplV7uZXkOlM/+7M/mBbg4jn9y8VJz+5Pd+0J+7M4tx7vZ6dlNJ2fXcNl9T/27X/7Dv9na2Dhz
++syf/vZvP+LFH/1TP/0Lr/ryj/7BH/3l06e2bnrky+/f/ncXLg3Z+Td+7Eduv7j794+/603f4NV+
++cd/6KZXfOv3eMe3fLFHXPvD3/g1uv4xT/jDX/irxz/xvtV8fdffHcY1w9HeK77CS//J7/767/7R
+nz/2FV7xD372Z84d3Hd2f+PcU373SU+5+3f+4vFv/Aav/td/+se//eu/GCdvvnDfuYffuP0zv/yn
+L/HQ4z/1q7/5F3/6ty/7Om/yYg+6RjyHP/vlH/mLs2V7OD/bXvz0z/3mS7/0o+47v4q9p//FE578
+hCfddXKr/Nkf/u6f/v3Tn/H4v+6ue/A//NHv3/H0JzztYPFyj7z293/pR37qdx93z9P+9mm33fm4
+W3cfffPWXjnzOq/44rNZvfuO25bqh7v+4Yd/6fdv/Ye/6q556Ll7bn+xhz3ot/7oLzd98Ad/+fd/
+8Lt//DKv9nI/98M//vKv/ybbnbjqqqv+F+q6bn9//8KFC0996lNf4iVe4rbbbrt48eIznvGMJz3p
+Sc94xjP+5m/+5ty5c894xjNms9kznvGMcRyf/vSn33LLLX/2Z3/25Cc/+RVf8RXvueeen/3Zn32p
+l3qpm266iedUSnnMox759d/6HU+79Rmf8BEf2vc9z4HgBTvdzfbb9Nidm471N1NufsnjL/P0o8Pj
+/RnuN03j4sS17/j+H/1B7/QG3cbixV7yxbc6nv60Z3Sbx06dOH782MnwNI7jZBaz2dbOyUc98mHA
+K7ziy/7RL//I133FF33bD/3yxrGte+++/XBQH+WmhzzqoTffEGW2s7N1bGdjbBzf3r796bcum44f
+2/7bP/mNP/n72+08dssjTvUHf/b3T533JfuNnRmXlgM+esad985m842Nky/xmIeJ57L+1d/604c8
+7BHXn+h/53f+tI3jM26743Bd3+RNX+tnvu8HHvNyr/ykv/zdFX0Oh9NUHvOSL3V6e4vaXbrvzic+
+6akt+lnX3/zQRz3o+lPLi/fecdd9Yybw5Mc/YbZz7Cl/8+d3nD+czxc3PuSRj3zog2ZMyynP3/q4
+3/zdP2mlyNOtt97qutEVcdVVV/3vdO7cuaOjo6OjoxMnTvzd3/2dpIc+9KGPfvSjNzc3H/vYxz74
+wQ8+efLkgx70oJtvvvnMmTMbGxs33XTTU57ylGuvvfa66677q7/6q4h4tVd7tXPnzmUmz6ll/uTP
+/sKrvtIrvOorvcLP/OIvZybPAdnmBfuxu2//w4vn3/j06arpby896aZF/w43vjb3u3jX02/f5yUf
+9ZC2Pvz7xz3pkS/5MrtP//s/+punvOyrv1Y9umfqTrXDc+thYvPEqXr053/71Ee85Ms/8pZrcPuL
+P/ydJ9916dVe5/XPzFa/8Vu/f+3DXur6zbYsO/14yd32/sWz1994wz33nbt069/93G//8TNuP/zU
+L/i0i097/Nhv33Ltqf1JL/bQ6/70j/90VPewx7zY8q4nH86v3Vjf84Tb91/lVV7+ntvuePiLv9hm
+V3igcflnf/V3j33pV9ThnU+8Y2+RB0+75+K11z74pV/sxj/8wz95zMu9+qVb//Zp9+yfvuZMzXbN
+gx504c67rrvpxn/4898/qKdf4xVf7G/++A9W3YlXfaWX/Ps//cPzS9/y8Ec/5iE3nr39yb/3J391
+8qZHvcrLPvJv/uQPd6eN13z1V3jSX/6xjl8/XrzjwpFuPFO/8LO+8fXf4x1f4SVf4bEPu56rrrrq
+f6dpms6dO3fixIlSyu7u7s7OTkSUUs6fP7+zs5OZR0dH29vbkjITKKVcvHjx2LFjti9dunT8+PGI
+GMdxNptJ4gHOX7jwJ3/xV2/4Oq8l6Vd/67df8WVf9tTJEzwbss0L9ctn7/nFe+8OrV//9Ik3v/ZR
+/Be6/Yl/+cu/82cPfrFXev1Xe2nxv4zH/d/4tT97pdd/7e0+uOqqq676V0O2+ZfcvV5O6ZsXG1x1
+1VVXXfVfBNnmqquuuuqq/3GoXHXVVVdd9T8Rlauuuuqqq/4nonLVVVddddX/RARXARgAc9VVV131
+PwXBVQCGBPOfxjYPYJv/aLb5T2cwV1111X8FZJurnskgrvrvYBBXXXXVA1HPXtjFRso2FgkQMua/
+hEEKYGoZtWD+W0gyhCLb5GylBDb/oYykQExTKyEBmP9YIdA0tRriP4FRlDJNTXLwH0wqBnPVVVc9
+C3Vv/4DLpnF9zamTESEw/1UE1rkLl5p07Lobwpj/BgagZe7ee0cfcfrkiXTyH8uWyt7R0d7e/nVn
+Ttba2cl/LPnChf02TWfOnOQ/gdByWF+4sHfyxHY/n9vmP4hxKC5eOpgyueqqq56JKonLJEVERAjM
+fxWBkVAoIsKY/zYGSZIiAvMfzJYiJEkRERE2/8GUkhSKCP4TCIUkKSIiwjb/QSwHIUkSV1111TNR
+ueqqq6666j+abe4nQOJfjcp/M9vifxqB+U9jzP9m5j+RxVVX/U9nxHMS5n6ttZYtEOIKG3CUKoUk
+7ifMC0PlhZJUS5lasy3JNiDJtiTAtiTbgCTbkgDbkmwDkgDbkmzzolEgsJHIRMJGwgYhsImCE8BG
+IgptQsJGAoggExsJGwkbQMLmRSSpRGQmUmZKAkqJ1tK2BMi2JNuSgJDSBmzzIiilSGCm1iTZlmRb
+km1Akm1Akm1JtnmR1Vpt285MSbYl2ZZkWxJgG4gISZlpW5JtXgQRESFMy7QtybYkICJaa5KwkQDA
+Nldd9X+PPU2TpGNbW/NZ3/U9dmttam25Wh0cLSNKKR2YFwnBCxYRu7uXvu17f+Ds+fO11nGcIiIi
+pmkqpWRm2qWUaZoASeM0RURm2hbY/ofHP/HOu+9B2C6lTNPEi6ZUnvS4x//Vn//FrU972p/+0R+V
+wjS1UpjaJBl7mprEH/7u7936tKcBkPt7lx7/94+P8DRNEc50pn/r137tl3/+Z8GZrVRaa3aWwjRN
+EbwoSilPf8Yzfuv3//AZt9/xF3/9N6UU2/sHB//whCe1qQE2LTNC0zRFhO3Do6Nf/53fWy6XU2u8
+CEopv/Zbv/3V3/Rtf/Tnf1FKaS0lWmshHR4e/elf/GVrbZpaREhqrZVSWmt2SvyLJE3T9HO/9Cvf
+/YM/ct/Zs6HIzFJKa82QmbYzMzPX6+FP/+Kvnvr0W2+/487MlDRNjRdBRNx+x13f8X0/+Ku/+dvD
+MEhqrQGttf2Dgyc86cmSWmtImdlas22QxFVX/a8SEbXWUgpgm+fRMiWdOnl8Z3tzNpv99V/91eMe
+97i+72d9f2x7+8TxnWzplryoqLxgpcQ/POGJv/P7f/jQB91y771nf/v3/+DlX/al9/cPnn7rM175
+FV7+r/727yLipV/yxX/rd3//VV/pFe697+x9Z8+92qu84h/80Z/O5/Nbbrrxb//hcVtbmw950IN+
+/bd/N6SXevEX+90//KNXfaVXePmXeenM5IUqhdueceul3Yu3PPghf/Xnf/aEx/3DfD5/yZd+2V/+
++Z+95cEPqV299+673/P9P+iJj/uHO26/7ed+6sf7rr/uhht/+9d+5Z3f873/8Pd+59Ev9hLPePrT
+rr3uut/5jV9/8Zd66V/7pV98yhOf8Hpv9Ca/+Wu/fP0NN910y4N++9d/5eVf6VVe5w3eIJMXrkTc
+d/bcN3/Hd7/R679urXH7nXfde9/Z06dO/M4f/PGbvsHrj+Owf3C4vb21tbHx949/4ks89tH3nj27
+XK3vuPOuO++++zVf9VUe8qBbWmv8S57w5Kc89MEP+pM/+4s2tb/9h8edPHFiNuuvPXPmzrvvHsdx
+nKa//rt/eIWXeel7z5694867X/1VXvGP/+wvbrnpxjd83deWxAslaW9//7d//w8f/ciH333vfb/6
+m7+zHobXerVX+Y3f/t0brr+u1u6G66+9776zd959T9d16fyjP/vz1vJRD3/YNadP7e7tvckbvN40
+TbxQpZS/+fu/f+rTbj198uSv/uZvX3/ddbfdfsc4TS3b6ZMnf+nXfuO93/Wdfu+P/uTmG2/I9K23
+3T6fz+bz+bu83dvMZr1trrrqf4OIuPe++/7yb/7u9KmTL/NSLxkK8xxsT9N04tjOvO/vuvvu3/iN
+31gul621v/7rv37jN37jkydPbsxm6/l6uRxq6XmRUD7qYz6WyzLb1saGJAEgKTN/5Cd+ehjHS5f2
+b7vzjkc/8hFS/OGf/NmrvtIrPO3W2/7sL/+61rq1ufkPj3/iMIzT1J701Kfdd/ZclHJwcHDr7bdf
+f911tdYnPfmpT37q02opGxuLxz3xya3lS77YYyVxhcA6Wq4szbd2xDOVwtOf9vS777xTob1Llw4O
+9u94xjNuf8Yz7rj9GcDZ++598Zd86ce+2CP+8s/+fO/SHqCIaRy3drbvufuuO297RmY+/alPfvt3
+eY/z58897JGPesoTH/83f/Hn991772Jj4zGPffFf+6Wfv3D+XN/3L/kyLy/xbPbqYK9ImxsL21xW
+SnnG7XceHB494clPjognPOkpIR0/drxEeeQjHvojP/Ezt99513q1vvfsuYc/9MF//ld/vbu79yqv
++PJ/8Md/cvc9973lm7xRV6t5JinW47her7c3N6IUMJdF6M/+8q8f+uAH33f23DNuv+P2O++Mos2N
+jV/4lV972EMfcseddz/5qU972Zd68WEYf+XXf3PW97NZf9sdd9xz730v9zIv1XcdzyIvl4Odm5sb
+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
+0zQdHi2P7Wxz2XoYDg4OTp08yX8KKs/DIJim9uVf+w2bmxtv8+ZvymVTa6/3Wq+Zbn/2F391bGf7
+8U9+0u7u3qW9vT/7y786ceL4OEzXXXvmz//qr3/r9/7g1V7pFS/u7s7n8xd79KNuuenGO+68axjG
+X/rV3/idP/ijhz/sIft7+xvzxXJ5NE3tKU972l/97d9vbW4+4UlP3j84uPaaM/fce++99501PPxh
+Dzl98qRtSVx11VVX/ae5976zf/oXf3nq1Mmjo+ViPnu1V36lxz/hST//K7966uTJRz3i4aWUS5f2
+rrnm9O7upb7vn/SUp77iy73snXfd/YiHP/T3/vCPTp44+bZv8aY//yu/Pp/1j3z4w/7m7//hkQ9/
++OOe8MSbb7zhaLnMzFMnT9x2+x1v9Pqvu7mxwb8OlfsZbACDRLZ87Vd7lVd5xZfnfl2tP/tLv3Lm
+zKlXermXfdrTb73+2mtvu+3O+86e3z847LrumjNnDo+WZ8+dm8/mj3zEw3/wx378jV/vdSPi7Plz
+q/Xq7nvveaWXe9nTp0489EG3nDt/oWW77tprD4+OpDh5/PhjH/Oof3j8E/u+v+e+szffcMP11137
+13/397u7e6dPnpTE/0JGRoAwV1111f9stodx3Nvbn8ap6yrQMs9fuLi9tf2Hf/pnp06c2NzcvHjp
+0uOe8MSHP/Qhi8Xid37/D2ye+OQnLxYLYG//4Bm337ZarZ9x2x1PfOpTnvr0W7c3N2+/486Lly5d
+e82ZM6dO/sVf/81LvfiLPeyhD+Ffh8rzkDBce+01n/Ppn3xsZ4f7vf7rvOZjH/3IUydPHtvZfuVX
+eLlxGF/jVV95b/9gtV693Vu++bGd7WEcDw4Obdu++YYbX+FlXwZ4g9d+rUc89KGnT548ceL4y7zU
+Sx4/dqzvutV6/Yov97Kr1Wo264G+71/hZV76l3/jN//kz//yYQ998Is9+lFv8LqvdeP113PVVVdd
+9Z/vumuveZ3XeLVxaq1NZ06fBh50y00f/oHvt1oP+wf7ks6cOn3h4sUzp0498uEP2z/YL7WeO3v+
+oQ950N8//gmPfPjDJI6Olq/6iq+wubFxyy03nTp54hd/9dcfcsstr/JKL4+55prTG4vFiRPH+VdD
+T33GHYDtvu9uvPYaSRK2JfEimKZpHMfFYsEDrFarYRx3trf517hwcffw8PCmG2+QxP9m4zTdec/Z
+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
+cey6bm9vb71e257NZtM0ZSaQmZIuXboEtNa6rrN97Nixpz3taSdPnqy1ctVVV/3bUXmRGJTE3v7h
+3v7+E5705Cc95ak2XVf7vvvpX/jlkyeOA0+99RkXdy/de9/Zo+Xy7nvvu+vue7a2Nh/+0Ic88SlP
+uf3Ou2+4/tq777n3EQ97KFddtr29fe+9954/f/7EiRPTND3taU/b3NwEMnO1Ws1mM0m8UFP6H+7e
+fbHrjz3u3ku7R4OEzRXb29u2r7322r7vj46Oaq07OzuLxUIScNNNN0kCbrzxxlOnTm1vbw/DMAzD
+1tbWMAx9389ms1rrfD5vrXG/o6OjWutisVitVrXWWuve3t58Pt/Y2Dh27NhisZAkSVLf96dOneKq
+q676d6HyIhACbrnp+p//xV9ZzGeLjcVjHvXIRzz0ofPFvJbyiIc97M//8q/vuOuut3qzN/n7xz3+
+1MkTx3Z2rj1z+uabbixRfv+P/+SG6659yzd741ufcduDH3QLV92vlPLgBz/47rvvvueee5bL5cbG
+xvb29mq1yszZbLazs8O/5Ni8u3d/+Xd37Ur0NbqIvgaX9X1/+vRpLtve3gYWiwX3WywWALCxsbGx
+sQF0Xbe5uQl0XQccP36cy2qt3G82m3HZ1tYWAJw8eRIA5vM592utPeQhD5nP51x11VX/LlReJAK/
+6iu9/Ku+0ivwPA6Pju69776bb7rhVV/pFV7/tV+Ty97o9V4H+Ou/+/s777771V/llV76JV6cq57H
+bDZ78IMfnJlARNi2LQmQxL/k1R92zSs86JRBAIS00Vf+u5VSSilcddVV/15UXlTiBdjc2HjXd3g7
+np+XfokXf+mXeHGueqEigsskSeJF1pXoSnDVVVf930Tlqquuuuqq/4moPJPA6ZQlcdW/mYTTXHXV
+VVf9e1EBQCIzl6uVQIgrBIj/Nsb8b9Ra2uaqq6666t+FCgA2JWJzYxEKrvr3GadJe/u2ueqqq676
+tyO4nwGDsc1V/17mqquuuurfheCZDAIZJHHVv5e46qqrrvp3IXiRrdbr3/2DP/rbf3gcL5pn3H7H
+2XPneU5Pu/UZu3t7XHa0XD7+iU8C7rjzrl/7rd85e/48V1111VVXPROVB5CQuOJv//5xd951d63l
+pV/qJc6cOgX81u/+wc//yq++0su/7M729l/81V8/4uEP2929tFytTp86dfudd776K7/iE570lOVq
+dd011/zD459w88033XrrM6699hoJzMu9zEv/5u/+3s033vjXf/f3p06eePhDH/qSL/aYpz791n94
+whMf86hHfvv3/UAoFvPZ+VMX/u4fHv9SL/Fij3vik2664YZ77rvvmtOnHnTzzX/wx3/ymEc98uz5
+83fedc8rvOxL33X3PVNrL/XiL/Ynf/GXp0+cHMbhphuuv+/c+dVqNU7TTTdc/7d//7jXfo1XPXP6
+NP8jCMxVV131/5yNBBYvIir3E89hnMYv/MqvfvmXeelXfsWX57Kbbrj+xR/zqAsXd3/+l3/12Pb2
+4dHRr//O777KK7z89/3wj87ns3Pnzv/N3//D8WPHNhbz2Wz+tGc849jOzrnz56OW1XL9F3/zt8eP
+Hbv+2mt3L136pV/99S/+nM8Ann7rbQ9/yIOBl33Jl3jSU5929z33/vbv/eErvcLLPeHJT/mbv/uH
+3d1Lf/aXf3XD9dcv5rOn3fqMu+6598Lu7jWnT//ML/zyer1OZ1frn//FXx0eHd18042/9Xt/cOrE
+8X944hPPnDp15vSpYRiPHzvG/xDCYJurrrrq/zMB2OZFReUFeLmXfqnv/9ZvPH78+PbWFpftH+yf
+O3+htXyJxz7mH57wxNOnT1137bUv/tjHPOXpT1+thkc+/GHnLlw4trMzn89uuO66u+65Zxyna685
+8/RnPKNlvsxLvvgf/emfnzl96prTp1/2pV7yKU97+iMf/rA77rrr1V75FTLz7Pnzu7uXrjl96vrr
+rv3bv3/cox75sEc87CGPedSjnv6M2x58y83Hdrb39vZvuenGfta/+KMf/bd//w8njh978tOe9rRb
+nzFM4/Hjx17x5V7mO7/vB9/xbd7y4u6lM6dPnTxxfGtrq+s6/mcQTON07vyF7e1tCWGuuuqq/39s
+MvPc+YtIvEjQU59xB2B71nc3XneNJF4A2xcu7i4W843F4sLFi5sbmxJd143jeHB4eOL48eVyNU7j
+xsYG4EybWsvRcim0tbV5cffSbNZ3XScYxrGW8rf/8LiXfamXjIj1MOzvH5w8cby1trd/cOzYTrbW
+9/3upUt91y8W84u7lzY3NwQRkZnDMNre2Fjs7x/MZrPZrF+vh8Vifnh01Ka2sbGw6brKf5Nxmu68
+52xm8gCr1XIcRjBXXXXV/0+2IubzjdpVLjPQvL21uObMqZ/5mZ+57fbbXvt1XufFH/viz7jz7swE
+Ki8ySadOngCAkydOcL++70/2PbCxsYAFz2l7a4vLThw/xv1qrcDLv8xLc9ms72enTgIRcerkCYBS
+gOPHjgHAyRPHeYC+7wHg+PFjALBYzIHNjQ3+pzpx/Ph8PsNIXHXVVf8P2TYcHi7HaeJFQuWq/3wl
+4vSJY13XcdVVV/3/ViPOXtiVxL+M4JkEBoO56j+UjaRSAsxVV131/5VtoJRimxcJFQBCHK6n3378
+7Tef2jyztWGLF434l5n/X7KlbZ7NAAjEVVdd9f+VJP51qABQQredP3yL7/7TL3n7V3yfVzk9TMmL
+SvzLzP8nqQYCc9VVV131b0cFAIFhsqGUIBT8S4yFzL9MiP9XlPzPYFuSbe4niauuuup/ByoPJEkA
+5kUhQwQSrfFAEhKZXGH+fzH/RTLTtiRJkngekrjqqqv+SxwcHp49d/7MqVNbW5v8x6Dyb2UTwblz
+F+w8c+Z0BEBrAMM4HB4cnTx5PILWiECiNSIAWuOq/xB7e3t33HHH8ePHt7e3+76vtUqy3XXdNE1A
+rXW9Xtdaud/e3t7GxsZsNuOqq676j/O4Jzzpz/7qr2opwzC+0su/3GMf/Uj+A1D5t6qVJz7xyT/9
+Uz9dSrzWa732mWuuWa2W11573U/95E8+9sVebLlcvtRLvuQ9995zyy0Pvvvuu8ZxfMhDHnLPPfdI
+uummmyRx1b/b8ePH9/f3r7nmmqOjo0uXLq1Wq3Ec+74/duzYxYsXgWPHjh0dHUVE13V93w/DcP78
++WuvvXY2m3HVVVf9B9nb2/+bv//7t3rTNzlaHvVd/4u/+uu33HzD1uYW/15U/q1K4U/+5E9f4zVf
+/fjx4z/90z9Ta93YWFx33Q1PfOITr7n2mnvvufcpT3nysB5OnT791Kc+ZT6bP/JRj/rbv/mb62+4
+4Z3e6Z0Wi7nNVf9Rpmlar9cbGxvr9Xo2m+3t7a1Wq42NjcPDw83NzYODg2mapmnKzO3t7dlsxlVX
+XfUf5/zFiyeOHTt+bOdv//4fXu2VX2lnZ/vixUtbm1v8e1H5t7J50INu+aM//OPFxuKWWx50+23P
+mMYWoWuvvTbTh4eHkqKU/f29UydPPvghDz5737lTp0895clP3t/f39yct8ZV/347OzullI2Nja7r
+aq3z+byUsrm5OZvNJO3s7Nx7772bm5uLxeLs2bPHjx+XNE0TV1111X+c0ydP/v758xd3Ly0W83MX
+zu/t7588cZz/AFT+rcaRV3u1V9/Z3sn0jTff9P3f+z2v+Eqv9FIv9VL33XffNE0v93IvZ/uuO+98
++CMecbC/P18spmm8cOGCXiNOnjzVGlf9hzh27BiwsbHBc9rc3OSyBz3oQVy2ubnJVVdd9Z9ge3vr
+lV7+5X7yZ3++n/V/97jHv9arverm5ib/Aaj8O0h6uZd/KYmj5fTu7/Ge11132tZDH3qLzRW33HJ9
+a5w8ecxG4sabrsNME1c9yzRNrTXbgCRAUtd1knjBMpOrrrrqv5AkSbwAj3z4w2664YYLuxdPnTi5
+WMz5j0Hl32ccAbpar7vuTGsAmTxLazyHxlUPtLu7u7+/f+LEiaOjozvvvLPWGhHA9vb2DTfcUGvl
++RmGYbVeS8F/AIO56qqrnkk8HwKA+WzWdZUXYGNjsbGx4D8SlfsZPLVmA+JfyWRDXAUgXiTDMJw9
+e/bBD35w13VbW1uLxeLg4GB7ezszDw4OLl68eObMGZ6H7fUwbm1uRgRXXXXVf6i0sXlOkiS11g6X
+y67b4r8OFQASNrt47YeduWFDw3o9TVz1b+ZsYP4lh4eHfd93Xcdl8/n8vvvu29zclLS1tXV0dGRb
+Es9PRHDVVVf9h2qttda4TIBkm8tqrREB2Ej8V6ECwJS+5eTmz33Y6wZI2ijiqn8Twdi8EjYvXK3V
+Nvcbx3G9XkuS1FqTxIvMtiSuuuqq/wjTND3+iU86duzYg26+ybZt25IA8V+JyhUmpEXfSwJx1b+D
+JoHAvFBbW1uXLl26ePHi8ePHp2l66lOf2vd9a621NgzDsWPHJPEvOTw8fPrTn37y5MkbbriBq666
+6t/BNiDpvnPndvf2Vuv1qRPHt7a2AEn8N6DyTDayBZK46r+ApOuvv/78+fO33nrrwcFB3/fXXnst
+EBEnTpyYz+e8CNbr9TRNpRSuuuqqfx9JgO3rr732xuuvt23bNv9tqPw7ZCYASJLEVf9KpZRrrrkm
+M4GI4F9vsVjceOONZ8+ePXnyZNd1XHXVVf8OEQFIkgTYts1l5r8elX+HP/iTP/3ZX/zlk8dPvPs7
+v8OZUyfn8/lqtaq1/tGf/vmJ48ce/rCH/ubv/N6LP+bRt9x8U5vacr3eWMxXq1Wpddb3XHW/iODf
+StLe3t7x48dLKVx11VX/DrYzE1guV1ObMPP5rOs6ICLEfz0q/w6v/PIv9/t/9Cev9PIv+4zb7/iu
+7//BV3/lV/rzv/qbhzz4ltV6/eu/87uv+aqv/PgnPunP/+pvXv5lXurkiRO/+pu//WKPfuTfP+GJ
+7/DWb/nYRz2Sq/4jzOfzhz70oZJsc9VVV/27Sdrb3//Lv/nb7e2tl32pl+z73jb/PQj+Hbqu29rc
+3NrcespTn3bPvfc97olPiqK//ru/v7i7++d/+dellK6rD7rlpr/627/767/7+/MXLv7xn/3F8Z2d
+xzzqkVz1H8o2V1111X8E29dec+ZlXuolXuKxj93c2LDNfxsq/z4v81Ivcd21Zy7u7r7Sy7/cIx/+
+sHvvu2+cpltuuvGlX+LFp3F6zKMe9Yzbbn/TN3i9e+87t7mxcerkyZMnjour/u1sg21L4jJJXHXV
+Vf9uEcH9brr+eoNtSYiIyEwZhG1J/Feg8u/z6q/8SsAtN93EVf8lJNVSDg8PFYWrrrrqP4gEiBdg
+7THTXdfxX4rKVf+rSJrP5+M02eaqq676jyQM4vmwoy+1FkAS/0WoPJPAYADEVf+DSeq7jquuuur/
+OCr3s91aE0Jc9W8maFMDc9VVV13170IFAAnMOA4gSVz179BaYq666qqr/n2oAGBbEfPFRkhc9e8z
+ThMSNmBbkrExV1111f9rBmHzoqLyQMYgcdV/rGkcL17c3d7eBsRVV131/5GhtTx/YVcSLxIqV/1n
+kgQoyn3nd++695wENlddddX/P8Yhdf2s63peJFT+HS7t7f327//htWfOvNLLv6wkrnoewly2mM9g
+BuKqq676f8oIDJjLjHhhqPw7/Pbv/cFv/94fvOLLv+yJE8f/6E/+7MUf+5h77r3XsLO1ddsdd77O
+a7za3/z9P4zTdM3p0//whCfectONN99045//5V+/xqu+8tmz557y9Kc/+JZb+r47PDrq+/6JT3ry
+K7/8y//13//D9dde81qv/qr8n2Wuuuqq/7fMvwaVf4dbbr7psY951G2333H3Pfdef+210zT96V/8
+5eu+1mv88E/+9JlTp5ar5d/83T9ce80ZwXXXXvtnf/nXFy9d+qu//butrc3dS5f+4I//9NVf+ZWe
++vRbT508cf7CxdVqZXjcE570oe//Plx11VVXXQWVf4f1ejh3/kKt9cUe8+g//6u/Pn361MMe8pDH
+PPIRL/fSL3l0tHyZl3yJ5XK9vbW5WMxvuenGxcbi1IkTx4/trJarS3v7N15//Ys95tHnL158iRd7
+7DAMf/sPj3vYQx7cWrvu2mu46qqrrroK9NRn3AHY7vvuxmuvkSTxojs8Our7vqt1uVz2fS8pIlpr
+62HYWCzGcczMvu8B24ZhPSzm82EabfddZ1sSsFyu5vOZ7VIK/8uN03TnPWczExDmqquuuur5SUTz
+9tbimjOnfuZnfua222977dd5nRd/7Is/4867MxOo/Ptsbmxw2WKx4H6llI3FAui6jvtJAhaLOdB3
+HQBI4rKNjQVXXXXVVVc9G8EzCQwG2+aqq6666qr/ZlQewLYQwjZX/ZtIYK666qqr/t2oACCR6eVy
+LYxkrvq3ay1tc9VVV13170IFAJuIWCzmkiSu+jeTGMd2cW/fNlddddVV/3ZUnsmAJEkSV/27iKuu
+uuqqfzcqV/2XsM1VV111FUjiRULlRXZpby+ihJhaO7azw2WZebRcTtN0/NgxrnoeRly2sZjPZjOJ
+q6666v8rk+wfHQ3jJIl/GZUX2W/97u8v5vO+7/f2D17mJV/83IULO9vbP/4zP/dij3rUwdHhK77c
+y25sbNx2xx03Xn/9MAyzvp9aO3f+wjWnT9180438P2aoEadOHOu6jquuuur/K2OhqOW+cxck8S+j
+8iKbpvarv/Xbs3528403Pu3ptyY+efz4fWfPvvhjHvVTP/+Ls9nsGbfd/rRbn/FSL/5iB4eHtdYb
+r7/+d//wj175FV7unW66kf+vbEuSFFEA25K46qqr/h+ykUqIFxXBi0zSa7zqq7zWq79K7Uri9Xq4
+7tprThw/PrU8ffLkxd1LwOmTJx/zqEfOZ7N77r3vJV7sMVtbm0952tOnaeL/K0m2AQlAElddddX/
+S1IARryoqLzIXve1X6NERMQrt7Zcrnb39h7x0Ie8+GMe3fX9a73aq65Wq9lsdu999918441//Xd/
+9+qv+koPffCD3u0d3u7E8eO1Vq666qqrrgLxoqPyIjtx7Bj3O7azc9211wA333Qjz3QMOHnieMt8
+h7d5q9MnT0bEox/5CK666qqrrvq3IPiPViKuOX06Irjqqquu+n9jb2//KU97+t7+Pv9hqDyTwMiS
+uOqqq6666l/j7x/3+L/8m7/ru+5otXrFl33pF3/sY/gPQAUACWeulitJIHPVv11rDZurrrrq/4dL
+e3t/97gnvPWbv8n+weFiPvv5X/m1B9188/b2Fv9eVACwQaq1hoTEVf9WglFCYK666qr/Dy5c3D1+
+bGdne/uv/ubvXv1VXmlna3v30qXt7S3+vag8k6WotZMkcdW/RwIIzFVXXfX/wOlTJ8+dP3/h4sXN
+zY37zp3bP9g/dfIE/wGoXHXVVVdd9e+wvbX1Kq/4Cj/1c7/Y9/3f/v3jXvc1X31jY4P/AFReZJkJ
+RARX/UfITEkXL148PDy0XUrhslLKsWPHFouFbUm8YE85u3f77lFIQNqzEi9786l5V7jqqqv+az38
+oQ+58YbrL13aO3782Hw24z8GlfsJJCSuuHDx4n3nzj/6EQ/nfr/9+38Y0su81Etmtq3NzUt7+7XW
+jY3FOI6lxJOf+vTdS5de41VemateNJKe/vSn7+3tXX/99dM0HRwcdF0XEev1+uDg4Lrrrtva2uKF
++od7Lt16/qAWpVl0JdMPPb19XbcALl68ePHixZMnTx4/fpznJzP39/d3dnYkAbYl8ZxsSwJsS+JF
+sL+/P5/Pu65brVZ930cEL8AwDEdHR8ePH+cBVqvVMAw7OzsAsLu7u7W1VWvlRba7u7u5udl1HQ9w
+8eLFY8eOZeb+/v6JEye46qr/BIv5fDGf8x+Jyguwu3vpEz79sz77Uz7x5V76pbjs4u6l2++447d+
+/w8Ws/ljHvWIv3vc4/u+f7HHPHpYD33X/f0TnnB4ePRqr/SKEcFVL4LDw8ODg4MXf/EXr7UCBwcH
+BwcH29vbwDAMBwcHm5ubknjBQpp1JdOnN/uXvOHE3929a57p4sWLtu+5557MvHTp0okTJ2xfuHBh
+c3MzIjY2NpbL5TiOBwcHmTmbzQ4PD6+77rrFYnHPPfccHBycPHmy7/v77rvv1KlTBwcHpZStra2z
+Z8+ePHlyHMfWmqSIGIZhHMfTp0/ffffdp06dOjg4uHjx4sMf/vBSyhOf+MQHP/jBh4eH0zTdcMMN
+tdb77rtvsVgsl8v1et1a29nZuXDhQmZeunTpmmuuOTw8XC6Xi8Xi4sWLwzCcOnWqtXb27NnZbHb7
+7bcfP34c2N3dPX369NmzZ7e3t9frtaQTJ07cd999Gxsbkvb29o4fP37p0qXM3N/fn8/nW1tb9913
+387Ozvnz5w8PD0+cOHHu3Lmtra2u67jqqv8FqLwg0nK5Xq3WPIt9eHR07Zkzm4vFU5729Pl8vlyu
+7r3vvjvuvHvW99dde81qvY4IrnrRDMOwvb1da+Wyvu8PDg42NjYklVIk2ZbECxbiJa4/friebjqx
++fTzBxeP1iGusH3u3LmTJ0/ec8890zS11oDt7e29vb3MtH1wcACM43jixIk777yzlLJYLBaLxf7+
+/tbW1rlz5zY3Ny9dujRNkySg1npwcLBYLFar1blz5yQdO3YsIrquu/vuu1tr4zjaXiwWtiNic3Nz
+HMfVahURu7u7p0+fvnDhwrFjx/b29iKilLK/v5+Z58+f39nZueOOOyTdcMMNh4eHd955587OjqRx
+HCUB+/v7EbFer6+55hrbR0dH29vbd9999+bm5sHBwdHR0Wq1KqXM5/MLFy7UWs+dO7ezs7O7u3vx
+4sVTp07NZrODg4O9vb0bb7xR0jAMXddx1VX/C1B5AbY2N7/08z7zZV/qJbnfS774Y2++6YbFfDGb
+9f/w+Cf+1d/+7au98iu+4su93O/+4R/N+v5Rj3j4rbfdNo5j13Vc9SKYz+e7u7uttVIKcHBwsF6v
+JQHDMJRSIoIXamq+Y3f5sjedeNLZvWdcOJTAXLGxsfHQhz50uVxubm7u7u6eOHFiHMdz5871fd/3
+/blz544fP2677/vt7e2TJ08ul8vt7W0gM8+dO3fq1KlhGLqum8/ntg8PDyWVUoZh2NnZGccxM8+c
+OXP+/Pnlcnnq1KnVarW9vb27uztNUykF6LqOy4Zh2NraAhaLxfnz57e2tvq+L6VkZikFuHjx4jXX
+XLO/v3/vvfceO3bsQQ960DiOmdl1ne3M7Lpumqatra377rvvzJkzOzs7Ozs7Ozs7s9ns2LFjd999
+987ODrBYLCIC2Nzc3N3d7ft+Z2fn3LlzJ06cOH36dGttb2/Pdt/3XHXV/w7oqc+4A7A967sbr7tG
+Ei+C8xcuHBwePujmm7nqeYzTdOc9ZzOTy2x3td50/TURwQPY3t3dPTg42NnZOTg4eMYznnHDDTds
+bW211iSdOHGi6zpeqF/4+9ufem6/qyXTRkW8/Us/6Mz2nPvZBlprpRRJy+Xy4ODg9OnTtiOC+9lu
+rdVagXvuuWdra2tra8t2ZpZSMhOIiGmaSimSuF9m2i6lcFlrTVJEALYB27ZLKYDtzCylALYlAbYz
+s5Riu7VWawVsSwIuXry4tbUVEREhaZqmWiuXtdYkRURrLSIk8QCtNUkRMU1TKUUSMAzDwcHByZMn
+ueqq/z6HR8u77zsXEYCB5u2txTVnTv3Mz/zMbbff9tqv8zov/tgXf8add2cmUPk3OXXy5KmTJ7nq
+30HSiRMn5vP5pUuXWmsv/uIvvlgsbAO11oiwLYnnxxj7lR986uFntkJFwtCVOLE54wEkAbVWLlss
+FovFApDEA0iqtXLZddddx2WSSilARHBZrZXnFBE8QCmF+0kCJHE/SaUUAJDEZZJKKYCkWiuXSQKA
+EydO8AC1Vu5XSuGyUgrPo5TCZbVW7tf3/cmTJ7nqqv81qDyTjI2FuOq/0GKxWCwWPD+SeKFObS1O
+bS14NnHVVVf930HlfrbHcRSSxFX/VoKpNTD/mYQMBsyzSFx11VX/h1C5QmBaa0KSuOrfobWG+c8m
+CUBcddVV/0dRucJWxHy+CImr/n3GaULC5qqrrrrq347ggYzNVVddddVV/wNQueqqq6666n8igvsJ
+JCSuWK5W+/sHPMAwjj/5c7/wfT/8Yxd3LwG2uZ9tALBtm8tsc5ltLvvTv/iru+65B7DNVVddddVV
+LwyVF+Due+79hm/7zk/4yA+97tpruezXf+t37rjzrsc88hFPedrT77n33nvvO/vSL/Fif/znfxkR
+JeKxj37UE578lPUwFOnFH/uYra3NP/7Tv3jpl3zxv/m7vze8yRu83m//3h/8zd//w2u+6qvce999
+L/tSL/mKL/+yXHXVVVdd9QIRvACSfvN3fu9P/+Kvud/upb3rr7v2xR/7mOVq+XePe3zL9ou/+htH
+R0fL5TJK/Nlf/tW5c+fXq9VisfjLv/7bxz3hiX/3+Mf/2m/9znK1Wq3XP/uLv3zfuXMPvvnm3UuX
+nvaM2/7qb/+O/2dsrrrqqqsQLzIqL0Ap5WM/4kPe5A1fj/u9/mu/5vf80I887dZnvMWbvNGDb7nl
+3IXzr/rKrzgOY6llc3Pj3LnzJWI2mx07tnPvfecuXtp9+EMefP11150+dRI8n83+7h+esBrWD7rl
+5v3Dg+3tLf6fkbjqqquu+teg8gLcdMP17/aObx8S97vmzOmP/fAPwS6lPPoRD890rYUXIDNtSgnu
+92qv/EpIIb3mq75yKYX/TzJzaq2P4Kqrrvr/bRobLyoqL0BE8DxKBABERAQvRETwnCKCy2qt/H8i
+aWrt9jvu2ljMBUhcddVV/w/ZLfPwaFn7GS8SKs8kY2MZgySu+o8TEa3l7t6BwFx11VX/HwkTUWvP
+i4rKA2QaQAJz1b+JhG2ek8SZUyc2Fhviqquu+n/K2PbF3b3D5UoSz8s8k7mMCgASmblarWUTwlz1
+b9Za2uYBSinbm5ulFK666qr/37a3Ng+OlpJ4HpIEtsEAUAHAdkTdWCwkSVz17zFOk/b2bXOZDUYS
+V1111VXi+cpM27Yl7kflqv90BnPVVVdd9YJtb2/3fb+xsWmbZ6Jy1X8FcdVVV10FmOfr1V7t1V76
+pV/6+MkTLRNzGZV/jTvuutuZN990Iy8C27ffeVdE7Gxv7Wxvnz13/mi5LKVM03TtNWe6WmutXHXV
+VVddBYvFYrFYAGObJDBA5V/jm779u8Cf9+mf8ud/9Tfr9fqlXuLF/vjP/uL6a689ferk3/3D417q
+JV/8rrvvOTpaPuZRj/zrv/v766+79qlPe/r5ixcP9g9e49VeZblcPvHJT93f37/xhuvPXbgwjuOr
+vfIrnTxx4tKlSy/2mEdz1VVXXfX/mG1AAjBXUHmRPeO22+89e3Zzc+PXfut3/upv//6lX+LFfvJn
+f+HoaGn7p3/hl+47d/bes+duv/OucRzWw/Azv/BLL/0SL763v9/3fZTyEz/78zdcd916vbZ96213
+1Fo2FosnPPHJT3vGM17s0Y96scc8mv+vbHOZJB7ANiCJF8A2IIn72eYySVx11VX/q0jiuRG8yP7m
+7//hpV78sS/26EfdetvtJXTuwoVrrzlzaW9vtV5ff+011545c+MN19984w0Xd3dba9ecOX3XPfeU
+Uhbz+aW9/Xk/297amvX9fDabzfoHP+iWtF/ixR/7N3/39y/9ki/O/2+ttcy0zb+GJGCapmlq09Sm
+qWUmIImrrrrq/wIqL7LXevVXnc/nQqv1ar0exnG87rprX+wxj97a3Nzc2Lj3vvvOnDl9eHj4+q/9
+mqdOnXz0Ix+xtbVZIqTY29tbzOeLxXwYJ4HxfDY7ODx6/JOe9Bqv+so33XAD/1+t1+tz585tbW0d
+HR2dPXu21gpExKlTp86cOcMLZTg8PARQAOBsbbFYdF3HZZkZEba5zLYkQBL/TWwDkrjqqqv+ZVRe
+ZMd2dris7zu2ueKWm27ksltuvglYzOdcdvONN3C/7a1NLlsseJbZbPYyL/kSr/RyLyuJ/5cy8447
+7rj22mu3trZ2dnZKKeM4bmxstNYODg5KKSdPnuSFMC19bGeb+63W6ymzA+DOO+88f/78sWPHTp06
+NY7jhQsXNjc3L126dP31129ubkqS1ForpUzT1HVdZrbWIuLixYsnTpwopWRma63rummaJEXENE21
+1mmauq6zPU1T13WtNdvDMOzt7V177bXTNHVdl5mZuVqtjo6OTp8+HRHTNO3u7s7n89ba9va2bdul
+FKC1VmttrdmutWampNVqtVwuT548yVVX/f9F5ZkECZZBgPjPt7mxwf9j+/v7EbG1tQVIOn78+F13
+3dV1Xdd1fd8fHR3ZlsS/yTiOD3rQgy5dunT27Nla6+Hh4dbW1mq1Gobhjjvu6LpuPp8fHh4uFov9
+/f1rrrnm0qVL0zTt7OycO3duY2NjY2Pj1ltvba1de+21995773w+Bw4PDxeLxd7e3pkzZ8ZxvHTp
+0unTpy9evAhsb2+P43j77bcvl8tTp05dunQpIjY2Nu69995xHG+88cb1en377bffdNNNq9Xqnnvu
+GYahlHL8+PFhGA4PD6+55pq9vb3MPHbsWGvNdmttb2/vxIkTkrjqqv+nCJ4tkAiBuOo/n+2I4AFW
+q1Vm2gYk8S8wL5jt9XrdWrPdWjt27Nj29vbx48fHcVytVpk5DMPJkycPDw+BcRxba6dOnVqv1zs7
+O13XAbXW9Xq9u7tbaz116tQ0TadPn97f35c0DMPu7i4wDENEHD9+/OjoqLU2DMPOzs758+dba9de
+e21EXLx40TbQ9/2xY8eA1WrVdd1isTh+/PilS5cuXrwoaX9/v9ba9/3+/v7h4eHBwUHf99vb25K4
+6qr/v6gAIJGZl/b2AxnMVf92mWmbf8nW1tbu7u5qtZrP58Ddd99tW1JmLpfLxWIhiRfOyXMxV2xv
+b1+8ePHYsWNbW1vr9Rroum5nZ2dra2scx9lsNp/Pu66bzWYXLlw4fvz4bDZbLBZ936/X62EYuq5b
+LBbTNJ06derixYu7u7vHjx+fzWa33HLLuXPnTp06tbOzs7u7e+LEic3Nzb7vu66rtU7TtLe396AH
+PejixYvnzp07ceLEi7/4i7fWMrPWOp/Pa60nT56MCNtd181mM9uHh4fXXnvt+fPnW2s33XTT3Xff
+LWl7e7u11lorpXDVVf9Poac+4w7uZ5ur/iNI4n62u1pvuv6aiOA5LZfLCxcuAPv7+wcHBzfddFPX
+da21vu93dnYighcsMw8PDxUhicumlhvzeddVrrrqqv+pDo+Wd993LiIAA83bW4trzpzifuM43XnP
+fWkDlQeQxFX/hRaLxfXXX79cLo8dO7ZYLCICACTxL5G0ubnZWuN+sz5qLVx11VX/R1B5AGGu+g9l
+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
+/CQEkfnQPgAAAABJRU5ErkJggg==
+------=_Part_72_675267575.1776958280651--

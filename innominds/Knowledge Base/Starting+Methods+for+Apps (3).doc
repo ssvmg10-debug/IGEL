@@ -1,0 +1,521 @@
+Date: Thu, 23 Apr 2026 15:50:47 +0000 (UTC)
+Message-ID: <535491276.15.1776959447626@0fb6c54a7567>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_14_1786328270.1776959447626"
+
+------=_Part_14_1786328270.1776959447626
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>Starting Methods for Apps</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font: var(--ds-font-body-small, Arial, Helvetica, FreeSans, sans-se=
+rif);
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: var(--ds-surface, #fff) !important;
+        color: var(--ds-text, #000) !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: var(--ds-text, #000);
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        page-break-after: avoid;
+    }
+
+    pre {
+        font: var(--ds-font-code, Monaco, "Courier New", monospace);
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0px;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0px;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>Starting Methods for Apps</h1>
+    <div class=3D"Section1">
+        <p>For all sessions that can be started by the user, a selection of=
+ starting methods is provided.</p>
+<p></p>
+<p><strong>Session name</strong>: Name for the session.</p>
+<div class=3D"confluence-information-macro confluence-information-macro-war=
+ning">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-error confluence-inform=
+ation-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p>The session name must not contain any of these characters: <code>\ / : *=
+ ? =E2=80=9C &lt; &gt; | [ ] { } ( )</code></p>
+</div>
+</div>
+<h2 id=3D"StartingMethodsforApps-StartingMethodsforSession">Starting Method=
+s for Session</h2>
+<p></p>
+<p><strong>Start menu</strong></p>
+<p>=E2=98=91 The session can be launched from the start menu.</p>
+<p></p>
+<p><strong>Menu folder</strong></p>
+<p>If you specify a folder name or a path comprising a number of folder nam=
+es separated by "/", a menu path will be created for the session. The menu =
+path will be used in the start menu and in the desktop context menu.</p>
+<p></p>
+<p><strong>Start menu's system tab</strong></p>
+<p>=E2=98=91 The session can be launched with the start menu's system tab.<=
+/p>
+<p></p>
+<p><strong>Application Launcher</strong></p>
+<p>=E2=98=91&nbsp;The session can be launched with the Application Launcher=
+.</p>
+<p></p>
+<p><strong>Application Launcher folder</strong></p>
+<p>If you specify a folder name or a path comprising a number of folder nam=
+es separated by "/", a menu path will be created for the session. The menu =
+path will be used in the Application Launcher.</p>
+<p></p>
+<p><strong>Desktop</strong></p>
+<p>=E2=98=91 The session can be launched with a program launcher on the des=
+ktop.</p>
+<p></p>
+<p><strong>Desktop folder</strong></p>
+<p>If you specify a folder name or a path comprising a number of folder nam=
+es separated by "/", a menu path will be created for the session. The menu =
+path will be used for the program launcher on the desktop.</p>
+<p></p>
+<p><strong>Desktop context menu</strong></p>
+<p>=E2=98=91 The session can be launched with the desktop context menu.</p>
+<p></p>
+<p><strong>Quick start panel</strong></p>
+<p>=E2=98=91 The session can be launched with the quick start panel.</p>
+<p></p>
+<p><strong><span class=3D"inline-comment-marker" data-ref=3D"2a4e9377-00c5-=
+4fcc-b6ba-60e0477a12b2">Password protection</span></strong></p>
+<p><span class=3D"inline-comment-marker" data-ref=3D"2a4e9377-00c5-4fcc-b6b=
+a-60e0477a12b2">Specifies which password will be requested when launching t=
+he session.</span></p>
+<p><span class=3D"inline-comment-marker" data-ref=3D"2a4e9377-00c5-4fcc-b6b=
+a-60e0477a12b2">Possible values:</span></p>
+<ul>
+<li>
+<p><strong><span class=3D"inline-comment-marker" data-ref=3D"2a4e9377-00c5-=
+4fcc-b6ba-60e0477a12b2">None</span></strong><span class=3D"inline-comment-m=
+arker" data-ref=3D"2a4e9377-00c5-4fcc-b6ba-60e0477a12b2">: No password is r=
+equested when launching the session.</span></p></li>
+<li>
+<p><strong><span class=3D"inline-comment-marker" data-ref=3D"2a4e9377-00c5-=
+4fcc-b6ba-60e0477a12b2">Administrator</span></strong><span class=3D"inline-=
+comment-marker" data-ref=3D"2a4e9377-00c5-4fcc-b6ba-60e0477a12b2">: The adm=
+inistrator password is requested when launching the session.</span></p></li=
+>
+<li>
+<p><strong><span class=3D"inline-comment-marker" data-ref=3D"2a4e9377-00c5-=
+4fcc-b6ba-60e0477a12b2">User</span></strong><span class=3D"inline-comment-m=
+arker" data-ref=3D"2a4e9377-00c5-4fcc-b6ba-60e0477a12b2">: The user passwor=
+d is requested when launching the session.</span></p></li>
+<li>
+<p><strong><span class=3D"inline-comment-marker" data-ref=3D"2a4e9377-00c5-=
+4fcc-b6ba-60e0477a12b2">Setup user</span></strong><span class=3D"inline-com=
+ment-marker" data-ref=3D"2a4e9377-00c5-4fcc-b6ba-60e0477a12b2">: The setup =
+user password is requested when launching the session.</span></p></li>
+</ul>
+<div class=3D"confluence-information-macro confluence-information-macro-not=
+e">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-warning confluence-info=
+rmation-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p><strong>Password protection</strong> only works if the selected<span cla=
+ss=3D"legacy-color-text-blue3"> password is configured under </span><strong=
+><span class=3D"legacy-color-text-blue3">Security &gt; Password</span></str=
+ong><span class=3D"legacy-color-text-blue3">. Without the password configur=
+ation, the session will launch without requesting a password. For more info=
+rmation, see </span><a href=3D"https://igel-jira.atlassian.net/wiki/spaces/=
+IGELOS12BSDOCE/pages/73302358/Password+and+User+Types+in+IGEL+OS+12" data-l=
+inked-resource-id=3D"73302358" data-linked-resource-version=3D"7" data-link=
+ed-resource-type=3D"page">Password and User Types in IGEL OS 12</a><span cl=
+ass=3D"legacy-color-text-blue3">.</span></p>
+</div>
+</div>
+<p></p>
+<h2 id=3D"StartingMethodsforApps-HotkeyConfiguration">Hotkey Configuration<=
+/h2>
+<p><strong>Hotkey</strong></p>
+<p>=E2=98=91 The session can be started with a hotkey. A hotkey consists of=
+ one or more <strong>modifiers</strong>&nbsp;and a&nbsp;<strong>key</strong=
+>.</p>
+<p></p>
+<p><strong>Modifiers</strong></p>
+<p>A modifier or a combination of several modifiers for the hotkey. You can=
+ select a set key symbol/combination or your own key symbol/combination. A =
+key symbol is a defined chain of characters, e.g.&nbsp;<code>Ctrl</code>.</=
+p>
+<div class=3D"confluence-information-macro confluence-information-macro-not=
+e">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-warning confluence-info=
+rmation-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p>Do not use [AltGr] as a modifier (represented as&nbsp;<code>Mod5</code>)=
+. Otherwise, the key that is configured as a hotkey with AltGr cannot be us=
+ed as a regular key anymore. Example: If you configure [AltGr] + [E] as a h=
+otkey, it is impossible to enter an "e".</p>
+</div>
+</div>
+<p>These are the pre-defined modifiers and the associated key symbols:</p>
+<ul>
+<li>
+<p>(No modifier) =3D&nbsp;<code>None</code></p></li>
+<li>
+<p><span class=3D"confluence-embedded-file-wrapper"><img class=3D"confluenc=
+e-embedded-image confluence-content-image-inline" alt=3D"image-20240716-130=
+120.png" loading=3D"lazy" src=3D"18aecb9cd8730d21d1b3dbd0ae33c70cb13c1e3a9e=
+d8bb5f705114e5a510c875" data-image-src=3D"https://igel-jira.atlassian.net/w=
+iki/download/attachments/73302709/image-20240716-130120.png?version=3D1&amp=
+;modificationDate=3D1721134882005&amp;cacheVersion=3D1&amp;api=3Dv2" data-h=
+eight=3D"22" data-width=3D"20" data-unresolved-comment-count=3D"0" data-lin=
+ked-resource-id=3D"121569439" data-linked-resource-version=3D"1" data-linke=
+d-resource-type=3D"attachment" data-linked-resource-default-alias=3D"image-=
+20240716-130120.png" data-base-url=3D"https://igel-jira.atlassian.net/wiki"=
+ data-linked-resource-content-type=3D"image/png" data-linked-resource-conta=
+iner-id=3D"73302709" data-linked-resource-container-version=3D"5" data-medi=
+a-id=3D"b64b2b43-481e-4bed-af9c-ca392f06e9a0" data-media-type=3D"file" widt=
+h=3D"20" height=3D"22"></span>&nbsp;=3D&nbsp;<code>Shift</code></p></li>
+<li>
+<p>[Ctrl] =3D&nbsp;<code>Ctrl</code></p></li>
+<li>
+<p><span class=3D"confluence-embedded-file-wrapper"><img class=3D"confluenc=
+e-embedded-image confluence-content-image-inline" alt=3D"image-20240716-130=
+102.png" loading=3D"lazy" src=3D"4182ce1c7c753877e45698667b0876513dcce069a2=
+47a46ee535c435b816c3fe" data-image-src=3D"https://igel-jira.atlassian.net/w=
+iki/download/attachments/73302709/image-20240716-130102.png?version=3D1&amp=
+;modificationDate=3D1721134863920&amp;cacheVersion=3D1&amp;api=3Dv2" data-h=
+eight=3D"16" data-width=3D"16" data-unresolved-comment-count=3D"0" data-lin=
+ked-resource-id=3D"121536623" data-linked-resource-version=3D"1" data-linke=
+d-resource-type=3D"attachment" data-linked-resource-default-alias=3D"image-=
+20240716-130102.png" data-base-url=3D"https://igel-jira.atlassian.net/wiki"=
+ data-linked-resource-content-type=3D"image/png" data-linked-resource-conta=
+iner-id=3D"73302709" data-linked-resource-container-version=3D"5" data-medi=
+a-id=3D"93b6e888-41ff-4ab5-8776-c8dbeef31b61" data-media-type=3D"file" widt=
+h=3D"16" height=3D"16"></span>&nbsp;=3D&nbsp;<code>Mod4</code></p></li>
+</ul>
+<div class=3D"confluence-information-macro confluence-information-macro-inf=
+ormation">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-info confluence-informa=
+tion-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p>When this keyboard key is used as a modifier, it is represented as&nbsp;=
+<code>Mod4</code>; when it is used as a key, it is represented as&nbsp;<cod=
+e>Super_L</code>.</p>
+</div>
+</div>
+<p></p>
+<ul>
+<li>
+<p>[Alt] =3D&nbsp;<code>Alt</code></p></li>
+</ul>
+<p>Key combinations are formed as follows with&nbsp;<code>|</code>:</p>
+<ul>
+<li>
+<p>Ctrl + <span class=3D"confluence-embedded-file-wrapper"><img class=3D"co=
+nfluence-embedded-image confluence-content-image-inline" alt=3D"image-20240=
+716-130111.png" loading=3D"lazy" src=3D"a6bf0e95ca882dbcd06f469fefb9b1bbccc=
+31123fa1f4a27532a4daa189cffc1" data-image-src=3D"https://igel-jira.atlassia=
+n.net/wiki/download/attachments/73302709/image-20240716-130111.png?version=
+=3D1&amp;modificationDate=3D1721134872878&amp;cacheVersion=3D1&amp;api=3Dv2=
+" data-height=3D"16" data-width=3D"16" data-unresolved-comment-count=3D"0" =
+data-linked-resource-id=3D"121569433" data-linked-resource-version=3D"1" da=
+ta-linked-resource-type=3D"attachment" data-linked-resource-default-alias=
+=3D"image-20240716-130111.png" data-base-url=3D"https://igel-jira.atlassian=
+.net/wiki" data-linked-resource-content-type=3D"image/png" data-linked-reso=
+urce-container-id=3D"73302709" data-linked-resource-container-version=3D"5"=
+ data-media-id=3D"453f8ea2-3825-41c5-9a94-22fe69f96743" data-media-type=3D"=
+file" width=3D"16" height=3D"16"></span> =3D&nbsp;<code>Ctrl|Super_L</code>=
+</p></li>
+</ul>
+<p></p>
+<p><strong>Key</strong></p>
+<p>Key for the hotkey</p>
+<div class=3D"confluence-information-macro confluence-information-macro-inf=
+ormation">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-info confluence-informa=
+tion-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p>To enter a key that does not have a visible character, e.&nbsp;g. the [T=
+ab] key, open a terminal, log on as&nbsp;<code>user</code>&nbsp;and enter&n=
+bsp;<code>xev -event keyboard</code>. Press the key to be used for the hotk=
+ey. The text in brackets that begins with&nbsp;<code>keysym</code>&nbsp;con=
+tains the key symbol for the&nbsp;<strong>Key</strong>&nbsp;field. Example:=
+&nbsp;<code>Tab</code>&nbsp;in&nbsp;<code>(keysym 0xff09, Tab)</code></p>
+</div>
+</div>
+<p></p>
+<h2 id=3D"StartingMethodsforApps-AutostartConfiguration">Autostart Configur=
+ation</h2>
+<p><strong>Autostart</strong></p>
+<p>=E2=98=91 The session will be launched automatically when the device boo=
+ts.</p>
+<p></p>
+<p><strong>Restart</strong></p>
+<p>=E2=98=91 The session will be relaunched automatically after the termina=
+tion.</p>
+<p></p>
+<p><strong>Autostart delay</strong></p>
+<p>Waiting time in seconds between the complete startup of the desktop and =
+the automatic session launch.</p>
+<p></p>
+<p><strong>Autostart notification</strong></p>
+<p>This parameter is available if&nbsp;<strong>Autostart</strong>&nbsp;is a=
+ctivated and&nbsp;<strong>Autostart delay</strong>&nbsp;is set to a value g=
+reater than zero.</p>
+<p>=E2=98=91 For the duration defined by&nbsp;<strong>Autostart delay</stro=
+ng>, a dialog is shown which allows the user to start the session immediate=
+ly or cancel the automatic session start.</p>
+<p>=E2=98=90&nbsp;No dialog is shown; the session is started automatically =
+after the timespan specified with&nbsp;<strong>Autostart delay</strong>.</p=
+>
+<p></p>
+<p><strong>Autostart requires network</strong></p>
+<p>=E2=98=91 If no network is available at system startup, the session is n=
+ot started. A message is shown. As soon as the network is available, the se=
+ssion is started automatically.</p>
+<p>=E2=98=90 The session is started automatically, even when no network is =
+available.</p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
+</body>
+</html>
+------=_Part_14_1786328270.1776959447626
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: file:///C:/18aecb9cd8730d21d1b3dbd0ae33c70cb13c1e3a9ed8bb5f705114e5a510c875
+
+iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAABP0lEQVQ4Ee3Uy0pcQRAG4E+DeEm8
+giAigSwULyvFt9GFILhLIgaz04WIIF5RUNyJKxeuA27zJgaC4DMk4CnphnFmzsy4FKah6dPUX39d
+/upD89WLH1hHd3N4Y8Q4dnGLG3zDcGOXcus0TnCAIYzhCF8xWu5W3zKPC2xiIEE6MIm9t5Iu4gpr
+FWQ5bCdmsZ/KH8mGsnMhka0U5Q6WgIJ0BudJqP4SnDlcYrUBWfYN0ilcYwM92ZDPzzhLZZRllrH5
+DNIvuMNPdGXDp6JXxzjEROpbCBFRQ4jq9aFQ/mPCRfCYht/YRgR5SfkvYv/BA56KUTlFXzUbos/3
+CR/Y8HlM9++BjyyCuXIvF/edlEk1Z0zBVlK70ie+61X04r/UAmEo3fJqE75qVRal3cNXbam5vI+x
+iff8r87+j1/pn1hT2jNDBTvo+rGx2gAAAABJRU5ErkJggg==
+------=_Part_14_1786328270.1776959447626
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: file:///C:/4182ce1c7c753877e45698667b0876513dcce069a247a46ee535c435b816c3fe
+
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABxUlEQVQ4EY2Sy4vBURTHxzuPYiE7
+/4Cl2MiKjbJTNpb+A1ti41GyIQt/grWShUeJPCOlSBFbG+xsv9M55vhpGjNz63RO997v557H/fj4
+YZ1OJwyHQ1wuF/xw/H5rs9lAr9dDrVaTkGOfz4fBYPA/UD6fZ6FWq4VGo+GYQJ1OB8fj8W+I0+mE
+TqdjodFofAK22y1cLhccDgfS6TQajQZSqRQCgYACnc/nTwG9ShlQKdlsFgSgPcqMvMFgYB+NRsk/
+ViwWg91uh9frZaOLZKPRCKVSiWPpjZS3XC4VQLvdxmQywXg8xmq14prL5TJ2ux2DCUZClUrFMKvV
+qojP5zMsFgsfCt3j8WA2m4HOIpEIiwgiZdRqNQWQTCZhNpv5ktRHl+v1OqrVKvb7PabTKXq9Hu+1
+Wi3c7/cHgF6w2Ww8c6GT2O/3c/0mk4nB4XCYOx+PxxEMBpXXF4sFXkcmJRSLRfT7fRZL6vTJKK5U
+KgqA5hoKhZDL5ZDJZOB2u7lOaiTNWv6FlEZN/PVT3W43NJtNrNdrbiy9SEZCsi+gTP+9p97QT5MM
+pD/U8PeqbyfX6xXdbheJRAKFQgGHw+H/YmFRJmKy9+o/AXMYQO//+y/OAAAAAElFTkSuQmCC
+------=_Part_14_1786328270.1776959447626
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Location: file:///C:/a6bf0e95ca882dbcd06f469fefb9b1bbccc31123fa1f4a27532a4daa189cffc1
+
+iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABxUlEQVQ4EY2Sy4vBURTHxzuPYiE7
+/4Cl2MiKjbJTNpb+A1ti41GyIQt/grWShUeJPCOlSBFbG+xsv9M55vhpGjNz63RO997v557H/fj4
+YZ1OJwyHQ1wuF/xw/H5rs9lAr9dDrVaTkGOfz4fBYPA/UD6fZ6FWq4VGo+GYQJ1OB8fj8W+I0+mE
+TqdjodFofAK22y1cLhccDgfS6TQajQZSqRQCgYACnc/nTwG9ShlQKdlsFgSgPcqMvMFgYB+NRsk/
+ViwWg91uh9frZaOLZKPRCKVSiWPpjZS3XC4VQLvdxmQywXg8xmq14prL5TJ2ux2DCUZClUrFMKvV
+qojP5zMsFgsfCt3j8WA2m4HOIpEIiwgiZdRqNQWQTCZhNpv5ktRHl+v1OqrVKvb7PabTKXq9Hu+1
+Wi3c7/cHgF6w2Ww8c6GT2O/3c/0mk4nB4XCYOx+PxxEMBpXXF4sFXkcmJRSLRfT7fRZL6vTJKK5U
+KgqA5hoKhZDL5ZDJZOB2u7lOaiTNWv6FlEZN/PVT3W43NJtNrNdrbiy9SEZCsi+gTP+9p97QT5MM
+pD/U8PeqbyfX6xXdbheJRAKFQgGHw+H/YmFRJmKy9+o/AXMYQO//+y/OAAAAAElFTkSuQmCC
+------=_Part_14_1786328270.1776959447626--

@@ -1,0 +1,295 @@
+ums:
+  base_url: "https://192.168.10.28:8443"
+  webapp_url: "https://192.168.10.28:8443/webapp/"
+  username: "sai.arokala.ums"
+  password: "igelxinnominds"
+
+
+
+shadow:
+  base_webapp_url: "https://192.168.10.28:8443"
+  username: "sai.arokala.ums"
+  password: "igelxinnominds"
+
+browser:
+  headless: false
+  wait_for_stream_seconds: 10
+
+device:
+    name: "ITC005056AD752C"
+    mac: "005056AD752C"
+    ip: "192.168.9.0"
+    target_folder: "Sai Arokala"
+
+timeouts:
+  ui_settle: 5000
+  scan_wait: 20
+  reboot_wait: 10
+
+
+# =========================
+# STEP 3-11 local App portal
+# =========================
+
+qa_repo:
+  uuid: 95ce810d559a4ace8cba081df98784
+  url: https://app-qas-stable.services.igel.com/api
+
+apps:
+  browser:
+    - name: edge
+      install_version: 142.0.3595+1
+      downgrade_version: 141.0.3537+1
+      upgrade_version: 143.0.3650+1
+      uuid: ac0f9782f40741a58fb9fbfe677230
+
+    - name: chromium
+      install_version: 142.0.7444+2.0.tp.1
+      downgrade_version: 142.0.7444+2
+      upgrade_version: 143.0.7499+0.1.rc.2
+      uuid: a55595edbfc34b0bb1520ad9046ead
+
+    - name: firefox
+      install_version: 140.3.0+1.0.tp.1
+      downgrade_version: 140.3.0+1
+      upgrade_version: 140.5.0+1
+      uuid: db374b8d49c943b884e555b26e3adc
+
+    - name: rdp
+      install_version: 1.3.5+1
+      downgrade_version: 1.3.3+0.0.tp.3
+      upgrade_version: 1.3.6+0.1.rc.1
+      uuid: cbc9ace33a674f258847c16b1615a6
+
+  non_browser:
+    - name: ms_teams_pwa
+      install_version: 1.0.1+3
+      downgrade_version: 1.0.1+2
+      upgrade_version: 1.0.1+4
+
+base_system:
+
+  name: base_system
+  downgrade_version: base_system-12.7.4
+  upgrade_version: base_system-12.8.0-1.rc.20
+
+  lower_version:
+    id: 783
+    expected: "12.7.4"
+    verify_os_release: false
+
+  upper_version:
+    id: 3220
+    expected: "12.8.0-1.rc.20"
+    verify_os_release: false
+
+dependency_test:
+  app: BSdependencie
+  version: 12.2.100-0.1.rc.1+1
+
+# =========================
+# STEP 12–13 SINGLE APP
+# =========================
+app:
+  id: 437
+  name: zoom
+  versions:
+    lower:
+      id: 1032
+      label: zoom-6.5.5+1
+    upper:
+      id: 438
+      label: zoom-6.6.0+1
+
+
+# =========================
+# STEP 17 PROFILE APP INSTALL
+# =========================
+profile_app:
+  parent_directory_id: -2
+  directory_name: "SAI_AUTO_PROFILE_DIR-sai"
+  profile_name: "sai_APP_PROFILE-sai"
+  description: "Profile created by automation"
+  apps:
+    - appLineId: 442
+      appVersionId: null
+      expected_label: "chromium"
+    - appLineId: 479
+      appVersionId: null
+      expected_label: "Firefox"
+    - appLineId: 370
+      appVersionId: null
+      expected_label: "Edge"
+    - appLineId: 437
+      appVersionId: null
+      expected_label: "zoom"
+
+# =========================
+# STEP 18 PROFILE VERSION CHANGE
+# =========================
+profile_app_versions:
+  apps:
+    - app_id: 442
+      name: chromium
+      downgrade:
+        version_id: 651
+        expected_label: chromium-142.0.7444+1
+      upgrade:
+        version_id: 637
+        expected_label: chromium-142.0.7444+2
+
+    - app_id: 479
+      name: firefox
+      downgrade:
+        version_id: 695
+        expected_label: firefox-140.3.0+1
+      upgrade:
+        version_id: 698
+        expected_label: firefox-140.5.0+1
+
+    - app_id: 370
+      name: edge
+      downgrade:
+        version_id: 419
+        expected_label: edge-141.0.3537+1
+      upgrade:
+        version_id: 1075
+        expected_label: edge-143.0.3650+1
+
+    - app_id: 437
+      name: zoom
+      downgrade:
+        version_id: 1029
+        expected_label: zoom-6.5.8+1
+      upgrade:
+        version_id: 1439
+        expected_label: zoom-6.7.2+1
+
+# =========================
+# STEP 19 PROFILE SPECIFIC VERSIONS
+# =========================
+step19_profile:
+  directory_name: "SAI_AUTO_PROFILE_DIR-sai"
+  profile_name: "QCL-3119_STEP19_PROFILE-sai"
+  description: "Step-19 profile with specific app versions"
+  apps:
+    - appLineId: 442
+      appVersionId: 651
+      expected_label: "chromium-142.0.7444+1"
+
+    - appLineId: 370
+      appVersionId: 640
+      expected_label: "edge-142.0.3595+1"
+
+    - appLineId: 479
+      appVersionId: 695
+      expected_label: "firefox-140.3.0+1"
+
+    - appLineId: 437
+      appVersionId: 1032
+      expected_label: "zoom-6.5.5+1"
+
+# =========================
+# STEP 20 PROFILE VERSION LOCK
+# =========================
+step20_apps:
+  - name: chromium
+    app_id: 442
+    profile_fixed_version_label: "chromium-142.0.7444+1"
+    new_default_version_id: 1170
+
+  - name: edge
+    app_id: 370
+    profile_fixed_version_label: "edge-142.0.3595+1"
+    new_default_version_id: 1075
+
+  - name: firefox
+    app_id: 479
+    profile_fixed_version_label: "firefox-140.3.0+1"
+    new_default_version_id: 698
+
+  - name: zoom
+    app_id: 437
+    profile_fixed_version_label: "zoom-6.5.5+1"
+    new_default_version_id: 438
+
+# =========================
+# Testcase QCL 3117 OBS - DATA
+# =========================
+
+vmware:
+  url: "https://itga-vcs-test.igel.local/ui/webconsole.html?vmId=vm-17439&vmName=qa-ta-OS12-3&numMksConnections=0&serverGuid=2a94a1be-cb58-4251-bf7a-85484d255652&locale=en-US"
+  username: "sai.arakola_ext"
+  password: "Inno@121976"
+
+paths:
+  setup_ini: "/wfs/setup.ini"
+
+OBS_Creds:
+  OBS_Email: "obs_tu1@qata.onmicrosoft.com"
+  OBS_Password: "PR4rjnL3Yq"
+  OBS_device_ip: "192.168.9.0"
+  OBS_device_name: "ITC005056AD752C"
+  Structure_Tag_name: "IGEL Testing"
+  Target_Folder_name: "Sai Arokala"
+
+
+# ============================================
+# Testcase QCL 4437 Default browser validation
+# ============================================
+QCL_4437_apps:
+  browser:
+    - name: chromium
+      version: "142.0.7444+2"
+
+    - name: edge
+      version: "143.0.3650+1"
+
+    - name: firefox
+      version: "140.5.0+1"
+QCL_4437_device:
+  device_ip: "192.168.9.0"
+  device_name: "ITC005056AD752C"
+  target_folder: "Sai Arokala"
+  mac: "005056AD752C"
+
+
+
+QCL_4438_device:
+  device_name: "ITC005056AD752C"
+  mac: "005056AD752C"
+  device_ip: "192.168.9.0"
+  target_folder: "Sai Arokala"
+
+QCL_4438_profile:
+  name: "QCL_4438_POST_Session_command"
+  description: "Testing_QCL-4438_Post_session_command_testcase"
+  profile_directory: "SAI_AUTO_PROFILE_DIR"
+  parent_directory_id: -2
+
+  applications:
+    - appLineId: 442   # Chromium
+      appVersionId: null
+      appname: chromium
+    - appLineId: 203   # base_system
+      appVersionId: null
+      appname: base_system
+    - appLineId: 557   # Horizon
+      appVersionId: null
+      appname: Horizon
+    - appLineId: 479   # Firefox
+      appVersionId: null
+      appname: firefox
+    - appLineId: 370   # edge
+      appVersionId: null
+      appname: edge
+
+web_console:
+  url: "https://itga-vcs-test.igel.local/ui/webconsole.html?vmId=vm-17439&vmName=qa-ta-OS12-3&numMksConnections=0&serverGuid=2a94a1be-cb58-4251-bf7a-85484d255652&locale=en-US"
+  username: "sai.arakola_ext"
+  password: "Inno@121976"
+vcenter:
+  base_url: "https://itga-vcs-test.igel.local"
+  username: "sai.arakola_ext"
+  password: "Inno@121976"
+  vm_id: "vm-17050"                 # vm-17050 (192.168.9.0) #vm-17439(192.168.9.37)

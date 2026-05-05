@@ -1,0 +1,418 @@
+﻿TC_ID,Title,Domain,Source_Reference,IGEL_OS_Version,Priority,Preconditions,Test_Steps,Expected_Results,Automation_Feasibility,Automation_Notes
+TC-001,Entra ID SSO - Profile Assignment and Login Validation,SSO,QCL-3139 + IGEL Apps PDF,IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered in UMS.
+2. Entra ID SSO profile in UMS.
+3. UMS bearer token available.
+4. SSH enabled on device.
+5. VNC/Shadow enabled.","1. Assign Entra ID SSO profile to device via UMS API.
+2. Trigger device reboot via UMS API.
+3. Open VNC shadow session.
+4. Verify Microsoft/Entra ID login screen appears.
+5. Enter valid Entra ID username + password.
+6. If MFA required, enter TOTP OTP.
+7. Verify device desktop loads after SSO.
+8. Via SSH run: klist — verify Kerberos ticket present.
+9. Unassign SSO profile, reboot, verify local login restored.","1. Entra ID login screen visible in VNC.
+2. Successful login with valid credentials.
+3. Desktop loads with correct user context.
+4. klist shows valid Kerberos ticket.
+5. After unassign: local login restored.",High,assign_object() for profile. OTPGenerator for MFA. OcrUiInteractor for VNC screen. SSHClientIGEL for klist. Follows QCL-3139 pattern.
+TC-002,PingOne SSO - Profile Assignment and Login Screen Validation,SSO,QCL-3839 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered in UMS.
+2. PingOne SSO profile configured in UMS.
+3. SSH and VNC enabled.","1. Assign PingOne SSO profile to device via UMS API.
+2. Reboot device.
+3. Open VNC shadow session.
+4. Verify PingOne login screen appears.
+5. Enter valid PingOne credentials.
+6. Verify desktop login succeeds.
+7. Unassign profile and restore default state.","1. PingOne login screen visible after reboot.
+2. Successful auth and desktop access.
+3. No errors in /var/log/auth.log.",High,Identical to QCL-3839 pattern. testdata/sso/api_config.yaml for credentials. OcrUiInteractor for screen validation.
+TC-003,Okta SSO - Session Expiry and Re-Authentication,SSO,QCL-3137 (Jira),IGEL OS 12.7.x+,Medium,"1. IGEL OS 12 device registered in UMS.
+2. Okta SSO profile with short session timeout.
+3. SSH and VNC enabled.","1. Assign Okta SSO profile to device.
+2. Reboot and verify Okta login screen in VNC.
+3. Login with Okta credentials.
+4. Wait for session timeout.
+5. Verify screenlock or re-auth prompt.
+6. Re-authenticate with Okta credentials.
+7. Verify session restoration.
+8. Unassign profile.","1. Okta login screen after reboot.
+2. Initial auth succeeds.
+3. Re-auth prompt appears after timeout.
+4. Re-auth with same credentials succeeds.",Medium,Requires configurable session timeout in Okta profile. OcrUiInteractor detects screenlock. Time-based wait needed.
+TC-004,Omnissa Horizon - SSO Profile Assignment and Session Launch,SSO,QCL-3913 + QCAPPS-1008,IGEL OS 12.7.x+,High,"1. Omnissa/Workspace ONE SSO profile in UMS.
+2. Horizon server accessible and on matching version.
+3. SSH and VNC enabled.","1. Assign Omnissa Horizon SSO profile via UMS API.
+2. Reboot device and open VNC shadow.
+3. Verify Omnissa login screen.
+4. Enter valid credentials.
+5. Verify Horizon desktop/app launches.
+6. Check via SSH: journalctl -t Horizon -f for session events.
+7. Logoff and verify clean termination.
+8. Unassign profile.","1. Omnissa login screen after reboot.
+2. Horizon session launches successfully.
+3. journalctl shows start/end events without errors.
+4. Clean logoff.",High,Follows QCL-3913 pattern. SSH: journalctl -t Horizon. OcrUiInteractor for VNC.
+TC-005,RDP Session - Profile Assignment and Windows Desktop Validation,Session_Connection,QCL-1686 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered in UMS.
+2. RDP profile with Windows server IP and credentials.
+3. Windows RDP server accessible.
+4. SSH and VNC enabled.","1. Assign RDP session profile via UMS API.
+2. Reboot device.
+3. Open VNC shadow.
+4. Click RDP session icon on desktop.
+5. Enter Windows credentials.
+6. Verify Windows desktop loads in RDP.
+7. Launch a test app inside RDP session.
+8. Disconnect RDP and verify return to IGEL desktop.
+9. Unassign profile.","1. RDP icon visible on IGEL desktop.
+2. Windows desktop loads after auth.
+3. App launches in RDP session.
+4. Clean disconnect returns to IGEL desktop.",High,Follows QCL-1686 exactly. OcrUiInteractor clicks session icon. VNC screenshot validates Windows desktop.
+TC-006,AVD Session - Profile Assignment and Workspace Selection,Session_Connection,QCL-1689 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. AVD profile with Azure tenant/workspace URL.
+3. AVD infrastructure accessible.
+4. SSH and VNC enabled.","1. Assign AVD profile via UMS API.
+2. Reboot device.
+3. Open VNC shadow.
+4. Verify AVD client launches.
+5. Enter Azure credentials.
+6. Select workspace, verify virtual desktop loads.
+7. Logoff from AVD.
+8. Unassign profile.","1. AVD client visible after reboot.
+2. Workspace loads after auth.
+3. Virtual desktop accessible.
+4. Clean logoff.",High,Follows QCL-1689. OcrUiInteractor for workspace selection. cs_config.yaml for credentials.
+TC-007,AVD Smart Card Auth via Entra Certificate-Based Authentication,Session_Connection,Smart Card Auth PDF + QCL-3126,IGEL OS 12.6.0+,High,"1. IGEL OS 12.6.0+ on device.
+2. AVD App v1.3.0+ installed.
+3. OpenSC middleware active or App Portal middleware installed.
+4. Entra ID CBA configured.
+5. Smart card or Yubikey inserted.","1. Verify middleware via SSH: check scard pkcs11 config.
+2. Assign AVD v1.3.0+ profile via UMS API.
+3. Reboot device.
+4. Open VNC shadow.
+5. Verify AVD prompts for smart card PIN.
+6. Enter smart card PIN.
+7. Verify AVD session launches via CBA.
+8. Check journalctl for cert errors.
+9. Unassign profile.","1. Middleware active (no conflict errors).
+2. AVD shows PIN prompt (not password).
+3. CBA login and session launch successful.
+4. No certificate errors in journalctl.",Medium,Requires physical smart card/Yubikey. SSH for middleware check. OcrUiInteractor for PIN prompt. Partial automation.
+TC-008,Citrix StoreFront - Session Launch and App Access,Session_Connection,QCL-3126 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. Citrix Workspace App + StoreFront profile in UMS.
+3. Citrix server accessible.
+4. Certificates deployed if required.","1. Assign Citrix StoreFront + cert profiles via UMS API.
+2. Reboot device.
+3. Open VNC shadow.
+4. Verify Citrix login screen.
+5. Enter QA credentials.
+6. Verify app catalog loads.
+7. Launch published app.
+8. Logoff from Citrix.
+9. Unassign profiles.","1. Citrix login screen visible.
+2. App catalog loads after auth.
+3. Published app launches without errors.
+4. Clean session logoff.",High,Follows QCL-3126. assign_object() for cert deployment. OcrUiInteractor for session UI.
+TC-009,Windows 365 Cloud PC - Session Start and Desktop Validation,Session_Connection,QCL-5020 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. Cloud PC profile in UMS.
+3. Windows 365 Cloud PC provisioned for test user.
+4. VNC enabled.","1. Assign Cloud PC profile via UMS API.
+2. Reboot device.
+3. Open VNC shadow.
+4. Verify Cloud PC launcher visible.
+5. Launch Cloud PC session.
+6. Verify Windows 365 Cloud desktop loads.
+7. Disconnect from Cloud PC.
+8. Unassign profile.","1. Cloud PC launcher visible after reboot.
+2. Cloud desktop loads after connection.
+3. Clean disconnect returns to IGEL desktop.",High,Follows QCL-5020. Cloud PC profile from cs_config.yaml.
+TC-010,App Upgrade/Downgrade - Chromium Browser Version Management,App_Lifecycle,QCL-3119 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. Two Chromium versions available in UMS.
+3. QA repository configured.
+4. SSH enabled.","1. Install Chromium version A via UMS profile.
+2. Verify: igelpkgctl list installed | grep chromium via SSH.
+3. Upgrade to version B via UMS profile version change.
+4. Reboot device.
+5. Verify version B active via SSH.
+6. Downgrade to version A via UMS.
+7. Reboot.
+8. Verify version A active.
+9. Uninstall and cleanup.","1. Version A installs and confirms via igelpkgctl.
+2. After upgrade: version B active.
+3. After downgrade: version A active.
+4. No errors in /var/log during transitions.",High,Follows QCL-3119. igel_pkg.verify_apps_installed() + verify_os_version(). ums_wums_api.set_template_version() for version locking.
+TC-011,Chromium Browser - Proxy Configuration and Lockdown Mode,App_Lifecycle,IGEL Apps PDF (Chromium),IGEL OS 12.7.x+,High,"1. Chromium installed on IGEL OS 12 device.
+2. UMS profile with proxy + lockdown settings.
+3. VNC enabled.","1. Create UMS profile: Chromium proxy=fixed server; lockdown=enabled.
+2. Assign profile via UMS API.
+3. Reboot device.
+4. Open VNC shadow.
+5. Launch Chromium.
+6. Verify lockdown mode: attempt to open new tab — verify blocked.
+7. Verify proxy enforced: navigate to blocked site.
+8. Disable lockdown in profile, reassign.
+9. Verify new tabs can be opened.
+10. Unassign profile.","1. Chromium opens in lockdown (new tab blocked).
+2. Proxy settings enforced.
+3. After lockdown disabled: new tabs open.",High,OcrUiInteractor for new tab button. UMS profile API for settings. VNC screenshot validation.
+TC-012,Firefox - Policy Enforcement via UMS Profile,App_Lifecycle,QCAPPS-721 (Jira),IGEL OS 12.7.x+,High,"1. Firefox installed on device.
+2. Firefox policy profile in UMS (locked homepage, JS policy).
+3. VNC enabled.","1. Create UMS profile: Firefox policy — lock homepage URL, disable JS.
+2. Assign profile.
+3. Reboot device.
+4. Open VNC shadow.
+5. Launch Firefox.
+6. Verify homepage locked to configured URL.
+7. Try to change homepage — verify locked.
+8. Verify JS policy applied.
+9. Unassign profile.","1. Firefox opens with locked homepage.
+2. User cannot change homepage.
+3. JS policy applied.
+4. Policies visible in Firefox policy page (about:policies).",High,OcrUiInteractor for Firefox UI. UMS profile with Firefox policies. Follows QCAPPS-721 pattern.
+TC-013,OS 12 Licensing - Workspace Edition License Assignment and Validation,App_Lifecycle,QCL-3835 + Subscription PDF,IGEL OS 12.7.x+,High,"1. IGEL OS 12 device in UMS.
+2. Valid WE license in ILP.
+3. UMS has ILP access.
+4. SSH enabled.","1. Deploy WE license to device via UMS.
+2. Reboot device.
+3. Verify license status via SSH.
+4. Verify UMS Enterprise features available (shadowing, secure terminal).
+5. Assign Enterprise feature profile.
+6. Confirm features accessible.
+7. Verify WE license compatible with OS 12 (no version restriction).","1. WE license deployed and active.
+2. License confirmed via SSH.
+3. Enterprise features accessible.
+4. No license errors in device logs.",Medium,License deployment via ILP integration. SSH commands for license check. UMS API for feature verification.
+TC-014,OS 12 Licensing - ISL License Validation (Requires OS 12.7.2+),App_Lifecycle,QCL-3834 + New Features PDF,IGEL OS 12.7.2+,High,"1. IGEL OS 12.7.2+ on device (mandatory).
+2. ISL license available (from Jan 2026).
+3. SSH enabled.","1. Verify OS version: cat /etc/os-release via SSH — must be 12.7.2+.
+2. Deploy ISL license via UMS.
+3. Reboot device.
+4. Verify ISL license active.
+5. Attempt downgrade to below 12.7.2 — verify blocked.
+6. Verify ISL does NOT apply to OS 11 device.
+7. Confirm all subscribed features accessible.","1. ISL active on OS 12.7.2+.
+2. Downgrade below 12.7.2 blocked with ISL.
+3. ISL incompatible with OS 11 (confirmed).
+4. All entitled features accessible.",Medium,SSH: cat /etc/os-release. UMS API downgrade attempt → validate failure. Requires ISL license from Jan 2026.
+TC-015,Expired License - Feature Lockout and Renewal Restoration,App_Lifecycle,QCL-3837 + Subscription PDF,IGEL OS 12.7.x+,High,"1. IGEL OS 12 device in UMS.
+2. Test license with configurable expiry.
+3. SSH and VNC enabled.","1. Assign test license with short expiry.
+2. Verify all features accessible pre-expiry.
+3. Simulate expiry (use pre-expired license).
+4. Reboot device.
+5. Verify UMS management features limited.
+6. Verify device still boots and runs apps.
+7. Verify UMS shows license expired warning.
+8. Renew license.
+9. Verify features restored.","1. Pre-expiry: all features accessible.
+2. Post-expiry: UMS management deactivated.
+3. Device runtime continues (boots, runs apps).
+4. After renewal: full features restored.",Medium,Requires test license with expiry control. UMS API for management status. SSH for device runtime state.
+TC-016,Corporate Identity Customization (CIC) - Full 7-Profile Set Validation,CIC,QCL-5022 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. All 7 CIC profile types in UMS: Bootsplash, Wallpaper, Screensaver, Start Button, Start Menu, Taskbar Background, Screensaver(custom partition).
+3. VNC enabled.","1. Assign all 7 CIC profiles via UMS API.
+2. Verify correct assignment order.
+3. Reboot device.
+4. Open VNC shadow.
+5. Verify custom wallpaper on desktop.
+6. Check screensaver path via SSH: grep screensaver /wfs/setup.ini.
+7. Trigger screensaver — verify custom screensaver activates.
+8. Unassign all CIC profiles.
+9. Reboot and verify default appearance.","1. All 7 CIC profiles assigned and ordered correctly.
+2. Custom wallpaper visible on desktop.
+3. Screensaver path in setup.ini correct.
+4. Custom screensaver activates.
+5. Default appearance restored after unassign.",High,Follows QCL-5022 exactly. get_cic_profile_details() + assign_object(type='CIC'). SSH for setup.ini.
+TC-017,Corporate Design - Custom Wallpaper via HTTP and HTTPS Download,CIC,QCL-5016 (Jira),IGEL OS 12.7.x+,Medium,"1. IGEL OS 12 device registered.
+2. Custom wallpaper images on HTTP + HTTPS servers.
+3. VNC enabled.","1. Create UMS wallpaper profile with HTTP URL.
+2. Assign profile, reboot.
+3. Verify wallpaper downloaded in VNC.
+4. Update profile to HTTPS URL.
+5. Reassign, reboot.
+6. Verify HTTPS wallpaper applied.
+7. Verify image file on device via SSH: ls /wfs/userprofile/.
+8. Unassign profile.","1. HTTP wallpaper downloads and applies.
+2. HTTPS wallpaper downloads and applies.
+3. Wallpaper file verifiable on device filesystem.",High,UMS profile URL configuration. SSH file check. VNC screenshot for visual validation.
+TC-018,Data Retention - R/W Partitions Persist After Firmware Update,Data_Retention,QCL-4852 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. Two OS versions available for upgrade.
+3. App profiles (Edge + Chromium) in UMS.
+4. SSH enabled.","1. Assign app profiles (Edge + Chromium).
+2. Record MD5 checksums of /wfs, /services_rw, /cache via SSH.
+3. Trigger firmware upgrade via UMS API.
+4. Wait for reboot, reconnect SSH.
+5. Verify new OS version: cat /etc/os-release.
+6. Verify partitions mounted: df -h | grep wfs.
+7. Compare MD5 checksums — must match.
+8. Verify apps still installed: igelpkgctl list installed.
+9. Detach all profiles.","1. Firmware upgrade completes.
+2. /wfs, /services_rw, /cache partitions remain mounted.
+3. MD5 checksums match (data preserved).
+4. Apps remain installed.",High,"Follows QCL-4852. SSH: md5sum, df -h, igelpkgctl. ums_wums_api for firmware trigger. igel_pkg.verify_apps_installed()."
+TC-019,Cache Partition - Auto-Recreation After Manual Deletion,Data_Retention,QCL-5605 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. App using cache partition installed.
+3. SSH enabled.","1. Install app profile using cache partition.
+2. Verify: ls /cache via SSH.
+3. Run deletion script: igfdelete_fixed.sh via SSH.
+4. Confirm partition deleted.
+5. Reboot via UMS API.
+6. Reconnect SSH.
+7. Verify cache partition recreated: ls /cache.
+8. Verify app functional after recreation.
+9. Uninstall app.","1. Cache partition deleted.
+2. After reboot: cache partition auto-recreated.
+3. App functional post-recreation.",High,Follows QCL-5605. SSH: igfdelete_fixed.sh + ls /cache. igel_pkg.verify_apps_installed() post-reboot.
+TC-020,Factory Reset - Four Reset Options Validation,Factory_Reset,QCL-3519 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. Device has installed apps and local settings.
+3. SSH enabled.
+4. UMS for post-reset re-registration.","1. Document device state: apps and settings via SSH.
+2. Send factory reset (option: with apps) via UMS API.
+3. Wait for reboot, verify device in UMS as unregistered.
+4. Re-register device.
+5. Verify reset state matches option (apps present or absent).
+6. Repeat for: without apps, keep network settings.
+7. Verify each option produces correct post-reset state.","1. Reset completes and device reboots.
+2. 'With apps': apps preserved, settings cleared.
+3. 'Without apps': full clean state.
+4. 'Keep network': IP/SSID preserved.",High,ums_wums_api.reset_device_to_factory(). SSHClientIGEL.reconnect_with_retry() post-reboot. Follows QCL-3519.
+TC-021,Post Session Command - Logoff and Shutdown Command Execution,Post_Session,QCL-4438 + QCL-3808,IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. App profile with post-session command configured.
+3. SSH and VNC enabled.","1. Create UMS profile: post-session = logoff for app session.
+2. Assign profile.
+3. Reboot device.
+4. Open VNC shadow.
+5. Launch app session.
+6. Close session.
+7. Verify logoff command executes (login screen appears).
+8. Modify: post-session = shutdown.
+9. Launch and close session.
+10. Verify device shuts down.
+11. Unassign profile.","1. Post-session logoff: login screen after session end.
+2. Post-session shutdown: device powers off.
+3. Commands run via /etc/igel/configuration.d/logoff or /shutdown.",High,Follows QCL-4438. Profile config: app.<name>.postsession registry. SSH + VNC for lifecycle.
+TC-022,Screenlock - Inactivity Timeout and Password Unlock,Screenlock,QCL-5946 + OS 12.8.0 PDF,IGEL OS 12.7.x+,Medium,"1. IGEL OS 12 device registered.
+2. Screenlock profile (1 min timeout, password required).
+3. VNC and SSH enabled.","1. Create UMS profile: screenlock timeout=1min, require-password=yes.
+2. Assign profile.
+3. Reboot device.
+4. Open VNC shadow.
+5. Leave idle for 1 minute.
+6. Verify screenlock activates.
+7. Verify password prompt on lockscreen.
+8. Enter correct password — verify unlock.
+9. Test hide-username: set in profile, verify username hidden on lockscreen.
+10. Unassign profile.","1. Screenlock triggers after 1 min inactivity.
+2. Password prompt visible.
+3. Correct password unlocks desktop.
+4. With hide-username: username not visible.",High,OcrUiInteractor for lockscreen text. VNC screenshot validation. Time-based wait for inactivity.
+TC-023,Base Custom Commands - Execution Verification at Final Init Stage,Boot_Firmware,Base Custom Commands PDF,IGEL OS 12.7.x+,Medium,"1. IGEL OS 12 device registered.
+2. UMS profile with Base Custom Command configured.
+3. SSH enabled.","1. Create UMS profile: Base Custom Command at 'Final initialization': echo 'BOOT_TEST_OK' >> /wfs/boot_test.log.
+2. Assign profile via UMS API.
+3. Reboot device.
+4. Connect via SSH post-reboot.
+5. Verify: cat /wfs/boot_test.log | grep BOOT_TEST_OK.
+6. Modify profile: command at 'After session configuration' stage.
+7. Reassign and reboot.
+8. Verify command executed at correct stage.
+9. Cleanup: remove profile + log file.","1. Final init command appends to log file.
+2. After-session-config command also executes.
+3. Log confirms execution at each stage.",High,"UMS profile with custom command registry key. SSH: cat /wfs/boot_test.log. Simple, reliable pattern."
+TC-024,OS Update - App Version Import and Controlled Rollout via UMS,Boot_Firmware,Keep OS Up to Date PDF + QCL-3119,IGEL OS 12.7.x+,High,"1. UMS with App Portal access.
+2. Auto-import enabled for Chromium in UMS.
+3. Test device directory configured.
+4. SSH enabled.","1. Trigger import of latest Chromium version via UMS API.
+2. Create update profile targeting new version for test directory.
+3. Assign update profile to test device.
+4. Trigger device update via UMS API.
+5. Wait for reboot, reconnect SSH.
+6. Verify new version: igelpkgctl list installed | grep chromium.
+7. Verify old version still in UMS for rollback.
+8. Remove update profile.","1. New Chromium imported into UMS.
+2. Update profile applies new version.
+3. New version active after update.
+4. Rollback available in UMS.",High,UMS API for version import and profile assignment. igel_pkg.verify_apps_installed() + verify_os_version(). Follows QCL-3119 update pattern.
+TC-025,UMS Device Registration - Auto-Registration via DNS igelrmserver,Device_Mgmt,QCL-5607 + How to Start PDF,IGEL OS 12.7.x+,Medium,"1. DNS A record 'igelrmserver' pointing to UMS server.
+2. IGEL OS 12 device on same network.
+3. UMS auto-registration enabled.
+4. SSH enabled.","1. Set DNS A record: igelrmserver -> UMS server IP.
+2. Boot IGEL OS 12 device from factory state.
+3. Device auto-discovers UMS via DNS.
+4. Verify device appears in UMS directory tree within 2 minutes.
+5. Confirm device registered with correct MAC and hostname.
+6. Assign profile via UMS API immediately after registration.
+7. Verify profile applies correctly.
+8. Note: from OS 12.8.0, igelrmserver DNS used only during registration.","1. Device auto-registers in UMS within 2 minutes of boot.
+2. Device visible in UMS with correct MAC/hostname.
+3. Profile assignment works immediately post-registration.",Medium,Requires DNS configuration on test network. UMS API polling for device appearance. get_device_id() for verification.
+TC-026,SSH and VNC Enablement - Remote Access Validation,Device_Mgmt,QCL-4225 + How to Start PDF,IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. UMS Web App accessible.
+3. UMS bearer token available.","1. Call enable_ssh_vnc() via UMS API.
+2. Send device update command.
+3. Verify SSH port 22 open: socket check.
+4. Connect SSH: SSHClientIGEL — run uname -a.
+5. Initiate Shadow session via UMS Web App.
+6. Verify VNC shadow shows device desktop.
+7. Close shadow session.
+8. Disable SSH/VNC via UMS API.
+9. Verify port 22 closed after disable.","1. SSH port 22 open after enable call.
+2. SSH command executes (uname -a returns OS info).
+3. Shadow VNC connects to device desktop.
+4. Port 22 closed after disable.",High,ums_wums_api.enable_ssh_vnc(). SSHClientIGEL + socket check. page_login.py for UMS Web App shadow. Core framework pattern.
+TC-027,RMAgent Certificate - Auto-Renewal Before Expiration,RMAgent_Certs,QCL-5011 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. RMAgent cert active on device.
+3. SSH enabled.","1. Backup RMAgent cert via SSH.
+2. Modify cert expiry to near-expiry via SSH.
+3. Configure renewal period in UMS profile (e.g., 30 days before expiry).
+4. Assign profile to device.
+5. Trigger cert renewal check.
+6. Verify new cert issued: compare fingerprints via SSH.
+7. Verify UMS still manages device with new cert.
+8. Restore original cert as cleanup.","1. Cert renewed before configured expiry threshold.
+2. New cert fingerprint differs from old.
+3. Device remains manageable via UMS.
+4. No connection interruption during renewal.",High,Follows QCL-5011. SSH: openssl x509 for cert inspection. UMS API for management continuity check.
+TC-028,Security Hardening - Admin Password and Local Terminal Access Control,Security,IGEL OS 12 Hardening Guide PDF,IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. UMS security hardening profile available.
+3. VNC and SSH enabled.","1. Create UMS profile: set admin password + disable local Setup access.
+2. Assign profile.
+3. Reboot device.
+4. Open VNC shadow.
+5. Attempt Local Terminal (Ctrl+Alt+F12) without password — verify prompt.
+6. Enter wrong password — verify access denied.
+7. Enter correct admin password — verify terminal access.
+8. Attempt IGEL Setup access — verify password required.
+9. Unassign profile.","1. Terminal requires admin password.
+2. Wrong password: access denied.
+3. Correct password: terminal access granted.
+4. IGEL Setup password-protected.",Medium,OcrUiInteractor for password prompt. VNC key simulation for Ctrl+Alt+F12. OCR for access granted/denied text.
+TC-029,Default Browser - Auto-Selection When Multiple Browsers Installed,Default_Browser,QCL-4437 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. Multiple browser apps available (Chromium, Edge, Firefox).
+3. SSH and VNC enabled.","1. Install Chromium + Firefox (no explicit default) via UMS profile.
+2. Reboot device.
+3. Open VNC shadow.
+4. Open a URL from desktop — verify alphabetically last browser auto-selected.
+5. Set explicit default = Chromium in UMS profile.
+6. Reassign, reboot.
+7. Open URL — verify Chromium opens.
+8. Add Edge: without explicit default, verify alphabetically last (F>E>C) wins.
+9. Uninstall all browsers.","1. Without default: alphabetically last browser selected.
+2. With explicit default: configured browser opens URLs.
+3. Adding later-alphabet browser changes auto-selection.",High,Follows QCL-4437. OcrUiInteractor detects which browser opens. igel_pkg.verify_apps_installed() for presence check.
+TC-030,UMS Web Shadowing - Secure Terminal and License Feature Gating,UMS_Shadow,QCL-4225 (Jira),IGEL OS 12.7.x+,High,"1. IGEL OS 12 device registered.
+2. UMS Enterprise license active.
+3. UMS Web App accessible.
+4. Bearer token available.","1. Enable shadowing via UMS API (enable_ssh_vnc).
+2. Login to UMS Web App via Playwright.
+3. Navigate to device in device tree.
+4. Initiate Shadow session.
+5. Accept EULA if prompted (shadow_eula_runner.py).
+6. Verify shadow shows device desktop.
+7. Open Secure Terminal to device.
+8. Run hostname in terminal — verify matches device.
+9. Verify shadow unavailable without Enterprise license (if test license available).","1. Shadow session connects and shows desktop.
+2. EULA handled automatically.
+3. Secure Terminal opens and accepts commands.
+4. hostname returns correct device name.
+5. Without Enterprise license: shadow unavailable.",High,Follows QCL-4225. UMS Web App via Playwright + auth_token.py. shadow_eula_runner.py for EULA. OcrUiInteractor for session validation.

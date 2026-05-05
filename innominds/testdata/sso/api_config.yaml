@@ -1,0 +1,100 @@
+igel:
+
+#  device_name : "ITC005056ADADD5" 
+  # ── profile details for pingone────────────────────────────────────────────────────────
+  profile_sso_pingone : "sso_pingone"
+  profile_sso_autologin_pingone : "sso_pingone_autologin"
+  profile_sso_disabled_pingone: "sso_pingone_disable_screenlock"
+  
+  # ── profile details for Entra ID────────────────────────────────────────────────────────
+  profile_sso_entraid : "SSO Azure AD (OS12)"
+  profile_sso_autologin_entraid : "SSO Azure AD (OS12) autologin"
+  profile_sso_disabled_entraid : "SSO Azure AD (OS12) disable screenlock" 
+
+  # ── profile details for OpenID────────────────────────────────────────────────────────
+  profile_sso_openid : "SSO OpenID (OS12)"
+  profile_sso_disabled_openid : "SSO OpenID (OS12) disable screenlock"
+ 
+  # ── Credntials for pingone────────────────────────────────────────────────────────
+  pingone_username : "testuser2"
+  pingone_password : "Luxa990928"
+
+  # ── Credntials for Entra ID────────────────────────────────────────────────────────
+  entraid_username : "testuser1@igelsso.onmicrosoft.com"
+  entraid_password : "Tabu787656"
+
+  # ── Credntials for OpenID ────────────────────────────────────────────────────────
+  openid_username : "shashi.negi_ext@igel.com"
+  openid_password : "Winter2025."
+#--
+
+  device_name : "ITC005056ADE39C"
+  # CIC(Corporate Identity Customizations) details as per QCL-5022
+  cic_profile_qcl-5022_sscp : "QCL-5022-CIC_SSCP"
+  cic_profile_qcl-5022_bp : "QCL-5022-CIC_BP"
+  cic_profile_qcl-5022_ss : "QCL-5022-CIC_SS"
+  cic_profile_qcl-5022_sb : "QCL-5022-CIC_SB"
+  cic_profile_qcl-5022_sm : "QCL-5022-CIC_SM"
+  cic_profile_qcl-5022_tb : "QCL-5022-CIC_TB"
+  cic_profile_qcl-5022_wp : "QCL-5022-CIC_WP"
+  cic_profile_qcl-5022_mix : "QCL-5022-CIC_MIX"
+
+  # profile details for OKTA
+  profile_sso_oktaid : "SSO_Okta_OS12_TestUser1"
+  profile_sso_autologin_oktaid : "SSO_Okta_OS12_AutoLogin_TestUser1"
+  profile_sso_disabled_oktaid : "SSO_Okta_disable_screenlock_TestUser1"
+  profile_sso_enabled_oktaid : "SSO_Okta_enable_screenlock_TestUser1"
+
+  # # ── profile details for pingone────────────────────────────────────────────────────────
+  # profile_sso_pingone : "sso_pingone"
+  # profile_sso_autologin_pingone : "sso_pingone_autologin"
+  # profile_sso_disabled_pingone: "sso_pingone_disable_screenlock"
+  # profile_sso_enabled_pingone : "sso_pingone_enable_screenlock"
+  
+  # # ── profile details for Entra ID────────────────────────────────────────────────────────
+  # profile_sso_entraid : "SSO Azure AD (OS12)"
+  # profile_sso_autologin_entraid : "SSO Azure AD (OS12) autologin"
+  # profile_sso_disabled_entraid : "SSO Azure AD (OS12) disable screenlock"
+  # profile_sso_enabled_entraid : "SSO Azure AD (OS12) enable screenlock"  
+
+
+  # ── Credntials for pingone────────────────────────────────────────────────────────
+  # pingone_username : "testuser2"
+  # pingone_password : "Luxa990928"
+
+  # # ── Credntials for Entra ID────────────────────────────────────────────────────────
+  # entraid_username : "testuser1@igelsso.onmicrosoft.com"
+  # entraid_password : "Tabu787656"
+
+    # ── Credntials for OKTA ID────────────────────────────────────────────────────────Winter2025.
+  oktaid_username : "shashi.negi_ext@igel.com"
+  oktaid_password : "Winter2025."
+
+#------------
+# ── profile details for Omnissa────────────────────────────────────────────────────────
+  profile_sso_Omnissa : "sso_omnissa"
+  profile_sso_autologin_Omnissa : "sso_omnissa_autologin"
+  profile_sso_disabled_Omnissa : "sso_omnissa_disable_screenlock"
+  profile_sso_enabled_Omnissa : "sso_omnissa_enable_screenlock"
+
+  # # ── Credntials for pingone────────────────────────────────────────────────────────
+  # pingone_username : "testuser2"
+  # pingone_password : "Luxa990928"
+
+  # # ── Credntials for Entra ID────────────────────────────────────────────────────────
+  # entraid_username : "testuser1@igelsso.onmicrosoft.com"
+  # entraid_password : "Tabu787656"
+
+  # ── Credntials for Omnissa────────────────────────────────────────────────────────
+  omnissa_username : "testuser1"
+  omnissa_password : "Tabu#787655"
+
+# ── profile details for actdir────────────────────────────────────────────────────────
+  profile_sso_actdir : "sso_active_dir_sachin"
+  profile_sso_rdp_actdir : "sso_active_dir_sachin_rdp"
+  profile_sso_citrix_actdir : "sso_active_dir_sachin_citrix"
+  profile_sso_horizon_actdir : "sso_active_dir_sachin_horizon"
+
+  # ── Credntials for actdir────────────────────────────────────────────────────────
+  actdir_username : "sachin@qa.test"
+  actdir_password : "IGEL2026"

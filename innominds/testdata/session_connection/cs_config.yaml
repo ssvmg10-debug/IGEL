@@ -1,0 +1,32 @@
+igel:
+  device_name : "ITC005056ADE39C"
+  # hostname: "ITC005056AD60B5"
+
+  # CPC(CLOUD PC) details as per QCL-5022
+  cloudpcpc_profile_qcl-5020_01 : "QCL-5020-PREREQ-CPC-PROFILE"
+  cloudpcpc_profile_qcl-5020_02 : "QCL-5020-PREREQ-CPC-PROFILE"
+
+  # ── Credntials for pingone────────────────────────────────────────────────────────
+  pingone_username : "qatest1@igel.com"
+  pingone_password : "has.gel123"
+
+##--
+  # ── profile details for citrix ────────────────────────────────────────────────────────
+  profile_citrix : "citrix_selfservice_storefront_QCL3126"
+  certificate_profile_citrix : "qa_ca_2034.cer"
+
+  # ── QA Credntials for citrix ────────────────────────────────────────────────────────
+  qa_test_username : "ta_tu1@qa.test"
+  qa_test_password : "pih4v7sb3s"
+
+  # ── profile details for AVD ────────────────────────────────────────────────────────
+  profile_avd : "AVD_QCL1689"
+  user: "ken bunge"
+
+  
+    # Session Connection details as per QCL-1622
+  session_connection_profile_rdp_qcl-1686_01 : "LG_QCL_1686_SC_RDP_01"
+  session_connection_profile_rdp_qcl-1686_02 : "LG_QCL_1686_SC_RDP_02"
+  session_connection_profile_rdp_web_qcl-1686_01 : "LG_QCL_1686_SC_RDP_WEB_01"
+  session_connection_profile_rdp_web_qcl-1686_02 : "LG_QCL_1686_SC_RDP_WEB_02"
+

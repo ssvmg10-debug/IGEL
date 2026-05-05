@@ -1,0 +1,367 @@
+from pydoc import text
+import pyautogui
+import time
+import numpy as np
+from rapidfuzz import fuzz
+from doctr.io import DocumentFile
+from doctr.models import ocr_predictor
+from core.ssh.my_logger import logger
+
+
+class OcrUiInteractor:
+    """
+    OCR-based UI interaction helper using screen capture and fuzzy text matching.
+
+    This class captures screenshots of the screen, performs OCR using Doctr,
+    and locates UI text using fuzzy matching. Once text is identified, it
+    calculates the bounding box center and performs mouse clicks using PyAutoGUI.
+
+    Features:
+        - Screenshot + OCR processing
+        - Fuzzy text matching (single-word and multi-word)
+        - Controlled retries
+        - Prevents duplicate clicks on already-used words
+        - Supports text existence validation without clicking
+    """
+
+    DEFAULT_TIMEOUT = 60      # seconds
+    POLL_INTERVAL = 1         # seconds
+
+    def __init__(self, fuzz_threshold=80, max_gap=0.1):
+        """
+        Initialize the MenuClicker.
+
+        Args:
+            fuzz_threshold (int): Minimum fuzzy match score (0–100) required
+                                  to consider text a valid match.
+            max_gap (float): Maximum horizontal gap allowed between adjacent
+                             words to be considered part of the same phrase.
+        """
+        self.fuzz_threshold = fuzz_threshold
+        self.max_gap = max_gap
+
+        self.model = ocr_predictor(pretrained=True)
+
+        self.result = None
+        self.img_width = None
+        self.img_height = None
+
+        self.used_words = set()
+
+    # -----------------------------------
+    # SCREENSHOT + OCR
+    # -----------------------------------
+    def _capture_and_ocr(self):
+        """
+        Capture a screenshot of the current screen and perform OCR.
+
+        - Takes a full-screen screenshot using PyAutoGUI
+        - Loads the image and extracts its dimensions
+        - Runs OCR using the Doctr model
+        - Clears previously used words to avoid stale references
+        """
+        screenshot = pyautogui.screenshot()
+        screenshot.save("screenshot.png")
+
+        import cv2
+        img = cv2.imread("screenshot.png")
+        self.img_height, self.img_width = img.shape[:2]
+
+        doc = DocumentFile.from_images("screenshot.png")
+        self.result = self.model(doc)
+
+        self.used_words.clear()
+
+
+    def click_text_on_screen(self, target_text, refresh_after_click=False):
+        """
+        Find the given text on the screen and click it using OCR.
+
+        Timeout and polling are handled internally.
+        """
+        start_time = time.time()
+        attempt = 0
+
+        while time.time() - start_time < self.DEFAULT_TIMEOUT:
+            # Refresh OCR when needed
+            if refresh_after_click or self.result is None or attempt > 0:
+                self._capture_and_ocr()
+
+            target_lower = target_text.lower()
+            found = False
+
+            for page in self.result.pages:
+                for block in page.blocks:
+                    for line in block.lines:
+                        line_words = [
+                            w for w in line.words
+                            if id(w) not in self.used_words
+                        ]
+
+                        # -------- MULTI-WORD PRIORITY --------
+                        n = len(line_words)
+                        i = 0
+                        while i < n and not found:
+                            candidate_words = [line_words[i]]
+                            j = i + 1
+
+                            while j < n:
+                                curr = np.array(candidate_words[-1].geometry)
+                                nxt = np.array(line_words[j].geometry)
+                                gap = nxt[:, 0].min() - curr[:, 0].max()
+                                if gap > self.max_gap:
+                                    break
+
+                                candidate_words.append(line_words[j])
+                                text = " ".join(w.value.strip() for w in candidate_words)
+                                score = fuzz.ratio(text.lower(), target_lower)
+
+                                if score >= self.fuzz_threshold:
+                                    self._click_words(candidate_words)
+                                    self.used_words.update(id(w) for w in candidate_words)
+                                    return True
+
+                                j += 1
+                            i += 1
+
+                        # -------- SINGLE-WORD FALLBACK --------
+                        for w in line_words:
+                            score = fuzz.ratio(w.value.lower(), target_lower)
+                            if score >= self.fuzz_threshold:
+                                self._click_words([w])
+                                self.used_words.add(id(w))
+                                return True
+
+            attempt += 1
+            time.sleep(self.POLL_INTERVAL)
+
+        logger.info(f"Timeout after {self.DEFAULT_TIMEOUT}s — '{target_text}' not found")
+        return False
+
+        
+
+    def click_text_on_screen_strict(self, target_text, refresh_after_click):
+        """
+        Advanced text matching with strict priority rules.
+
+        Priority order:
+            1. Exact phrase match
+            2. Standalone word match
+            3. Controlled multi-word match (length-limited)
+
+        Prevents incorrect clicks such as:
+            - Clicking 'password' inside 'enter password'
+            - Clicking 'sign in' inside longer phrases
+
+        Args:
+            target_text (str): Text to search for.
+            refresh_after_click (bool): Refresh OCR before searching.
+
+        Returns:
+            bool: True if text is found and clicked, False otherwise.
+        """
+
+        max_retries = 2
+        attempt = 0
+        target_lower = target_text.lower()
+        target_len = len(target_lower.split())
+
+        while attempt <= max_retries:
+
+            if refresh_after_click or self.result is None or attempt > 0:
+                self._capture_and_ocr()
+
+            for page in self.result.pages:
+                for block in page.blocks:
+                    for line in block.lines:
+
+                        line_words = [
+                            w for w in line.words
+                            if id(w) not in self.used_words
+                        ]
+
+                        if not line_words:
+                            continue
+
+                        # DEBUG
+                        # print("LINE:", [w.value for w in line_words])
+
+                        # =================================================
+                        # 1️⃣ EXACT PHRASE PRIORITY (e.g. "sign in")
+                        # =================================================
+                        if self._is_exact_phrase(line_words, target_lower):
+                            self._click_words(line_words)
+                            self.used_words.update(id(w) for w in line_words)
+                            return True
+
+                        # =================================================
+                        # 2️⃣ STANDALONE WORD PRIORITY (e.g. "Password")
+                        # =================================================
+                        if self._is_standalone_word(line_words, target_lower):
+                            self._click_words(line_words)
+                            self.used_words.add(id(line_words[0]))
+                            return True
+
+                        # =================================================
+                        # 3️⃣ CONTROLLED MULTI-WORD MATCH
+                        # =================================================
+                        n = len(line_words)
+                        for i in range(n):
+                            candidate_words = [line_words[i]]
+                            j = i + 1
+
+                            while j < n:
+                                curr = np.array(candidate_words[-1].geometry)
+                                nxt = np.array(line_words[j].geometry)
+                                gap = nxt[:, 0].min() - curr[:, 0].max()
+
+                                if gap > self.max_gap:
+                                    break
+
+                                candidate_words.append(line_words[j])
+
+                                if len(candidate_words) > target_len:
+                                    break  # 🚫 prevent longer phrases
+
+                                text = " ".join(w.value.strip(":").lower()
+                                                for w in candidate_words)
+
+                                score = fuzz.ratio(text, target_lower)
+
+                                if score >= self.fuzz_threshold:
+                                    self._click_words(candidate_words)
+                                    self.used_words.update(id(w) for w in candidate_words)
+                                    return True
+
+                                j += 1
+
+            logger.info(f"Retry {attempt + 1}/{max_retries} — '{target_text}' not found")
+            attempt += 1
+            time.sleep(1)
+
+        logger.info(f"'{target_text}' not found after {max_retries + 1} attempts")
+        return False
+
+    # -----------------------------------
+    # HELPERS
+    # -----------------------------------
+    def _is_standalone_word(self, line_words, target_lower):
+        """
+        Check if a line contains a single standalone word matching the target text.
+
+        Args:
+            line_words (list): OCR words in the line.
+            target_lower (str): Lowercased target text.
+
+        Returns:
+            bool: True if standalone match is found.
+        """
+        return (
+            len(line_words) == 1 and
+            fuzz.ratio(line_words[0].value.lower().strip("."), target_lower) >= self.fuzz_threshold
+        )
+
+    def _is_exact_phrase(self, line_words, target_lower):
+        """
+        Check if a line exactly matches the target phrase.
+
+        Args:
+            line_words (list): OCR words in the line.
+            target_lower (str): Lowercased target phrase.
+
+        Returns:
+            bool: True if exact phrase match is found.
+        """
+        if len(line_words) != len(target_lower.split()):
+            return False
+
+        text = " ".join(w.value.lower().strip(":") for w in line_words)
+        return fuzz.ratio(text, target_lower) >= self.fuzz_threshold
+
+    # -----------------------------------
+    # CLICK
+    # -----------------------------------
+    def _click_words(self, words):
+        """
+        Calculate the center point of OCR word bounding boxes and perform a mouse click.
+
+        Args:
+            words (list): OCR word objects to be clicked.
+        """
+        boxes = [np.array(w.geometry) for w in words]
+
+        x_min = min(b[:, 0].min() for b in boxes)
+        x_max = max(b[:, 0].max() for b in boxes)
+        y_min = min(b[:, 1].min() for b in boxes)
+        y_max = max(b[:, 1].max() for b in boxes)
+
+        cx = int((x_min + x_max) / 2 * self.img_width)
+        cy = int((y_min + y_max) / 2 * self.img_height)
+
+
+        pyautogui.click(cx, cy)
+
+
+    def is_text_present_on_screen(self, target_text, refresh_before_check=False):
+        """
+        Check whether the given text exists on the screen using OCR.
+
+        Uses fuzzy matching with internal timeout and polling.
+        """
+        start_time = time.time()
+        attempt = 0
+        target_lower = target_text.lower()
+
+        while time.time() - start_time < self.DEFAULT_TIMEOUT:
+            # 🔁 Refresh OCR when needed
+            if refresh_before_check or self.result is None or attempt > 0:
+                self._capture_and_ocr()
+
+            for page in self.result.pages:
+                for block in page.blocks:
+                    for line in block.lines:
+
+                        # -------- SINGLE WORD --------
+                        for w in line.words:
+                            if id(w) in self.used_words:
+                                continue
+                            score = fuzz.ratio(w.value.strip().lower(), target_lower)
+                            if score >= self.fuzz_threshold:
+                                return True
+
+                        # -------- MULTI-WORD --------
+                        line_words = [
+                            w for w in line.words if id(w) not in self.used_words
+                        ]
+                        n = len(line_words)
+                        i = 0
+
+                        while i < n:
+                            candidate_words = [line_words[i]]
+                            j = i + 1
+
+                            while j < n:
+                                curr = np.array(candidate_words[-1].geometry)
+                                nxt = np.array(line_words[j].geometry)
+                                gap = nxt[:, 0].min() - curr[:, 0].max()
+
+                                if gap > self.max_gap:
+                                    break
+
+                                candidate_words.append(line_words[j])
+                                text = " ".join(w.value.strip() for w in candidate_words)
+                                score = fuzz.ratio(text.lower(), target_lower)
+
+                                if score >= self.fuzz_threshold:
+                                    return True
+
+                                j += 1
+                            i += 1
+
+            attempt += 1
+            time.sleep(self.POLL_INTERVAL)
+
+        logger.info(f"Timeout after {self.DEFAULT_TIMEOUT}s — '{target_text}' not found")
+        return False
+
+

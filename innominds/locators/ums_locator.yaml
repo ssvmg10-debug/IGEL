@@ -1,0 +1,23 @@
+web_element:
+ - name: DeviceSachin
+   xpath: "/html/body/app-root/div/page-template/div/side-nav-wrapper/mat-drawer-container/mat-drawer-content/div/div[2]/device-main-desktop/panels-component/div/as-split/as-split-area[1]/div/div/spike-surface/div/new-device-directory/directory-tree-section/div/div[1]/device-directory-tree/mat-tree/mat-tree-node[5]/span"
+ - name: ITC005056AD9677
+   xpath: "/html/body/app-root/div/page-template/div/side-nav-wrapper/mat-drawer-container/mat-drawer-content/div/div[2]/device-main-desktop/panels-component/div/as-split/as-split-area[2]/spike-surface/div/wums-device/div/div/div/wums-device-list/cdk-virtual-scroll-viewport/div[1]"
+ - name: Edit
+   xpath: "//*[@data-wums-id='device-shared-toolbar_edit']"
+ - name: EditConfiguration
+   xpath: "//spike-menu-item[@label='Edit Configuration']"
+ - name: System
+   xpath: "//spike-tab[@id='custom-tab' and @value='system']"
+ - name: RemoteAccess
+   xpath: "//div[contains(@class, 'node-content')]//div[text()='Remote Access']"
+ - name: Shadow
+   xpath: "//div[contains(@class, 'node-content')]//div[text()='Shadow']"
+ - name: save
+   xpath: '//*[@class="igel-footer"]//spike-button[@leadingiconname="save"]'
+ - name: now
+   xpath: "//spike-radio-button[@data-wums-id='alert-dialog-update-now']"
+ - name: true1
+   xpath: "//spike-button[@forcefocus='true' and @delay='150']"
+ - name: VNC
+   xpath: '(//*[@class="card-content-container"]//following::spike-checkbox)[1]'

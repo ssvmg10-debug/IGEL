@@ -1,0 +1,11 @@
+igel:
+    device_name : "ITC005056ADE39C"
+    # CIC(Corporate Identity Customizations) details as per QCL-5022
+    cic_profile_qcl-5022_sscp : "QCL-5022-CIC_SSCP"
+    cic_profile_qcl-5022_bp : "QCL-5022-CIC_BP"
+    cic_profile_qcl-5022_ss : "QCL-5022-CIC_SS"
+    cic_profile_qcl-5022_sb : "QCL-5022-CIC_SB"
+    cic_profile_qcl-5022_sm : "QCL-5022-CIC_SM"
+    cic_profile_qcl-5022_tb : "QCL-5022-CIC_TB"
+    cic_profile_qcl-5022_wp : "QCL-5022-CIC_WP"
+

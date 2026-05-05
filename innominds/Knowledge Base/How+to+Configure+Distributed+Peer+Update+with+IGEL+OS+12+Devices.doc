@@ -1,0 +1,1401 @@
+Date: Thu, 23 Apr 2026 15:59:41 +0000 (UTC)
+Message-ID: <1770497835.65.1776959981907@ed6210b56fa3>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_64_1960192606.1776959981907"
+
+------=_Part_64_1960192606.1776959981907
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>How to Configure Distributed Peer Update with IGEL OS 12 Devices=
+</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font: var(--ds-font-body-small, Arial, Helvetica, FreeSans, sans-se=
+rif);
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: var(--ds-surface, #fff) !important;
+        color: var(--ds-text, #000) !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: var(--ds-text, #000);
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        page-break-after: avoid;
+    }
+
+    pre {
+        font: var(--ds-font-code, Monaco, "Courier New", monospace);
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0px;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0px;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>How to Configure Distributed Peer Update with IGEL OS 12 Devices</h=
+1>
+    <div class=3D"Section1">
+        <p local-id=3D"691961947144">The Distributed Peer Update feature in=
+ IGEL OS 12 (formerly known as Buddy Update in IGEL OS 11) allows IGEL OS 1=
+2 devices to act as local update servers. Instead of each device downloadin=
+g applications and firmware updates from a central repository (for example,=
+ UMS app proxy, Distributed App Repository, IGEL App Portal), devices in th=
+e same local network can share the download load between them.</p>
+<p local-id=3D"8bdb720dbdc0">Using the Distributed Peer Update mechanism re=
+duces:</p>
+<ul local-id=3D"570a1ce9-a953-4dbc-b6cb-a76e874eabc0">
+<li local-id=3D"d56a8639-cda1-4012-afd0-83916741542a">
+<p local-id=3D"c7b684679508">bandwidth usage across WAN links</p></li>
+<li local-id=3D"c58808b9-f607-45f1-93e0-c2d2fb4bda09">
+<p local-id=3D"c836fa5250b5">load on central repositories</p></li>
+<li local-id=3D"7ba425fd-368f-4987-a606-cbf590b4727f">
+<p local-id=3D"42c2f4864481">time until all devices in a subnet receive the=
+ assigned updates</p></li>
+</ul>
+<p local-id=3D"aadca070ce2e">Starting from IGEL OS 12.7.4, the IGEL Discove=
+ry service allows endpoint devices on the same local network to automatical=
+ly find and obtain updates from one another. For details, see the section <=
+a href=3D"#b1e51364-5b6b-4d7d-8a32-a9f03691a506"><u>How IGEL Discovery Work=
+s</u></a>.</p>
+<hr local-id=3D"2e9023a5-0c58-446a-93dc-740244045164">
+<style type=3D"text/css">/*<![CDATA[*/
+div.rbtoc1776959981884 {padding: 0px;}
+div.rbtoc1776959981884 ul {list-style: none;margin-left: 0px;}
+div.rbtoc1776959981884 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+<div class=3D"toc-macro rbtoc1776959981884">
+<ul class=3D"toc-indentation">
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Limi=
+tationsandKnownIssues">Limitations and Known Issues</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Comp=
+onents">Components</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Requ=
+irements">Requirements</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Fall=
+backBehaviorwithRepositories">Fallback Behavior with Repositories</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Reco=
+mmendedConfiguration-IntendedUseCase">Recommended Configuration - Intended =
+Use Case</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-HowI=
+GELDiscoveryWorksb1e51364-5b6b-4d7d-8a32-a9f03691a506">How IGEL Discovery W=
+orks</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Prox=
+yConsiderations">Proxy Considerations</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Alte=
+rnativeConfigurations">Alternative Configurations</a></li>
+<li><a href=3D"#HowtoConfigureDistributedPeerUpdatewithIGELOS12Devices-Furt=
+herInformation">Further Information</a></li>
+</ul>
+</div>
+<h2 local-id=3D"7adca356065a" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-LimitationsandKnownIssues">Limitations and Known Issues</h2=
+>
+<h3 local-id=3D"d08adb7dc055" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-CommunityApplicationsNotSupportedYet">Community Application=
+s Not Supported Yet</h3>
+<p local-id=3D"6fb255958747">Currently, community applications are not supp=
+orted by Distributed Peer Update. Including a community application in an u=
+pdate can break the entire update process. Fixes are planned to be added wi=
+th a future IGEL OS 12 release.</p>
+<div class=3D"confluence-information-macro confluence-information-macro-not=
+e">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-warning confluence-info=
+rmation-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p local-id=3D"7d358b3a3d34">Do not use Distributed Peer Update for updates=
+ that include community applications until fixes are available.</p>
+</div>
+</div>
+<h3 local-id=3D"b59db917fc3b" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-HTTPSNotSupportedYet">HTTPS Not Supported Yet</h3>
+<p local-id=3D"2604dacaf22f">Currently, the communication for the Distribut=
+ed Peer Update is done through HTTP by default. HTTPS support is planned to=
+ be added with a future IGEL OS 12 release.</p>
+<h2 local-id=3D"6c894385a6e4" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-Components">Components</h2>
+<p local-id=3D"4df609a98c06">Peer-to-peer distribution relies on two compon=
+ents that run on IGEL OS devices:</p>
+<ul local-id=3D"67b4a98c-5dfc-441c-b7c3-b20b74a354d9">
+<li local-id=3D"01f20e00-b524-403b-98e0-4f4a36365ff4">
+<p local-id=3D"595afff69e52">IGEL Discovery</p></li>
+<li local-id=3D"0472a0e3-437e-4c3f-8036-fe4ad2bb7092">
+<p local-id=3D"d88fb7d9fdfe">Distributed Peer Update Server (=E2=80=9CBuddy=
+=E2=80=9D)</p></li>
+</ul>
+<p local-id=3D"62c09102e20e">Together, these components allow peer-to-peer =
+distribution of applications and updates within the same subnet.</p>
+<div class=3D"table-wrap">
+<table data-table-width=3D"1015" data-layout=3D"align-start" data-local-id=
+=3D"013ec078-e277-4d81-a6fe-d0b009562cf6" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 207.0px;">
+<col style=3D"width: 302.0px;">
+<col style=3D"width: 303.0px;">
+<col style=3D"width: 202.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"73daabab-5f10-4a83-8c37-901b917116a7">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"8085f92a-f513-402d-9=
+a96-1b27aea0d306" class=3D"confluenceTh">
+<p local-id=3D"233638803581"><strong>Component</strong></p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"a16ac233-b8d7-4246-a=
+20c-82bdf865afce" class=3D"confluenceTh">
+<p local-id=3D"cc39267d4b40"><strong>Description</strong></p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"8b23b1e5-070f-4154-b=
+01a-4e962a9689b1" class=3D"confluenceTh">
+<p local-id=3D"dad1da905241"><strong>Network Traffic Types</strong></p></th=
+>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"6e9b1112-092b-48e3-a=
+35a-1601c226f37d" class=3D"confluenceTh">
+<p local-id=3D"4db6de9f038e"><strong>Configuration</strong></p></th>
+</tr>
+<tr data-local-id=3D"efe4a05b-0521-4a64-9cbd-b8bd2a5dc41e">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"0748b06f-59b2-49bd-b=
+298-52efd5092687" class=3D"confluenceTd">
+<p local-id=3D"b573395add60"><strong>IGEL Discovery</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"8d16c43d-d0be-4b02-a=
+7a6-0605abca6b07" class=3D"confluenceTd">
+<p local-id=3D"0db0afaea91a">Zero-configuration peer discovery service that=
+ automatically discovers peers that already have applications available. It=
+ also decides if a device that should download from a repository if no peer=
+ has the application.</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"b286d2ce-6569-413c-9=
+f38-b5a6cb06f522" class=3D"confluenceTd">
+<p local-id=3D"1ce931ec3656">IGEL Discovery works only within the same broa=
+dcast domain. The Discovery uses:</p>
+<ul local-id=3D"273adcba-e714-437e-99e8-08dc7f7660df">
+<li local-id=3D"458592c1-4e4a-4133-b5af-b6e26d53270b">
+<p local-id=3D"240709e5d877">UDP broadcast requests within the local subnet=
+</p></li>
+<li local-id=3D"771dbcb9-9caf-4839-9780-9079cd6c0546">
+<p local-id=3D"e72f51410c82">UDP unicast for responses between devices</p><=
+/li>
+</ul></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"ff410229-e24e-4229-8=
+fb1-d26f10cdeec1" class=3D"confluenceTd">
+<p local-id=3D"519bf7646214"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+</tr>
+<tr data-local-id=3D"58271526-a2c9-4681-8120-f70995e2aab2">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"b38961a5-4f31-4e28-a=
+b82-b823596ed6b1" class=3D"confluenceTd">
+<p local-id=3D"caecee4e4a4c"><strong>Distributed Peer Update Server (=E2=80=
+=9CBuddy=E2=80=9D)</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"680800ab-a873-42ee-8=
+a7a-a29fe9169c61" class=3D"confluenceTd">
+<p local-id=3D"6b219d6a75b6">HTTP server running on the device that provide=
+s applications and updates to other IGEL OS devices.</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"b8baae2f-e3f7-4a74-9=
+13b-09cdf968c76a" class=3D"confluenceTd">
+<p local-id=3D"8bb614091cc8">HTTP peer transfers</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"02a00873-944c-4b90-8=
+9e0-2c0369e8884f" class=3D"confluenceTd">
+<p local-id=3D"d9129cf5bbb1"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 local-id=3D"61171909bee5" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-Requirements">Requirements</h2>
+<h3 local-id=3D"a477becb1e48" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-IGELOSVersion">IGEL OS Version</h3>
+<p local-id=3D"070622120b2e">IGEL OS 12 devices need to run IGEL OS Base Sy=
+stem version 12.7.4 or higher.</p>
+<h3 local-id=3D"58848c093a09" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-PortRequirements">Port Requirements</h3>
+<p local-id=3D"b0431fd9bb59">The IGEL Discovery service and the Distributed=
+ Peer Update Server use separate ports, as described in the table below:</p=
+>
+<div class=3D"table-wrap">
+<table data-table-width=3D"934" data-layout=3D"align-start" data-local-id=
+=3D"bfdbde85-1878-4356-b7d4-b7594838afe8" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 307.0px;">
+<col style=3D"width: 135.0px;">
+<col style=3D"width: 186.0px;">
+<col style=3D"width: 301.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"62b4346a-4ee6-407f-8221-6ee5a1e94507">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"e766730d-8168-4f32-a=
+74d-cdb96f292287" class=3D"confluenceTh">
+<p local-id=3D"568c90d5d099"><strong>Service</strong></p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"daf22c5c-f840-4ccf-a=
+a6c-1e278b224e94" class=3D"confluenceTh">
+<p local-id=3D"0524fa784644"><strong>Protocol</strong></p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"ad2b9c63-489e-40bb-b=
+fcb-ec049b855ba7" class=3D"confluenceTh">
+<p local-id=3D"3a970549278e"><strong>Default Port</strong></p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"8e5b8123-35ce-46bd-8=
+a1b-99b0c28f3f30" class=3D"confluenceTh">
+<p local-id=3D"e48ad88e0b6f"><strong>Configuration</strong></p></th>
+</tr>
+<tr data-local-id=3D"ed9c9108-0225-48e4-b331-80509c2eb976">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"4c2bf261-b900-4272-9=
+d67-20c67f6933bb" class=3D"confluenceTd">
+<p local-id=3D"623ceca559e8"><strong>IGEL Discovery</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"add305e7-4699-49e1-b=
+4f0-0ae6b0df8f84" class=3D"confluenceTd">
+<p local-id=3D"f6f357b0bdaf">UDP</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"cbc6a61d-6b29-4bd4-a=
+73a-223cb785a979" class=3D"confluenceTd">
+<p local-id=3D"85b9291d8366"><code>22336</code></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"029e539c-0ee6-4f8b-a=
+1ab-f3f8d7b476c3" class=3D"confluenceTd">
+<p local-id=3D"0dc5e5728a77"><strong>System &gt; Update &gt; IGEL Discovery=
+ &gt; Port</strong></p></td>
+</tr>
+<tr data-local-id=3D"f59bbca7-8a9a-4ee3-b378-044ef24b2bdf">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"1825baae-906b-4278-a=
+f84-2beb01e09fb4" class=3D"confluenceTd">
+<p local-id=3D"6a54961bba1c"><strong>Distributed Peer Update Server</strong=
+></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"d09e7beb-e0a9-448f-a=
+b65-abd571663273" class=3D"confluenceTd">
+<p local-id=3D"27c5b101cf37">HTTP</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"d0402662-4f83-44ee-8=
+2e1-b9ac42b8887c" class=3D"confluenceTd">
+<p local-id=3D"e9ba097a65fc"><code>22335</code></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"7a76bbb8-aaa9-4921-9=
+003-1684b4df7ecc" class=3D"confluenceTd">
+<p local-id=3D"bff15f179b5f"><strong>System &gt; Update &gt; Distributed Pe=
+er Update Server &gt; Port of the distributed peer update server</strong></=
+p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p local-id=3D"172111e86060">When configuring the ports, consider the follo=
+wing:</p>
+<ul local-id=3D"3a832776-0054-461f-840d-8fcf579c519f">
+<li local-id=3D"6b8c7616-24bb-4861-b625-9991af3fc499">
+<p local-id=3D"a36fe0036305">The Distributed Peer Update Server and the IGE=
+L Discovery service must run on different ports.</p></li>
+<li local-id=3D"b9b2d950-b5b6-49de-9ee8-0a21d25b7da9">
+<p local-id=3D"9b5975de01cc">The same Discovery port must be configured on =
+all devices that should discover each other.</p></li>
+<li local-id=3D"5e71f7e8-e31e-44db-b361-43c012ca85e6">
+<p local-id=3D"ec646dfcf8de">The same Distributed Peer Update Server port m=
+ust be configured on all devices that should act as peers for each other.</=
+p></li>
+<li local-id=3D"28272c8c-8914-4bc1-8353-ec1f52966a16">
+<p local-id=3D"42b146f369ee">The configured ports must be open and allowed =
+by any host firewall on the endpoint and by any network firewalls between d=
+evices.</p></li>
+</ul>
+<h3 local-id=3D"3856fde2ecf4" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-NetworkRequirements">Network Requirements</h3>
+<p local-id=3D"0f9ee8fcd2e7">Some network configurations may prevent discov=
+ery from working correctly. In these environments, devices may not be able =
+to discover peers automatically.</p>
+<p local-id=3D"838c0a479df1">For example:</p>
+<ul local-id=3D"971ab438-6079-470a-adae-98602685fe0c">
+<li local-id=3D"b1561a68-10ba-4ced-a389-38161abe29ff">
+<p local-id=3D"3698a8edcdc8">Wi-Fi networks with client isolation</p></li>
+<li local-id=3D"9464507d-28f6-4c3e-adaa-aa845955da2d">
+<p local-id=3D"acfa027a51f8">Networks that block broadcast traffic</p></li>
+</ul>
+<h2 local-id=3D"9b96cf2b815b" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-FallbackBehaviorwithRepositories">Fallback Behavior with Re=
+positories</h2>
+<p local-id=3D"75744d184964">Peer-to-peer distribution relies on IGEL Disco=
+very to locate a device that already has the requested application. If no d=
+evice in the subnet can provide the application, Discovery elects one devic=
+e to download the application from a configured repository. This device bec=
+omes the fallback candidate. Once the application is downloaded and install=
+ed, the device can serve it to other devices as the Distributed Peer Update=
+ Server.</p>
+<div class=3D"confluence-information-macro confluence-information-macro-inf=
+ormation">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-info confluence-informa=
+tion-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p local-id=3D"09cbb7709d34">No reboot is required for the Distributed Peer=
+ Update Server to start distributing newly received applications. As soon a=
+s an application is installed, it can be served to peers.</p>
+</div>
+</div>
+<p local-id=3D"dc8cc397581b">The fallback device downloads the application =
+from the repository with the highest priority that contains the application=
+. Supported repository types include:</p>
+<ul local-id=3D"177f9190-751f-47a8-a4e3-d648f48037ce">
+<li local-id=3D"996c704d-8c60-427e-9e3d-0220a07713af">
+<p local-id=3D"206f5b8175f9">UMS App Proxy</p></li>
+<li local-id=3D"637361bd-2849-4e65-b950-ea553089217f">
+<p local-id=3D"b561d0c77213">WebDAV repositories</p></li>
+<li local-id=3D"85727222-e411-4939-973d-f7718a3000f4">
+<p local-id=3D"2f17960ea230">IGEL App Portal</p></li>
+<li local-id=3D"82be25c2-81ef-4505-a11a-cddf717d9862">
+<p local-id=3D"7c83748909f6">Other repositories configured under <a class=
+=3D"external-link" href=3D"https://kb.igel.com/en/igel-os-base-system/curre=
+nt/update-app-update-settings-in-igel-os-12" rel=3D"nofollow"><strong><u>Sy=
+stem &gt; Update &gt; Repositories</u></strong></a></p></li>
+</ul>
+<h3 local-id=3D"6ce765b038aa" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-CanFallbackBeDisabled?">Can Fallback Be Disabled?</h3>
+<p local-id=3D"536c86ae735c">There is no direct setting to disable the fall=
+back, because at least one device (the first device of the subnet) must obt=
+ain the application from a repository. However, repository usage is limited=
+ to the first download within a subnet.</p>
+<p local-id=3D"e08f84783b7c">Once a device has downloaded the application:<=
+/p>
+<ol start=3D"1" local-id=3D"52fbc512-db62-4c20-9519-92e406d1f15e">
+<li local-id=3D"8b9c8c10-b299-4d0b-82e9-79d775dfd4e2">
+<p local-id=3D"959487e48a5c">The device can serve the app to other peers if=
+ it is configured as Distributed Peer Update Server.</p></li>
+<li local-id=3D"88fd3988-4a89-4dec-8e97-70b276a27d1b">
+<p local-id=3D"722f28e5f269">IGEL Discovery detects the available peer.</p>=
+</li>
+<li local-id=3D"45ade7b7-fbf8-4a14-9fbb-f512201bb508">
+<p local-id=3D"5ce1e74d675d">Other devices download the application directl=
+y from the peer instead of the repository.</p></li>
+</ol>
+<h2 local-id=3D"c831d947d26f" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-RecommendedConfiguration-IntendedUseCase">Recommended Confi=
+guration - Intended Use Case</h2>
+<p local-id=3D"ea7b7aa73495">The intended use case is to operate Distribute=
+d Peer Update as a peer=E2=80=91to=E2=80=91peer network, where all devices =
+both discover and serve updates.</p>
+<p local-id=3D"b869f27cad2c">To do this, you can configure devices through =
+profiles:</p>
+<ol start=3D"1" local-id=3D"edec5a7c-e5b8-4b3f-99ec-8a849625f8a5">
+<li local-id=3D"557fd04c-4c2d-4721-a297-9f9d3934cc90">
+<p local-id=3D"bcb637e5049b">Create a profile.<br></p></li>
+<li local-id=3D"0ef89d33-8a1c-4cc6-8975-1844f0f31ef3">
+<p local-id=3D"0885a4f00e8f">In the profile configurator, configure IGEL Di=
+scovery and Distributed Peer Update Server on all devices according to the =
+table:</p></li>
+</ol>
+<div class=3D"table-wrap">
+<table data-table-width=3D"831" data-layout=3D"align-start" data-local-id=
+=3D"9dd59aa3-af11-4331-9e85-499e2116d6cd" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 279.0px;">
+<col style=3D"width: 275.0px;">
+<col style=3D"width: 277.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"d67bc6d5-480d-47c6-b196-7f8939ab0845">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"126dc1f3-8cbe-4286-b=
+204-5e303147ba29" class=3D"confluenceTh">
+<p local-id=3D"45bfc4ee76a2">Configuration Page</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"345c3ce5-dcda-44d9-8=
+640-3018174bceeb" class=3D"confluenceTh">
+<p local-id=3D"366f60432f1c">Parameter</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"f1074d0d-67d1-44c6-b=
+28b-d7077ae515c8" class=3D"confluenceTh">
+<p local-id=3D"93a349026c95">Value</p></th>
+</tr>
+<tr data-local-id=3D"3f046e89-c966-43a0-929b-c181d91218ce">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"ba28e5e7-36c9-4a48-b=
+32c-ce103effed56" class=3D"confluenceTd">
+<p local-id=3D"ed4d998b6c98"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"8ebb024e-8666-49a3-a=
+28b-e1b66d09b4a8" class=3D"confluenceTd">
+<p local-id=3D"24e5a48e8062"><strong>Enable IGEL Discovery</strong></p></td=
+>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"c8667039-e262-4b8e-8=
+732-7e784150cda5" class=3D"confluenceTd">
+<p local-id=3D"9d2093c584a3">Enabled</p></td>
+</tr>
+<tr data-local-id=3D"705e2c94-f4de-46aa-88d3-368f854a4098">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"a4abfb40-8291-4fae-a=
+520-c357cb7f84c8" class=3D"confluenceTd">
+<p local-id=3D"39314395b9a3"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"1e24da53-b421-40ec-a=
+0c7-17f3c5d4c0b8" class=3D"confluenceTd">
+<p local-id=3D"3bdcfa278dad">Discovery Port</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"a9aa0a2d-7982-498c-9=
+824-a2c3be3cd16f" class=3D"confluenceTd">
+<p local-id=3D"6b30a1773220">Same on all devices (default <strong>22336</st=
+rong>)</p></td>
+</tr>
+<tr data-local-id=3D"a622b321-d8d2-4888-bd86-8aa5ab4b26b4">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"87ced360-72d0-4d34-a=
+a32-07c5f8786a74" class=3D"confluenceTd">
+<p local-id=3D"8cb0873ba59f"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"4aea5467-b20e-4d60-8=
+d5c-e42cf8e33bb7" class=3D"confluenceTd">
+<p local-id=3D"4b6e330426db"><strong>Enable Distributed Peer Update Server<=
+/strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"9d0f007c-c2d4-4c0a-9=
+d18-cb664d6cf994" class=3D"confluenceTd">
+<p local-id=3D"4d331bf0843e">Enabled</p></td>
+</tr>
+<tr data-local-id=3D"7eb48640-0939-46b6-b1eb-1ec260583d95">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"cd1976d5-0217-4fc1-8=
+168-a831285fd8dc" class=3D"confluenceTd">
+<p local-id=3D"440ddab215e8"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"a280d24a-da94-4082-9=
+c29-0ba68cececd1" class=3D"confluenceTd">
+<p local-id=3D"d6d49697bfaf"><strong>Port of the distributed peer update se=
+rver</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"23aa7629-1902-4630-9=
+e62-d8894fcd4947" class=3D"confluenceTd">
+<p local-id=3D"5810acb3cbd9">Same on all devices (default <strong>22335</st=
+rong>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol start=3D"3" local-id=3D"e7f701de-a6d7-491c-a4a9-447c4b39d078">
+<li local-id=3D"c1f3ca7f-88b9-44fb-b4d4-f9d335dfea10">
+<p local-id=3D"40731446c7c5">Save and assign the profile to the devices.</p=
+></li>
+</ol>
+<p local-id=3D"42bcb9e054ad">With this configuration:</p>
+<ul local-id=3D"3d69c34e-a08e-4936-94a9-9aefd1d982a6">
+<li local-id=3D"0cfc579b-e108-48a6-897a-db65652f5d63">
+<p local-id=3D"d4eb469105dd">You can assign applications to devices without=
+ considering server roles.</p></li>
+<li local-id=3D"3b2cb661-9af1-49b4-bfed-52d03d4075c4">
+<p local-id=3D"81c12d6cc344">Discovery ensures that only one device at a ti=
+me in a subnet uses the fallback to fetch the application from a repository=
+.</p></li>
+<li local-id=3D"07560c7d-7dab-4012-8568-43e0f20c4426">
+<p local-id=3D"1bb51afce063">Once a device that is configured as a Distribu=
+ted Peer Update Server has the application, it becomes a peer server for ot=
+her devices.</p></li>
+<li local-id=3D"ae97f549-150c-42ec-b2f5-a3e94a7bf421">
+<p local-id=3D"ab801abbcfa2">The distribution speed ramps up quickly due to=
+ exponential growth:</p>
+<ul local-id=3D"8c580fc8-0484-41c0-a58d-e825c705e287">
+<li local-id=3D"babcb532-1384-446c-b4e5-f089477dfe8a">
+<p local-id=3D"3ef06efa95d7">1 Distributed Peer Update Server with the appl=
+ication =E2=86=92 1 device can download and become Peer Update Server</p></=
+li>
+<li local-id=3D"01f7be80-bc94-484f-b787-8266ae25d4c9">
+<p local-id=3D"4fff0b8594a8">2 Distributed Peer Update Servers =E2=86=92 2 =
+devices can download and become Peer Update Server</p></li>
+<li local-id=3D"a3d2e28b-c4f3-458b-bdb2-6f4eaa2940d3">
+<p local-id=3D"4f2c6b4a4dfa">4 Distributed Peer Update Servers =E2=86=92 4 =
+devices can download and become Peer Update Server</p></li>
+<li local-id=3D"ef504835-ef92-4fc6-b7b6-81d22fb44649">
+<p local-id=3D"ce49114e9b32">8 Distributed Peer Update Servers =E2=80=A6 an=
+d so on =E2=80=A6</p></li>
+</ul></li>
+</ul>
+<h3 local-id=3D"fe2f9aac8a36" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-RolloutConsiderationsforLargeEnvironment">Rollout Considera=
+tions for Large Environment</h3>
+<p local-id=3D"f1f5fb26dfb1">In very large environments or networks with li=
+mited bandwidth, application deployments can be performed in waves as a bes=
+t practice.</p>
+<p local-id=3D"e7150732d15e">Example rollout:</p>
+<ul local-id=3D"41df5c0a-7ef1-4b58-bf9e-9761ae244290">
+<li local-id=3D"14276be0-e17a-4023-a414-89a9caa060ae">
+<p local-id=3D"4327493db48e">First wave: 100 devices</p></li>
+<li local-id=3D"e52632be-a6b6-4342-898e-fae2201e18bd">
+<p local-id=3D"aceca6cfa321">Second wave: next 100 devices</p></li>
+<li local-id=3D"c31963a8-8b9d-4583-bce9-7771701a4f60">
+<p local-id=3D"2fb8f1c3e815">Third wave: remaining devices</p></li>
+</ul>
+<p local-id=3D"958c3ee06882">This prevents excessive simultaneous downloads=
+ and reduces network congestion.</p>
+<h2 local-id=3D"0bea3419ce6d" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-HowIGELDiscoveryWorksb1e51364-5b6b-4d7d-8a32-a9f03691a506">=
+How IGEL Discovery Works<span class=3D"confluence-anchor-link" id=3D"HowtoC=
+onfigureDistributedPeerUpdatewithIGELOS12Devices-b1e51364-5b6b-4d7d-8a32-a9=
+f03691a506"><span class=3D"confluence-anchor-link" id=3D"b1e51364-5b6b-4d7d=
+-8a32-a9f03691a506"></span></span></h2>
+<p local-id=3D"2e5443cd3321">Once IGEL Discovery and Distributed Peer Updat=
+e are enabled, application distribution is automated.</p>
+<h3 local-id=3D"0535334073f0" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-DistributionProcess">Distribution Process</h3>
+<ol start=3D"1" local-id=3D"0c423fd8-877c-4072-ae32-326c4f357275">
+<li local-id=3D"ca7f8cc8-81a0-4d52-bbff-6196c216b805">
+<p local-id=3D"68adcbfe4284">A management system (for example UMS) assigns =
+an application to a device.</p></li>
+<li local-id=3D"a9fe493d-e0e1-44b1-b6b4-af2271003143">
+<p local-id=3D"8ead4ceea934">The device=E2=80=99s update daemon checks whet=
+her Discovery is enabled.</p></li>
+<li local-id=3D"611dbb53-5f8e-4fe7-bf9f-1900a5ff9a03">
+<p local-id=3D"ec78d34279df">If Discovery is enabled, the update daemon ask=
+s Discovery to find a peer with the requested application.</p></li>
+<li local-id=3D"a41b18f5-8962-4630-b130-fa8fab1fe6da">
+<p local-id=3D"52e10f2f8126">IGEL Discovery broadcasts a UDP request within=
+ the subnet asking for the application.</p></li>
+<li local-id=3D"0ae305c5-372e-41f5-9440-4061a91a0599">
+<p local-id=3D"6a78c9738d0e">Devices respond depending on their state.</p><=
+/li>
+</ol>
+<h3 local-id=3D"4ce0519e11ee" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-DiscoveryResponses">Discovery Responses</h3>
+<div class=3D"table-wrap">
+<table data-table-width=3D"760" data-layout=3D"align-start" data-local-id=
+=3D"da42d98a-cf03-48c4-afc8-68f8c9157583" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 176.0px;">
+<col style=3D"width: 583.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"c31800c2-c9d2-4f9d-b2e0-5b66eca70ef7">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"94f241a8-e8d3-45f8-8=
+001-f474ffd607da" class=3D"confluenceTh">
+<p local-id=3D"2f206b55b037">Response</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"cee4c13a-be01-410a-a=
+4e1-f48139636c85" class=3D"confluenceTh">
+<p local-id=3D"2d24f39f028e">Meaning</p></th>
+</tr>
+<tr data-local-id=3D"60b176e7-1063-4d74-8260-f9ae79eec59c">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"77b4b07f-0220-4358-9=
+af5-075c56953d84" class=3D"confluenceTd">
+<p local-id=3D"d5d481634d7a"><code>SERVER_READY</code> via UDP unicast</p><=
+/td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"081289de-f932-4d17-8=
+2d6-d01f05dc1a1b" class=3D"confluenceTd">
+<p local-id=3D"90a504944302">A peer has the application and is ready to ser=
+ve it</p></td>
+</tr>
+<tr data-local-id=3D"7fd84b0a-a0c7-4d05-8df0-5d7f8ce5558d">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"ab25fae6-d81a-4cd0-8=
+d1a-f70c971811e1" class=3D"confluenceTd">
+<p local-id=3D"2181aae004c2"><code>SERVER_BUSY</code> via UDP broadcast</p>=
+</td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"f078cdc5-960d-4ba8-b=
+1c7-32d5995f7dbd" class=3D"confluenceTd">
+<p local-id=3D"4a0254e1c342">A peer has the application but is currently se=
+rving another download</p></td>
+</tr>
+<tr data-local-id=3D"e59ce707-0c62-405f-bc1e-13fb644fe83c">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"1e5c89a1-679e-40b9-9=
+9f9-53eed4397f1d" class=3D"confluenceTd">
+<p local-id=3D"e7ce958af2a9"><code>FALLBACK</code></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"0ddeece0-740c-4316-8=
+a7a-35cf9f4224ef" class=3D"confluenceTd">
+<p local-id=3D"78b09688f89a">No peer has the application; a device must dow=
+nload from a repository</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class=3D"confluence-information-macro confluence-information-macro-tip=
+">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-approve confluence-info=
+rmation-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p local-id=3D"1588060d6366">To view IGEL Discovery responses, run:</p>
+<p local-id=3D"27d77ad55463"><code>journalctl -u igel-discovery-daemon -f</=
+code></p>
+</div>
+</div>
+<h3 local-id=3D"3797d8ec152c" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-UpdateDaemonBehavior">Update Daemon Behavior</h3>
+<p local-id=3D"77cda46ee5cf">The update daemon reacts to Discovery response=
+s as follows.</p>
+<div class=3D"table-wrap">
+<table data-table-width=3D"760" data-layout=3D"align-start" data-local-id=
+=3D"0c33317f-d909-42a1-8e1c-1394024abbe9" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 200.0px;">
+<col style=3D"width: 558.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"2707354a-9d6c-4f77-b0fc-958579761050">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"cc3ca77e-286f-44e0-a=
+26e-fa8f87374802" class=3D"confluenceTh">
+<p local-id=3D"8031406effb8">Discovery Response</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"bc8e6716-d735-4e6e-b=
+528-e9aa28bae605" class=3D"confluenceTh">
+<p local-id=3D"98dd2dc01a6b">Behavior of the Update Daemon</p></th>
+</tr>
+<tr data-local-id=3D"d153d519-1280-45dd-b206-9da9ebdc46c2">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"e8299779-29f1-451a-a=
+4b7-3670f6723f3e" class=3D"confluenceTd">
+<p local-id=3D"d7fa098a5c61"><code>SERVER_READY</code></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"1f5b4322-276a-4eca-a=
+e12-9e7d3b0d886e" class=3D"confluenceTd">
+<p local-id=3D"3c138513537c">Downloads the application from the peer=E2=80=
+=99s Distributed Peer Update Server over HTTP.</p></td>
+</tr>
+<tr data-local-id=3D"3dceef4a-ba5f-4935-92c7-9a7237dcae5a">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"2da1d249-c4e1-4f7d-9=
+29d-cf3fe69d7694" class=3D"confluenceTd">
+<p local-id=3D"51d95595803a"><code>SERVER_BUSY</code></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"bfa987ae-90f1-4442-8=
+e9d-effc65546753" class=3D"confluenceTd">
+<p local-id=3D"a63d9edcdc38">The update daemon waits and retries in an infi=
+nite loop, with a wait time (for example 100 seconds) between search rounds=
+.</p></td>
+</tr>
+<tr data-local-id=3D"e9b0a7ce-d8c6-4d5f-941a-fe606bf76007">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"ef32cf7a-aa27-4969-b=
+ae2-4332db8f2915" class=3D"confluenceTd">
+<p local-id=3D"763b3935e13d"><code>FALLBACK</code></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"6d8413a2-3d41-4ab7-8=
+a7a-ae5b3fb04c38" class=3D"confluenceTd">
+<p local-id=3D"721aea71e522">The device elected as fallback downloads the a=
+pplication from the repository (UMS app proxy, WebDAV, IGEL App Portal, and=
+ so on). Once downloaded and installed, this device can serve the applicati=
+on to others via its Distributed Peer Update Server.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 local-id=3D"3cd0d43209b0" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-UpdateProgressIndicatorBehavior">Update Progress Indicator =
+Behavior</h3>
+<p local-id=3D"690406f58ab4">During peer discovery and fallback selection, =
+the update progress indicator may temporarily remain at <strong>0%</strong>=
+.</p>
+<p local-id=3D"2972805da15e">This can occur while:</p>
+<ul local-id=3D"7f48d272-77ed-4ca7-8f01-b072192e10ea">
+<li local-id=3D"31090ffd-f53a-4be9-b25a-77dc9116cd19">
+<p local-id=3D"ea1d932c6790">Discovery searches for a peer server</p></li>
+<li local-id=3D"2f7d6b76-df29-4332-bed4-546ef1de9668">
+<p local-id=3D"cfccb20e787c">A fallback device downloads the application</p=
+></li>
+<li local-id=3D"d9c08311-f17c-426f-9b61-f7af3088fbd0">
+<p local-id=3D"64f2ac7eef8f">A peer disappears (for example powered off, ne=
+twork loss) and the update daemon has to request another server.</p></li>
+</ul>
+<p local-id=3D"3e9d640f31b8">Once a peer becomes available, the download pr=
+oceeds normally.</p>
+<h2 local-id=3D"18c859b34784" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-ProxyConsiderations">Proxy Considerations</h2>
+<p local-id=3D"aebaaf47fe10">IGEL Discovery and the update daemon behave di=
+fferently when a proxy is configured.</p>
+<div class=3D"table-wrap">
+<table data-table-width=3D"760" data-layout=3D"align-start" data-local-id=
+=3D"a80c8bf4-6121-40bb-be7f-30a8c05e7729" class=3D"confluenceTable">
+<tbody>
+<tr data-local-id=3D"63125512-af09-421f-bce7-3095150e8821">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"fbf77f26-a3f9-41fd-9=
+bb7-ede7f3dbabdd" class=3D"confluenceTh">
+<p local-id=3D"f0cc9d5191f6">Component</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"2cab4d36-65a7-4a3d-9=
+efe-18e69245d446" class=3D"confluenceTh">
+<p local-id=3D"b6472846f6a7">Proxy Behavior</p></th>
+</tr>
+<tr data-local-id=3D"ac4d71e4-3665-44c2-828b-8dcf9bd15020">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"deca3dc2-fff4-4276-8=
+029-5c1df4611810" class=3D"confluenceTd">
+<p local-id=3D"169a6798adf3"><strong>IGEL Discovery</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"dd1b0b2d-6cb6-46d1-a=
+e41-aeb3753c0f80" class=3D"confluenceTd">
+<p local-id=3D"da5288083589">Bypasses HTTP proxy configuration because it u=
+ses UDP broadcast and unicast.</p></td>
+</tr>
+<tr data-local-id=3D"6d3a6747-8bf5-4b5e-8432-f5c70a687ed4">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"34707b91-c8f2-4a13-b=
+83e-f0956234a591" class=3D"confluenceTd">
+<p local-id=3D"19db6b1345f7"><strong>Update daemon</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"7847f001-031d-490d-a=
+652-cd0dbc45c7e9" class=3D"confluenceTd">
+<p local-id=3D"41c265fc7d5e">Honors the configured HTTP proxy when download=
+ing applications.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p local-id=3D"34ad4089fc82">This difference can lead to connectivity issue=
+s. For example:</p>
+<ol start=3D"1" local-id=3D"8deee226-0ff0-48f0-a154-250b5a35f282">
+<li local-id=3D"48212015-14c8-4123-9b98-524b1ea627fd">
+<p local-id=3D"a5bcf8838911">Discovery identifies a peer that has the requi=
+red application.</p></li>
+<li local-id=3D"543ef84d-08bc-4d99-86cc-f28d91fc4f82">
+<p local-id=3D"5235c535d03c">The update daemon attempts to download the app=
+lication.</p></li>
+<li local-id=3D"0653549c-7407-4982-89f8-e7958cd2a055">
+<p local-id=3D"297a1671a005">The request is routed through the configured p=
+roxy.</p></li>
+<li local-id=3D"82eff957-2ea9-44dc-8094-b59b1b3a80a5">
+<p local-id=3D"f0bc9341db68">The proxy cannot route the request back to the=
+ local network.</p></li>
+</ol>
+<p local-id=3D"4ea724cbbc39">Result: the peer update fails.</p>
+<h3 local-id=3D"23e94fea06b8" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-Workaround">Workaround</h3>
+<p local-id=3D"b2959a189d42">To prevent peer-to-peer traffic from being rou=
+ted through the proxy, add the local subnet(s) to the <strong>No Proxy for<=
+/strong> configuration:</p>
+<ol start=3D"1" local-id=3D"b4aa7b2b-a875-41b6-bf95-f0a5bc6978bf">
+<li local-id=3D"9a1e677a-81e9-4263-b271-5f12e779ec0d">
+<p local-id=3D"768c288a1441">Go to <a class=3D"external-link" href=3D"https=
+://kb.igel.com/en/igel-os-base-system/current/proxy-configuration-in-igel-o=
+s-12" rel=3D"nofollow"><strong>Network &gt; Proxy &gt; Manual proxy configu=
+ration</strong></a><strong>.</strong></p></li>
+<li local-id=3D"a816cac5-0406-4e3a-8995-154f887974af">
+<p local-id=3D"d1ecb6ba08c7">Find the <strong>No Proxy for </strong>paramet=
+er.</p></li>
+<li local-id=3D"329d4888-fbd7-4f5b-9581-11ff3873a838">
+<p local-id=3D"d48d6c4b93aa">Add the CIDR of the subnet, for example:</p></=
+li>
+</ol>
+<div class=3D"code panel pdl" style=3D"border-width: 1px;">
+<div class=3D"codeContent panelContent pdl">
+<pre class=3D"syntaxhighlighter-pre" data-syntaxhighlighter-params=3D"brush=
+: java; gutter: false; theme: Confluence" data-theme=3D"Confluence">192.168=
+.1.0/24
+10.0.0.0/16</pre>
+</div>
+</div>
+<p local-id=3D"cb12cb42d6e4">This ensures that peer-to-peer HTTP traffic is=
+ sent directly to local devices.</p>
+<h2 local-id=3D"3b3cd40fe4a7" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-AlternativeConfigurations">Alternative Configurations</h2>
+<h3 local-id=3D"686287eae8f0" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-UsingOnlyaSubsetofDevicesasPeerServers">Using Only a Subset=
+ of Devices as Peer Servers</h3>
+<p local-id=3D"aff3bf8a1904">You can configure a subset of devices as serve=
+rs and the rest as clients.</p>
+<p local-id=3D"cd7fda61970d">Efficiency drawbacks of this configuration:</p=
+>
+<ul local-id=3D"59655d64-b44b-45a2-978c-3d82ac4466f6">
+<li local-id=3D"b24895f6-5a4d-4c38-998b-c2a85ed0d822">
+<p local-id=3D"ec52f39257e0">The UMS assigns applications without consideri=
+ng which devices are servers.</p></li>
+<li local-id=3D"fbbb0358-bbf7-4696-aa6e-4a4343b3eba6">
+<p local-id=3D"78db87895550">It is more likely that a client=E2=80=91only d=
+evice is elected first to use fallback.</p></li>
+<li local-id=3D"69020be2-227c-418e-bb67-bfe2f2f0ac69">
+<p local-id=3D"5f115a451579">Due to the election protocol:</p>
+<ul local-id=3D"894d41ce-fc71-4af6-b667-0537c6842801">
+<li local-id=3D"c64a5e4b-d739-4ea3-97ba-c5fc29649fc7">
+<p local-id=3D"bf0c580f4ae5">only one device at a time downloads from the f=
+allback repository</p></li>
+<li local-id=3D"28e7b67c-2b40-46a7-9bba-4e54a6be9825">
+<p local-id=3D"0bbefa67a1ef">if the elected device is client=E2=80=91only, =
+it cannot share the application with others</p></li>
+<li local-id=3D"29cf3dab-425d-4439-9b24-8ce3338094af">
+<p local-id=3D"baba709bb193">this significantly slows down distribution</p>=
+</li>
+</ul></li>
+</ul>
+<p local-id=3D"82962fd8ca8e">To configure this model:</p>
+<ol start=3D"1" local-id=3D"1ab50fa3-175c-4049-b190-926fc36e9b43">
+<li local-id=3D"e9e00f9e-e000-45a2-8b43-573007ae09ba">
+<p local-id=3D"e8f0de516a4e">Create a profile for the servers.</p></li>
+</ol>
+<p local-id=3D"bb531cfd6997">&nbsp;</p>
+<ol start=3D"2" local-id=3D"7f790bb4-8143-467f-acc0-96a2f77c07f5">
+<li local-id=3D"bf386b7c-1cdc-4660-966f-5b169957e11d">
+<p local-id=3D"17fdcac5021d">Apply the following configurations:</p></li>
+</ol>
+<div class=3D"table-wrap">
+<table data-table-width=3D"831" data-layout=3D"align-start" data-local-id=
+=3D"6b5234c8-b3b6-46c3-9065-8a0ba8a75a19" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 279.0px;">
+<col style=3D"width: 275.0px;">
+<col style=3D"width: 277.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"a02d325c-f322-4a95-8a2d-d88c26ea1385">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"277b3b64-b5c9-499c-a=
+602-d386752b0ad3" class=3D"confluenceTh">
+<p local-id=3D"4027f3004842">Configuration Page</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"82a2783a-0383-4818-b=
+cd4-29caca0d2d6d" class=3D"confluenceTh">
+<p local-id=3D"73d0c741df73">Parameter</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"8f01cc48-9c7b-45c2-9=
+5e3-2b521d9bbf44" class=3D"confluenceTh">
+<p local-id=3D"e29f6c448d58">Value</p></th>
+</tr>
+<tr data-local-id=3D"9fc5d425-5ca4-4e7c-87bc-4760ca74f82f">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"733421aa-0f6d-4550-b=
+309-845cb16c6328" class=3D"confluenceTd">
+<p local-id=3D"bf0191de1434"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"a8bfe694-6b17-4da2-b=
+44f-e789063cb676" class=3D"confluenceTd">
+<p local-id=3D"c839ad43994a"><strong>Enable IGEL Discovery</strong></p></td=
+>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"0cc03c63-ccb0-4c17-a=
+f63-f94ac2435351" class=3D"confluenceTd">
+<p local-id=3D"1ecff8e21630">Enabled</p></td>
+</tr>
+<tr data-local-id=3D"b72baac6-c67f-4071-9250-bf9911cebab5">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"9f811c72-1a35-4204-9=
+5c5-44b143cea19a" class=3D"confluenceTd">
+<p local-id=3D"f69a19078639"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"a3bf4951-b6ff-4440-9=
+e10-ca62f849c8a8" class=3D"confluenceTd">
+<p local-id=3D"4c39950bec9c">Discovery Port</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"8a89ef41-0f40-4cf3-b=
+38e-7493253b203b" class=3D"confluenceTd">
+<p local-id=3D"f45212165fdf">Same on all devices (default <strong>22336</st=
+rong>)</p></td>
+</tr>
+<tr data-local-id=3D"bf1cd873-1473-4390-ae05-a8218dd34425">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"312f8e2a-bc64-4c27-b=
+ed0-6c39b82c627d" class=3D"confluenceTd">
+<p local-id=3D"94e801129140"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"3f21816d-ccc6-4d65-a=
+0c2-9d4ac49aff33" class=3D"confluenceTd">
+<p local-id=3D"f7ec8abf2911"><strong>Enable Distributed Peer Update Server<=
+/strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"d3f3a917-be7f-479e-8=
+4e3-b17ec9c4289a" class=3D"confluenceTd">
+<p local-id=3D"ad492f13a60b">Enabled</p></td>
+</tr>
+<tr data-local-id=3D"19f74b8f-6603-4987-a933-8268d16561b8">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"4f6e5135-7769-4e75-9=
+3d7-679895d16547" class=3D"confluenceTd">
+<p local-id=3D"41ae4535e984"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"c9c19adc-ee9b-4ff3-a=
+513-3be1b2cddacd" class=3D"confluenceTd">
+<p local-id=3D"16082438c859"><strong>Port of the distributed peer update se=
+rver</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"9ac6100d-83e2-4344-a=
+cda-65cd18700a93" class=3D"confluenceTd">
+<p local-id=3D"319fabaa4df5">Same on all devices (default <strong>22335</st=
+rong>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol start=3D"3" local-id=3D"5beb26d8-4101-429d-9739-60bd276fda56">
+<li local-id=3D"b444316d-f053-462c-8afc-734b87380900">
+<p local-id=3D"ca106edfde94">Create a profile for the clients.</p></li>
+</ol>
+<p local-id=3D"b2a7a8415a0d">&nbsp;</p>
+<ol start=3D"4" local-id=3D"b0f0c820-1d2e-45ed-9913-1083134e5c36">
+<li local-id=3D"532c8a7d-e7c5-49f5-b3f1-34c24315548d">
+<p local-id=3D"e11fa3a21720">Apply the following configurations:</p></li>
+</ol>
+<div class=3D"table-wrap">
+<table data-table-width=3D"831" data-layout=3D"align-start" data-local-id=
+=3D"117ddad5-aea9-477b-8980-12b6e7021a10" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 279.0px;">
+<col style=3D"width: 275.0px;">
+<col style=3D"width: 277.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"4eb08aca-a5cb-4e2a-8214-07bca2c61f6e">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"00ae8d41-5a23-426f-8=
+b22-7f6ca2c7bc64" class=3D"confluenceTh">
+<p local-id=3D"857e011a8e71">Configuration Page</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"1a1fde9b-eb2c-4094-8=
+29b-50bffb03b116" class=3D"confluenceTh">
+<p local-id=3D"69a1f5fb55ab">Parameter</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"92051e91-29c3-4271-8=
+10f-38b7fd4825df" class=3D"confluenceTh">
+<p local-id=3D"94db008d32bd">Value</p></th>
+</tr>
+<tr data-local-id=3D"fae4876c-8004-4915-b920-1b9f4f2445d7">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"66f4e02b-bd1b-4f91-9=
+288-bbcb43e3ed23" class=3D"confluenceTd">
+<p local-id=3D"fba0e957c9f8"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"e51fa429-b3f9-4a30-9=
+a74-83880caad979" class=3D"confluenceTd">
+<p local-id=3D"b2b9d83a8948"><strong>Enable IGEL Discovery</strong></p></td=
+>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"4eb40507-16c0-41c1-a=
+f7b-8b8f4b87f163" class=3D"confluenceTd">
+<p local-id=3D"867178c2152b">Enabled</p></td>
+</tr>
+<tr data-local-id=3D"ce3799dd-811e-4d92-b5be-18185d0caeaf">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"cc6fc387-92c9-4ac3-b=
+be4-82737dcb6015" class=3D"confluenceTd">
+<p local-id=3D"bc0da4dfb2b7"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"18d73f43-d040-48f6-b=
+86f-deaf75c58645" class=3D"confluenceTd">
+<p local-id=3D"b4c92f0fee49">Discovery Port</p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"e114827d-292f-4a60-9=
+49e-fababbdf03db" class=3D"confluenceTd">
+<p local-id=3D"0f172384d64d">Same on all devices (default <strong>22336</st=
+rong>)</p></td>
+</tr>
+<tr data-local-id=3D"c90b18a2-b3c1-4a4b-86fd-8f69416a0b54">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"3f616371-7470-4720-8=
+e6b-a16333203aff" class=3D"confluenceTd">
+<p local-id=3D"2da0f3c33ff9"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"ea7aa0ef-0c64-4db1-b=
+132-f7be34722f9a" class=3D"confluenceTd">
+<p local-id=3D"b226994489ad"><strong>Enable Distributed Peer Update Server<=
+/strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"4b72d8ec-16c7-4f2e-a=
+224-a518a40c2bba" class=3D"confluenceTd">
+<p local-id=3D"bf2544738d59">Disabled</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol start=3D"5" local-id=3D"96010bac-8a93-4275-8d30-f6239670468a">
+<li local-id=3D"a5aaa8ea-a4a2-4a92-82af-514b17e2e617">
+<p local-id=3D"73956937dc47">Save and assign the profiles to the selected d=
+evices.</p></li>
+</ol>
+<div class=3D"confluence-information-macro confluence-information-macro-tip=
+">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-approve confluence-info=
+rmation-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p local-id=3D"3f4f6b6de935"><strong>Recommendations</strong></p>
+<p local-id=3D"74e2b87f8768">If you want to use this model, ensure that:</p=
+>
+<ul local-id=3D"5d93534f-558e-4ad0-b431-68c6f4380689">
+<li local-id=3D"e4383809-95c6-4d4d-9f3f-2401d9fc5abe">
+<p local-id=3D"8c32489db014">servers are prioritized to receive the applica=
+tions first</p></li>
+<li local-id=3D"5de298cf-c4f7-425f-8df6-57c6f56cbd00">
+<p local-id=3D"7e44efb0e246">a sufficient number of servers is available in=
+ each network segment</p></li>
+<li local-id=3D"fa13b8a5-f993-439c-ba79-2cd8562ab8f6">
+<p local-id=3D"560635bc4b04">for large environments, consider increasing th=
+e maximum number of parallel connections on server devices when such an opt=
+ion is available</p></li>
+</ul>
+</div>
+</div>
+<h3 local-id=3D"1188a3229074" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-UsingDistributedPeerUpdateServersWithoutDiscovery">Using Di=
+stributed Peer Update Servers Without Discovery</h3>
+<p local-id=3D"b3b79c3ac203">You can also disable Discovery entirely and co=
+nfigure Distributed Peer Update Servers as static repositories on the clien=
+ts.</p>
+<p local-id=3D"0ff7bcefe1a6">In this model:</p>
+<ul local-id=3D"464b8102-3e92-4d88-8767-e1d7fd98d962">
+<li local-id=3D"51c25043-7489-417c-a69b-c4de21b63c02">
+<p local-id=3D"88cbdaba22f1">no auto=E2=80=91discovery or election protocol=
+ is used</p></li>
+<li local-id=3D"f1de940d-6c2d-43f3-8641-ff97a8b228e1">
+<p local-id=3D"99936367c895">no limitation of one client at a time coming f=
+rom the election</p></li>
+<li local-id=3D"cf4ccd48-64f9-41ce-8d0c-dbbb8c207c76">
+<p local-id=3D"e855d8c9ef1f">clients download applications directly from co=
+nfigured servers</p></li>
+</ul>
+<p local-id=3D"561cf7dec7c8">This can be useful in tightly controlled envir=
+onments where you want deterministic server selection and do not need the d=
+iscovery behavior.</p>
+<p local-id=3D"60169302c1c5">To configure this model:</p>
+<ol start=3D"1" local-id=3D"e9250db0-e74b-4fe8-8984-d6c9b01465f2">
+<li local-id=3D"f825e8c7-fbc9-43ee-ad47-cc7eccf5c7b4">
+<p local-id=3D"e427ac4d5480">Create a profile for the servers.</p></li>
+</ol>
+<p local-id=3D"8c2a003a901b">&nbsp;</p>
+<ol start=3D"2" local-id=3D"04d8e61f-9956-42da-9fe2-d64e67c090dc">
+<li local-id=3D"52c86736-a646-4215-aa2f-1454feba441a">
+<p local-id=3D"f6a52bf5a2d3">Apply the following configurations:</p></li>
+</ol>
+<div class=3D"table-wrap">
+<table data-table-width=3D"831" data-layout=3D"align-start" data-local-id=
+=3D"543b673e-ebe0-42c3-950b-f8c86d87d69f" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 279.0px;">
+<col style=3D"width: 275.0px;">
+<col style=3D"width: 277.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"044d339f-30d4-49f6-9ad8-d78231887181">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"25424bcd-e229-496f-9=
+c2f-a83309b036df" class=3D"confluenceTh">
+<p local-id=3D"f06b3233331b">Configuration Page</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"edf34fee-617a-4440-9=
+521-a3207760cfc1" class=3D"confluenceTh">
+<p local-id=3D"52ff3fd97781">Parameter</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"8db657dc-5c71-4847-9=
+365-64e8c161147d" class=3D"confluenceTh">
+<p local-id=3D"551cf0ff4a2e">Value</p></th>
+</tr>
+<tr data-local-id=3D"c5a1fc46-a962-47bf-9868-c6573d6f4e3a">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"cd1e3b81-c558-4d10-8=
+4f9-fd60eee4f29a" class=3D"confluenceTd">
+<p local-id=3D"cd4aa5793368"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"39291b37-17ab-431a-9=
+a38-38344661998e" class=3D"confluenceTd">
+<p local-id=3D"0a5003b6c651"><strong>Enable IGEL Discovery</strong></p></td=
+>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"a0304b48-2cb4-444e-9=
+28b-ce674349bb32" class=3D"confluenceTd">
+<p local-id=3D"a1b008c7b275">Disabled</p></td>
+</tr>
+<tr data-local-id=3D"65bd65de-cbbe-4808-b88d-d9ed3bca16ea">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"246ac68a-74f6-4010-a=
+d01-0e12fee907f7" class=3D"confluenceTd">
+<p local-id=3D"85cd4131c4c3"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"542e226e-2f3a-4841-b=
+d29-4ca3d90185cf" class=3D"confluenceTd">
+<p local-id=3D"ce34db3ae587"><strong>Enable Distributed Peer Update Server<=
+/strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"2c78f5dc-7af5-42c0-8=
+a90-ee66dc053c3d" class=3D"confluenceTd">
+<p local-id=3D"90ad6b58f501">Enabled</p></td>
+</tr>
+<tr data-local-id=3D"804fe19b-89db-47c7-8be8-0892a7d27967">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"b899f000-4396-44a2-8=
+cb8-cb4de8ad0bee" class=3D"confluenceTd">
+<p local-id=3D"f67579254500"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"8c3d355e-13a2-4575-9=
+6d4-c310ce58b005" class=3D"confluenceTd">
+<p local-id=3D"c81b9d211f47"><strong>Port of the distributed peer update se=
+rver</strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"001caa94-6202-4e67-9=
+0d1-2d8cf7862ba2" class=3D"confluenceTd">
+<p local-id=3D"52748bcf848f">Same on all devices (default <strong>22335</st=
+rong>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol start=3D"3" local-id=3D"1ed73aac-a95c-479b-b1f0-1e3d880d46b8">
+<li local-id=3D"373f02e6-6b69-4f40-b1b1-b9dbb9cd0d30">
+<p local-id=3D"183a01b514e3">Create a profile for the clients.</p></li>
+</ol>
+<p local-id=3D"7fd5070e0f5e">&nbsp;</p>
+<ol start=3D"4" local-id=3D"f3cf7239-06bf-4f95-b6e0-c4005a622100">
+<li local-id=3D"c57bc970-7c15-4331-8a73-f244e1f1b34c">
+<p local-id=3D"1236d22d371d">Apply the following configurations and configu=
+re each Distributed Update Server as repository:</p></li>
+</ol>
+<div class=3D"table-wrap">
+<table data-table-width=3D"831" data-layout=3D"align-start" data-local-id=
+=3D"b9e15901-7777-4c00-bf11-4b7eb0ca37dc" class=3D"confluenceTable">
+<colgroup>
+<col style=3D"width: 279.0px;">
+<col style=3D"width: 275.0px;">
+<col style=3D"width: 277.0px;">
+</colgroup>
+<tbody>
+<tr data-local-id=3D"4a444c80-ecb5-4735-95b2-41b5632872b2">
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"b650c14c-8df2-4797-b=
+051-a6bf83df65ba" class=3D"confluenceTh">
+<p local-id=3D"59402372fd4c">Configuration Page</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"a89f3b25-fcf2-4d8b-b=
+8b4-cecf1a960fbe" class=3D"confluenceTh">
+<p local-id=3D"736d5d9c1209">Parameter</p></th>
+<th data-highlight-colour=3D"#f0f1f2" data-local-id=3D"c722225b-6ada-478a-9=
+3d2-25f58f9a8107" class=3D"confluenceTh">
+<p local-id=3D"6fa47f96b751">Value</p></th>
+</tr>
+<tr data-local-id=3D"dcb1ce7e-5c4f-4152-bd0f-9065cf4a0b3a">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"c2adfccb-3b79-4790-a=
+ead-3b1c894fec9e" class=3D"confluenceTd">
+<p local-id=3D"a663633595c4"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/igel-discovery-service-configuratio=
+n-in-igel-os" rel=3D"nofollow"><strong>System &gt; Update &gt; IGEL Discove=
+ry</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"cd6fcce3-44f1-4937-a=
+72f-5ecdae2477d8" class=3D"confluenceTd">
+<p local-id=3D"6c22169a9f7d"><strong>Enable IGEL Discovery</strong></p></td=
+>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"6152df07-5524-4400-9=
+726-261ea3868df0" class=3D"confluenceTd">
+<p local-id=3D"efe9381e0e59">Disabled</p></td>
+</tr>
+<tr data-local-id=3D"ed069712-83cc-4f73-9261-64027a025f61">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"f08c11f8-1f04-407c-b=
+a41-4a1ac703ec66" class=3D"confluenceTd">
+<p local-id=3D"04fbc61ce8f1"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/distributed-peer-update-server-conf=
+iguration-in-ig" rel=3D"nofollow"><strong>System &gt; Update &gt; Distribut=
+ed Peer Update Server</strong></a></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"30fd0477-42f9-4843-9=
+59e-970238d585ed" class=3D"confluenceTd">
+<p local-id=3D"b4f81bc99596"><strong>Enable Distributed Peer Update Server<=
+/strong></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"b3d78c8a-7021-40d0-a=
+9c5-6a458f196eff" class=3D"confluenceTd">
+<p local-id=3D"c7e43d083641">Disabled</p></td>
+</tr>
+<tr data-local-id=3D"99c7edb5-d05a-406b-a549-6870e43ed17e">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"9ff8588a-b6f4-44a1-a=
+77f-c652c9d0dd6d" class=3D"confluenceTd">
+<p local-id=3D"c653182abbbc"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/update-app-update-settings-in-igel-=
+os-12" rel=3D"nofollow"><strong>Setup &gt; System &gt; Update</strong></a><=
+/p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"5e2f8ff8-2619-457b-a=
+291-76627a200799" class=3D"confluenceTd">
+<p local-id=3D"a781c944bdba"><strong>Repositories &gt; Repository URL</stro=
+ng></p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"660faaf7-07db-4d1e-9=
+5a3-c593f33e1b22" class=3D"confluenceTd">
+<p local-id=3D"67e2b251028e">For each Distributed Update Server - IP addres=
+s of the OS 12 device that will serve as the server:<br><code>http://&lt;IP=
+ address of server&gt;:&lt;server port&gt;/api/</code></p></td>
+</tr>
+<tr data-local-id=3D"44c12a00-d238-474f-900a-3fdee7637693">
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"743eaaf1-e27f-4612-8=
+b0a-4e2ea6512b1b" class=3D"confluenceTd">
+<p local-id=3D"8afab40789b0"><a class=3D"external-link" href=3D"https://kb.=
+igel.com/en/igel-os-base-system/current/update-app-update-settings-in-igel-=
+os-12" rel=3D"nofollow"><strong>Setup &gt; System &gt; Update</strong></a><=
+/p></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"188b37fe-3206-4fde-9=
+9ac-642a6896a9fb" class=3D"confluenceTd">
+<p local-id=3D"fabd180279a1"><strong>Repositories &gt; Priority</strong></p=
+></td>
+<td data-highlight-colour=3D"#ffffff" data-local-id=3D"bbb7631f-603b-484c-9=
+fe6-f059d6a57805" class=3D"confluenceTd">
+<p local-id=3D"322b3156d90f">For each Distributed Update Server - The clien=
+t will try to get the updates from the repository with the highest priority=
+.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol start=3D"5" local-id=3D"cd79f6d2-76f6-484d-a75f-a977df00ff78">
+<li local-id=3D"523aa4b7-03bc-4dd4-9d5a-e721e8ef46f6">
+<p local-id=3D"5f2bdf89ab2c">Save and assign the profiles to the selected d=
+evices.</p></li>
+</ol>
+<h2 local-id=3D"94eac1ca52e0" id=3D"HowtoConfigureDistributedPeerUpdatewith=
+IGELOS12Devices-FurtherInformation">Further Information</h2>
+<p local-id=3D"0cda67352fd4">You might also find the following IGEL Communi=
+ty article useful: <a class=3D"external-link" href=3D"https://igel-communit=
+y.github.io/IGEL-Docs-v02/Docs/HOWTO-COSMOS/#faq-distributed-peer-update-bu=
+ddy-update" rel=3D"nofollow"><u>FAQ - Distributed Peer Update (Buddy Update=
+)</u></a>.</p>
+<div class=3D"confluence-information-macro confluence-information-macro-inf=
+ormation">
+<span class=3D"aui-icon aui-icon-small aui-iconfont-info confluence-informa=
+tion-macro-icon"></span>
+<div class=3D"confluence-information-macro-body">
+<p local-id=3D"902ea7a700eb">The content of this external guide is not cove=
+red by official support channels, and the IGEL Knowledge Base Team cannot g=
+uarantee its accuracy or completeness.</p>
+</div>
+</div>
+    </div>
+</body>
+</html>
+------=_Part_64_1960192606.1776959981907--

@@ -1,0 +1,11 @@
+igel:
+  # ums login credential
+  url: "https://192.168.10.28:8443/webapp/#/device-shadow/shadow/210"
+  username_browser: "laxmikanth.ghali.ums"
+  password_browser: "igelxinnominds"
+
+  # profile details
+  # ums_url : "https://192.168.10.28:8443/umsapi/v3"
+  # username_browser : "laxmikanth.ghali.ums"
+  # password : "igelxinnominds"
+  # device_id : "ITC005056ADE39C"

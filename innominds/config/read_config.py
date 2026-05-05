@@ -1,0 +1,35 @@
+import yaml
+import os
+import sys
+from pathlib import Path
+
+root_path = Path(__file__).resolve().parents[1]
+print(root_path)
+
+
+sys.path.append(root_path)
+
+
+try:
+
+    file_path = os.path.join(root_path,"config",'all_conf.yaml')
+    #print(f"file_path = {file_path}")
+
+
+    with open(file_path,'r') as file:
+        config_data=yaml.safe_load(file)
+
+
+    device_cred = config_data['device']
+    ums_cred = config_data['UMS']
+    logging_level = config_data['logger']
+    otp_secrets_cred = config_data['otp_secret_cred']
+
+
+    # print(f"Device Host: {device_cred['host']}")
+    # print(f"UMS Base URL: {ums_cred['base_url']}")
+    # print(f"loglevel: {logging_level['logLevel']}")
+
+except Exception as e:
+    print(f"Exception occurred reading config file {e}")
+    exit(1)

@@ -22,3 +22,7 @@ tiktoken==0.8.0
 python-dotenv==1.0.1
 tenacity==9.0.0
 rich==13.9.4
+
+# V3 reranking (optional backends)
+sentence-transformers>=3.0.0
+cohere>=5.0.0

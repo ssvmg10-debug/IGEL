@@ -7,15 +7,16 @@ Usage:
   python -m knowledge_base.generate "Device factory reset" --format md --test-id TC015
   python -m knowledge_base.generate --interactive
   python -m knowledge_base.generate --batch "SSO login,UMS profile,factory reset" --format both
+  python -m knowledge_base.generate "SSO topic" --debug
 """
 import argparse
+import json
 import sys
 from pathlib import Path
 
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich.text import Text
 
 from knowledge_base.db.client import init_pool, test_connection, close_pool
 from knowledge_base.test_generator import (
@@ -71,6 +72,11 @@ def main() -> None:
     parser.add_argument(
         "--batch", default=None,
         help="Comma-separated list of topics for batch generation",
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Print full V3 retrieval debug report (scores, ranks, fusion) after generation",
     )
 
     args = parser.parse_args()
@@ -140,9 +146,10 @@ def _run_single(topic: str, args: argparse.Namespace) -> None:
             feature_area=args.feature_area,
             top_k=args.top_k,
             output_dir=args.output_dir,
+            debug_retrieval=args.debug,
         )
 
-    _print_result(result)
+    _print_result(result, show_debug=args.debug)
 
 
 # ── Batch Generation ──────────────────────────────────────────────────────────
@@ -161,7 +168,22 @@ def _run_batch(topics: list[str], args: argparse.Namespace) -> None:
             feature_area=args.feature_area,
             top_k=args.top_k,
             output_dir=args.output_dir,
+            debug_retrieval=args.debug,
         )
+
+    if args.debug:
+        console.print("\n[dim]Batch + --debug: per-topic JSON is attached to each result; "
+                      "dumping full reports for all rows can be large. Showing summary only.[/dim]\n")
+        for r in results:
+            if r.retrieval_debug:
+                try:
+                    payload = json.loads(r.retrieval_debug)
+                    console.print(
+                        f"  [bold]{r.test_id}[/bold]  final_chunks={payload.get('final_chunk_count')} "
+                        f"kg_nodes={payload.get('kg_nodes_found')} tokens~{payload.get('total_tokens_used')}"
+                    )
+                except json.JSONDecodeError:
+                    console.print(f"  [bold]{r.test_id}[/bold]  [yellow](invalid debug JSON)[/yellow]")
 
     console.rule("[bold green]Batch Complete[/bold green]")
     summary = Table(title="Batch Results")
@@ -187,7 +209,7 @@ def _run_batch(topics: list[str], args: argparse.Namespace) -> None:
 
 # ── Output Formatting ─────────────────────────────────────────────────────────
 
-def _print_result(r: GeneratedTestCase) -> None:
+def _print_result(r: GeneratedTestCase, *, show_debug: bool = False) -> None:
     console.rule("[bold green]Generation Complete[/bold green]")
 
     info = Table.grid(padding=(0, 2))
@@ -218,6 +240,15 @@ def _print_result(r: GeneratedTestCase) -> None:
         console.print(f"\n  [yellow]Warnings ({len(r.warnings)}):[/yellow]")
         for w in r.warnings[:5]:
             console.print(f"    [yellow]⚠[/yellow] {w}")
+
+    if show_debug and r.retrieval_debug:
+        console.print()
+        console.rule("[bold magenta]Retrieval Debug (V3)[/bold magenta]")
+        try:
+            pretty = json.dumps(json.loads(r.retrieval_debug), indent=2)
+        except json.JSONDecodeError:
+            pretty = r.retrieval_debug
+        console.print(Panel(pretty, title="retrieval_debug.json", expand=False))
 
     console.print()
     console.print(

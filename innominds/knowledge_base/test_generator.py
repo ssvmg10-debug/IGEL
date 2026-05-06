@@ -20,13 +20,12 @@ from openai import AzureOpenAI, RateLimitError, APIConnectionError, APITimeoutEr
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 from knowledge_base.config import cfg
-from knowledge_base.retriever import retrieve, SearchResult
+from knowledge_base.retriever import retrieve_v3
 from knowledge_base.prompts import (
     PromptContext,
     build_system_prompt,
     build_markdown_user_prompt,
     build_python_user_prompt,
-    assemble_context_window,
     _slugify,
 )
 
@@ -85,6 +84,7 @@ class GeneratedTestCase:
     generation_time_sec: float
     syntax_valid: bool
     warnings: list[str] = field(default_factory=list)
+    retrieval_debug: str | None = None
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
@@ -97,6 +97,7 @@ def generate_test_cases(
     feature_area: str | None = None,
     top_k: int = 8,
     output_dir: Path | None = None,
+    debug_retrieval: bool = False,
 ) -> GeneratedTestCase:
     """
     Generate a test case from the IGEL Knowledge Base.
@@ -121,26 +122,35 @@ def generate_test_cases(
     output_dir = output_dir or DEFAULT_OUTPUT_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Step 1: Retrieve KB context
-    results = retrieve(query=topic, top_k=top_k, product=product)
-    if not results:
+    # Step 1: Retrieve KB context (V3: RRF → rerank → KG → fused budget)
+    bundle = retrieve_v3(query=topic, top_k=top_k, product=product)
+    if not bundle.results:
         raise ValueError(
             f"No KB content found for topic '{topic}'. "
             "Ensure documents are ingested: python -m knowledge_base.ingest"
         )
 
+    retrieval_debug_json: str | None = bundle.debug.to_json() if debug_retrieval else None
+    if debug_retrieval:
+        bundle.debug.log_summary()
+        logger.debug("Retrieval trace JSON:\n%s", retrieval_debug_json)
+
     # Step 2: Resolve test_id and feature_area
     resolved_test_id = test_id or _resolve_test_id(output_dir)
     resolved_feature = feature_area or _infer_feature_area(topic)
 
-    selected_results, tokens_used = assemble_context_window(results)
+    tokens_used = bundle.debug.total_tokens_used
 
     ctx = PromptContext(
         topic=topic,
         test_id=resolved_test_id,
         feature_area=resolved_feature,
         product=product,
-        context_chunks=selected_results,
+        context_chunks=bundle.results,
+        token_budget=int(cfg.CONTEXT_TOKEN_BUDGET),
+        kg_context_block=bundle.kg_context.text_block,
+        image_context_block=bundle.image_block,
+        skip_assemble_window=True,
     )
 
     system_prompt = build_system_prompt()
@@ -188,7 +198,7 @@ def generate_test_cases(
         logger.info("Python test written: %s", py_path)
 
     elapsed = round(time.time() - t0, 1)
-    kb_sources = list(dict.fromkeys(r.file_name for r in selected_results))
+    kb_sources = list(dict.fromkeys(r.file_name for r in bundle.results))
 
     return GeneratedTestCase(
         test_id=resolved_test_id,
@@ -198,11 +208,12 @@ def generate_test_cases(
         markdown_path=md_path,
         python_path=py_path,
         kb_sources=kb_sources,
-        kb_chunk_count=len(selected_results),
+        kb_chunk_count=len(bundle.results),
         tokens_used=tokens_used,
         generation_time_sec=elapsed,
         syntax_valid=syntax_valid,
         warnings=warnings,
+        retrieval_debug=retrieval_debug_json,
     )
 
 
@@ -213,6 +224,7 @@ def batch_generate(
     feature_area: str | None = None,
     top_k: int = 8,
     output_dir: Path | None = None,
+    debug_retrieval: bool = False,
 ) -> list[GeneratedTestCase]:
     """Generate test cases for multiple topics with auto-incrementing test IDs."""
     output_dir = output_dir or DEFAULT_OUTPUT_DIR
@@ -234,6 +246,7 @@ def batch_generate(
                 feature_area=feature_area,
                 top_k=top_k,
                 output_dir=output_dir,
+                debug_retrieval=debug_retrieval,
             )
             results_list.append(result)
         except Exception as e:
@@ -251,6 +264,7 @@ def batch_generate(
                 generation_time_sec=0.0,
                 syntax_valid=False,
                 warnings=[f"FAILED: {e}"],
+                retrieval_debug=None,
             ))
 
     return results_list

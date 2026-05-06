@@ -14,14 +14,19 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
+from time import perf_counter
 
 import psycopg2
 
 from knowledge_base.db.client import get_conn, init_pool
 from knowledge_base.embeddings.azure_embedder import embed_single, format_for_pgvector
+from knowledge_base.knowledge_graph import (
+    KGContext,
+    classify_query_style,
+    retrieve_kg_context,
+)
 
 logger = logging.getLogger(__name__)
-
 _POOL_INITIALISED = False
 
 
@@ -48,6 +53,7 @@ class SearchResult:
     rrf_score: float
     vector_rank: int | None = None
     fts_rank: int | None = None
+    rerank_score: float | None = None
     metadata: dict = field(default_factory=dict)
 
 
@@ -308,6 +314,304 @@ def _fetch_parent_chunks(parent_ids: list[str]) -> dict[str, tuple[str, str]]:
         with conn.cursor() as cur:
             cur.execute(sql, (parent_ids,))
             return {row[0]: (row[1], row[2] or "concept") for row in cur.fetchall()}
+
+
+@dataclass
+class RetrievalBundle:
+    """V3 retrieval: fused chunks + KG + debug metadata."""
+    results: list[SearchResult]
+    kg_context: KGContext
+    image_block: str
+    image_hits: list["ImageHit"]
+    debug: "RetrievalDebugReport"
+
+
+def retrieve_v3(
+    query: str,
+    top_k: int = 8,
+    product: str | None = None,
+    chunk_type: str | None = None,
+) -> RetrievalBundle:
+    """
+    Hybrid retrieval with RRF, optional cross-encoder reranking, KG context, fusion, debug traces.
+    """
+    from knowledge_base.config import cfg
+    from knowledge_base.context_fusion import apply_dynamic_budget
+    from knowledge_base.reranker import RerankItem, rerank_passages
+    from knowledge_base.retrieval_debug import ChunkScoreTrace, RetrievalDebugReport
+
+    timings: dict[str, float] = {}
+    debug = RetrievalDebugReport(
+        query=query,
+        query_classification=classify_query_style(query),
+        total_vector_candidates=0,
+        total_fts_candidates=0,
+        rrf_merged_count=0,
+        reranker_applied=(cfg.RERANKER_BACKEND or "").lower().strip() not in ("none", ""),
+        post_rerank_count=0,
+        kg_nodes_found=0,
+        kg_edges_traversed=0,
+        final_chunk_count=0,
+        total_tokens_used=0,
+        token_budget=int(cfg.CONTEXT_TOKEN_BUDGET),
+        traces=[],
+        timing_ms={},
+    )
+
+    if not query.strip():
+        return RetrievalBundle(
+            results=[],
+            kg_context=KGContext("", [], 0, 0),
+            image_block="",
+            image_hits=[],
+            debug=debug,
+        )
+
+    _ensure_pool()
+
+    cand_mult = max(3, getattr(cfg, "RETRIEVAL_CANDIDATE_MULTIPLIER", 6))
+    candidate_limit = max(top_k * cand_mult, top_k * 3)
+
+    t0 = perf_counter()
+    query_vec = _embed_query(query)
+    timings["embed_ms"] = (perf_counter() - t0) * 1000
+    vec_available = any(v != 0.0 for v in query_vec)
+
+    vector_rows: list[tuple] = []
+    if vec_available:
+        try:
+            t1 = perf_counter()
+            vector_rows = _vector_search(query_vec, candidate_limit, product, chunk_type)
+            timings["vector_ms"] = (perf_counter() - t1) * 1000
+        except psycopg2.ProgrammingError as e:
+            if "vector" in str(e).lower():
+                logger.error("pgvector not available — check extension: %s", e)
+            else:
+                logger.error("Vector search failed: %s", e)
+
+    fts_rows = []
+    try:
+        t2 = perf_counter()
+        fts_rows = _fts_search(query, candidate_limit, product, chunk_type)
+        timings["fts_ms"] = (perf_counter() - t2) * 1000
+    except Exception as e:
+        logger.error("FTS search failed: %s", e)
+
+    debug.total_vector_candidates = len(vector_rows)
+    debug.total_fts_candidates = len(fts_rows)
+
+    if not vector_rows and not fts_rows:
+        if product:
+            return retrieve_v3(query, top_k=top_k, product=None, chunk_type=chunk_type)
+        return RetrievalBundle(
+            results=[],
+            kg_context=KGContext("", [], 0, 0),
+            image_block="",
+            image_hits=[],
+            debug=debug,
+        )
+
+    row_meta: dict[str, tuple] = {}
+    for row in vector_rows + fts_rows:
+        cid = row[0]
+        if cid not in row_meta:
+            row_meta[cid] = row
+
+    vector_ranks = {row[0]: idx + 1 for idx, row in enumerate(vector_rows)}
+    fts_ranks = {row[0]: idx + 1 for idx, row in enumerate(fts_rows)}
+    merged = _rrf_merge(vector_ranks, fts_ranks)
+    debug.rrf_merged_count = len(merged)
+
+    child_to_parent = {row[0]: row[1] for row in (vector_rows + fts_rows)}
+    rrf_by_child = dict(merged)
+
+    rerank_take = min(len(merged), max(cfg.RERANKER_TOP_N, top_k * 6))
+    pool_pairs = merged[:rerank_take]
+
+    t_rr = perf_counter()
+    items = []
+    for child_id, _rrf_sc in pool_pairs:
+        rw = row_meta.get(child_id)
+        passage = rw[3] if rw else ""
+        items.append(RerankItem(child_id=child_id, passage=passage[:12000]))
+
+    ranked = rerank_passages(query, items)
+    score_map: dict[str, float] = {cid: sc for cid, sc in ranked}
+    timings["rerank_ms"] = (perf_counter() - t_rr) * 1000
+    debug.post_rerank_count = len(score_map)
+
+    merged_for_sort = sorted(
+        pool_pairs,
+        key=lambda p: (-score_map.get(p[0], -1e9), -(rrf_by_child.get(p[0], 0.0))),
+    )
+
+    merged_dedup = _deduplicate_by_parent(merged_for_sort, child_to_parent)
+    prefetch_k = max(top_k * 3, len(merged_dedup))
+    shortlist = merged_dedup[: min(prefetch_k, len(merged_dedup))]
+    parent_ids_short = [
+        child_to_parent[cid] for cid, _ in shortlist if cid in child_to_parent
+    ]
+    t_fetch = perf_counter()
+    parent_data = _fetch_parent_chunks(list(dict.fromkeys(parent_ids_short)))
+    timings["parents_ms"] = (perf_counter() - t_fetch) * 1000
+
+    traces: list[ChunkScoreTrace] = []
+    for cid, rrfs in merged_for_sort[:rerank_take]:
+        row = row_meta.get(cid)
+        if row is None:
+            continue
+        pid = row[1]
+        rs = score_map.get(cid)
+        traces.append(
+            ChunkScoreTrace(
+                child_chunk_id=cid,
+                parent_chunk_id=pid,
+                source_file=row[5] or "",
+                section_title=row[4] or "",
+                vector_rank=vector_ranks.get(cid),
+                fts_rank=fts_ranks.get(cid),
+                rrf_score=float(rrf_by_child.get(cid, rrfs)),
+                rerank_score=rs,
+                included=False,
+                exclusion_reason="",
+            )
+        )
+
+    refined = []
+    seen_parent_prefetch: set[str] = set()
+    for cid, rrfs in shortlist:
+        row = row_meta.get(cid)
+        if row is None:
+            continue
+        pid = row[1]
+        if pid in seen_parent_prefetch:
+            continue
+        seen_parent_prefetch.add(pid)
+        pc, ptype = parent_data.get(pid, ("", "concept"))
+        refined.append(
+            SearchResult(
+                child_chunk_id=cid,
+                parent_chunk_id=pid,
+                document_id=row[2],
+                child_content=row[3],
+                parent_content=pc,
+                section_title=row[4] or "",
+                file_name=row[5] or "",
+                product=row[6] or "IGEL",
+                chunk_type=ptype or "concept",
+                rrf_score=float(rrf_by_child.get(cid, rrfs)),
+                vector_rank=vector_ranks.get(cid),
+                fts_rank=fts_ranks.get(cid),
+                rerank_score=score_map.get(cid),
+            )
+        )
+
+    seed_parents = [r.parent_chunk_id for r in refined[:top_k]]
+    kg_ctx = KGContext("", [], 0, 0)
+    t_kg = perf_counter()
+    if cfg.KG_ENABLED:
+        kg_ctx = retrieve_kg_context(
+            query,
+            max_hops=cfg.KG_MAX_HOPS,
+            seed_parent_chunk_ids=seed_parents,
+            max_nodes=64,
+        )
+    timings["kg_ms"] = (perf_counter() - t_kg) * 1000
+    debug.kg_nodes_found = kg_ctx.node_count
+    debug.kg_edges_traversed = kg_ctx.edge_count
+
+    image_hits: list[ImageHit] = []
+    t_img = perf_counter()
+    if cfg.CONTEXT_INCLUDE_IMAGES:
+        try:
+            image_hits = retrieve_images(query, top_k=min(12, max(4, top_k)))
+        except Exception as e:
+            logger.warning("retrieve_images in v3 skipped: %s", e)
+    timings["images_ms"] = (perf_counter() - t_img) * 1000
+
+    fused, kg_trim, img_block, rag_toks = apply_dynamic_budget(
+        refined,
+        kg_ctx.text_block,
+        image_hits,
+        token_budget=int(cfg.CONTEXT_TOKEN_BUDGET),
+        reserve_prompt=int(cfg.CONTEXT_RESERVE_PROMPT),
+        kg_ratio=float(cfg.CONTEXT_KG_BUDGET_RATIO),
+        image_ratio=float(cfg.CONTEXT_IMAGE_BUDGET_RATIO),
+        min_score=cfg.CONTEXT_MIN_SCORE,
+        max_chunks=int(cfg.CONTEXT_MAX_CHUNKS),
+    )
+
+    fused_parent_ids = {r.parent_chunk_id for r in fused}
+    min_sc = cfg.CONTEXT_MIN_SCORE
+
+    traces_out: list[ChunkScoreTrace] = []
+    trace_by_child: dict[str, ChunkScoreTrace] = {}
+    for tr in traces:
+        trace_by_child.setdefault(tr.child_chunk_id, tr)
+
+    merged_ids_in_order = [p[0] for p in merged_for_sort]
+    for cid in merged_ids_in_order:
+        base = trace_by_child.get(cid)
+        if base is None:
+            continue
+        incl = base.parent_chunk_id in fused_parent_ids
+        if incl:
+            why = ""
+        elif min_sc is not None and min_sc > 0 and base.rerank_score is not None:
+            why = "below_threshold" if base.rerank_score < min_sc else "budget_exceeded"
+        else:
+            why = "budget_exceeded"
+
+        traces_out.append(
+            ChunkScoreTrace(
+                child_chunk_id=base.child_chunk_id,
+                parent_chunk_id=base.parent_chunk_id,
+                source_file=base.source_file,
+                section_title=base.section_title,
+                vector_rank=base.vector_rank,
+                fts_rank=base.fts_rank,
+                rrf_score=base.rrf_score,
+                rerank_score=base.rerank_score,
+                included=incl,
+                exclusion_reason=why if not incl else "",
+            )
+        )
+        if len(traces_out) >= 96:
+            break
+
+    kg_ctx_out = KGContext(
+        text_block=kg_trim,
+        node_ids=kg_ctx.node_ids,
+        node_count=kg_ctx.node_count,
+        edge_count=kg_ctx.edge_count,
+    )
+
+    est_total_tokens = int(
+        rag_toks
+        + len((kg_trim or "").encode("utf-8", errors="ignore")) / 3.8
+        + len((img_block or "").encode("utf-8", errors="ignore")) / 3.8
+    )
+
+    debug.final_chunk_count = len(fused)
+    debug.total_tokens_used = max(est_total_tokens, 1)
+    debug.traces = traces_out
+    debug.timing_ms = timings
+
+    logger.info(
+        "retrieve_v3('%s') → fused=%d kg_nodes=%d rerank=%s",
+        query[:60],
+        len(fused),
+        kg_ctx.node_count,
+        debug.reranker_applied,
+    )
+
+    return RetrievalBundle(
+        results=fused,
+        kg_context=kg_ctx_out,
+        image_block=img_block,
+        image_hits=image_hits,
+        debug=debug,
+    )
 
 
 # ── Image retrieval ───────────────────────────────────────────────────────────

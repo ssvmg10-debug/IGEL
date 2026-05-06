@@ -10,11 +10,13 @@ Provides:
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+
+from knowledge_base.config import cfg
 
 logger = logging.getLogger(__name__)
 
-MAX_CONTEXT_TOKENS = 6000
+MAX_CONTEXT_TOKENS = int(getattr(cfg, "CONTEXT_TOKEN_BUDGET", 8000))
 _CHARS_PER_TOKEN = 3.8   # conservative estimate, avoids importing tiktoken here
 
 # Exact import block generated tests must use — injected verbatim into Python prompt
@@ -42,6 +44,9 @@ class PromptContext:
     product: str | None
     context_chunks: list        # list[SearchResult] — avoid circular import
     token_budget: int = MAX_CONTEXT_TOKENS
+    kg_context_block: str = ""
+    image_context_block: str = ""
+    skip_assemble_window: bool = False
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
@@ -62,10 +67,18 @@ def assemble_context_window(
     reserve = 800   # headroom for prompt template text
     available = token_budget - reserve
 
+    def _rank_key(r) -> tuple[float, float]:
+        rr = getattr(r, "rerank_score", None)
+        if rr is not None:
+            return (-float(rr), -float(getattr(r, "rrf_score", 0.0)))
+        return (-float(getattr(r, "rrf_score", 0.0)), 0.0)
+
+    ordered = sorted(results, key=_rank_key)
+
     selected = []
     used = 0
 
-    for result in results:   # already sorted by rrf_score descending
+    for result in ordered:
         chunk_tokens = _estimate_tokens(result.parent_content)
         if used + chunk_tokens <= available:
             selected.append(result)
@@ -89,8 +102,22 @@ def assemble_context_window(
 
 
 def build_markdown_user_prompt(ctx: PromptContext) -> str:
-    selected, tokens_used = assemble_context_window(ctx.context_chunks, ctx.token_budget)
+    if ctx.skip_assemble_window:
+        selected = list(ctx.context_chunks)
+        tokens_used = sum(_estimate_tokens(r.parent_content) for r in selected)
+    else:
+        selected, tokens_used = assemble_context_window(ctx.context_chunks, ctx.token_budget)
+
+    prefix_parts: list[str] = []
+    if getattr(ctx, "kg_context_block", "") and ctx.kg_context_block.strip():
+        prefix_parts.append(ctx.kg_context_block.strip())
+    if getattr(ctx, "image_context_block", "") and ctx.image_context_block.strip():
+        prefix_parts.append(ctx.image_context_block.strip())
+
     context_block = _format_context_block(selected)
+    if prefix_parts:
+        context_block = "\n\n".join(prefix_parts) + "\n\n" + context_block
+
     sources = ", ".join(dict.fromkeys(r.file_name for r in selected)) or "IGEL documentation"
 
     return f"""Generate a JIRA-level detailed IGEL test case document using the knowledge base context below.
@@ -303,7 +330,8 @@ def _format_context_block(results: list) -> str:
         parts.append(
             f"=== SOURCE {i}: {r.section_title or r.file_name} ===\n"
             f"Product: {r.product} | File: {r.file_name} | Type: {r.chunk_type} | "
-            f"Relevance: {r.rrf_score:.4f}\n\n"
+            f"Relevance_RRF: {r.rrf_score:.4f}"
+            f"{f' | Rerank: {r.rerank_score:.4f}' if getattr(r, 'rerank_score', None) is not None else ''}\n\n"
             f"{r.parent_content.strip()}"
         )
     return "\n\n" + "\n\n---\n\n".join(parts) + "\n"

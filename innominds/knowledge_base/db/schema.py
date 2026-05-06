@@ -123,12 +123,57 @@ CREATE INDEX IF NOT EXISTS kb_images_fts_idx
         coalesce(surrounding_text,'')));
 """
 
+_KG_GRAPH_SQL = """
+CREATE TABLE IF NOT EXISTS knowledge_graph_nodes (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    node_type       TEXT NOT NULL,
+    value           TEXT NOT NULL,
+    normalized      TEXT NOT NULL DEFAULT '',
+    metadata        JSONB DEFAULT '{}'::jsonb,
+    parent_chunk_id UUID REFERENCES kb_parent_chunks(id) ON DELETE SET NULL,
+    created_at      TIMESTAMP DEFAULT NOW(),
+    UNIQUE (node_type, normalized)
+);
+
+CREATE TABLE IF NOT EXISTS knowledge_graph_edges (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    source_node_id  UUID NOT NULL REFERENCES knowledge_graph_nodes(id) ON DELETE CASCADE,
+    target_node_id  UUID NOT NULL REFERENCES knowledge_graph_nodes(id) ON DELETE CASCADE,
+    relation        TEXT NOT NULL DEFAULT 'related_to',
+    weight          DOUBLE PRECISION DEFAULT 1.0,
+    metadata        JSONB DEFAULT '{}'::jsonb,
+    created_at      TIMESTAMP DEFAULT NOW(),
+    UNIQUE (source_node_id, target_node_id, relation)
+);
+
+CREATE INDEX IF NOT EXISTS ix_kgn_chunk ON knowledge_graph_nodes(parent_chunk_id);
+CREATE INDEX IF NOT EXISTS ix_kgn_type ON knowledge_graph_nodes(node_type);
+CREATE INDEX IF NOT EXISTS ix_kgn_norm ON knowledge_graph_nodes(normalized);
+CREATE INDEX IF NOT EXISTS ix_kge_src ON knowledge_graph_edges(source_node_id);
+CREATE INDEX IF NOT EXISTS ix_kge_tgt ON knowledge_graph_edges(target_node_id);
+"""
+
+
+def ensure_knowledge_graph_tables() -> None:
+    """Create KG tables if absent. Safe when tables were pre-created with different DDL."""
+    with get_conn() as conn:
+        with conn.cursor() as cur:
+            cur.execute(_KG_GRAPH_SQL)
+    try:
+        from knowledge_base.db.kg_introspect import clear_kg_layout_cache
+        clear_kg_layout_cache()
+    except Exception:
+        pass
+
+
+
 
 def create_schema() -> None:
     with get_conn() as conn:
         with conn.cursor() as cur:
             cur.execute(_SCHEMA_SQL)
-    print("  Schema ready (kb_documents, kb_parent_chunks, kb_chunks)")
+    ensure_knowledge_graph_tables()
+    print("  Schema ready (kb_documents, kb_parent_chunks, kb_chunks, knowledge_graph_*)")
 
 
 def drop_schema() -> None:

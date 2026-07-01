@@ -563,6 +563,7 @@ import base64
 import json
 import time
 from core.api.api_client import APIClient
+from core.api.device_config_payloads import SSH_VNC_SETTINGS, make_device_config_payload
 from core.utils.logger import get_logger
 from core.api.auth_token import initial_auth, refresh_ums_auth
 from core.ssh.my_logger import logger
@@ -701,23 +702,7 @@ class UMSWUMSApi:
     def enable_ssh_vnc(self, device_id: int):
         log.info("[API] Enabling SSH + VNC + Shadow")
 
-        payload = {
-            "id": {"id": device_id, "type": "DEVICE"},
-            "data": (
-                "{\"network.ssh_server.enabled\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.ssh_server.permit_empty_passwords\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.ssh_server.permit_root_login\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.vncserver.enabled\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.vncserver.secure_mode\":{\"uiType\":\"bool\",\"value\":false,\"type\":2},"
-                "\"network.vncserver.promptuser\":{\"uiType\":\"bool\",\"value\":false,\"type\":2},"
-                "\"network.vncserver.showdisconnectbtn\":{\"uiType\":\"bool\",\"value\":false,\"type\":2},"
-                "\"userinterface.vncserver.indicatorposition\":{\"uiType\":\"string\",\"value\":\"top-right\","
-                "\"type\":2},"
-                "\"update.auto_reboot_timeout\":{\"uiType\":\"integer\",\"value\":240,\"type\":2}}"
-            ),
-            "language": "en",
-            "sendSettingsNow": True
-        }
+        payload = make_device_config_payload(device_id, SSH_VNC_SETTINGS)
 
         resp = self.api.post(
             "/wums-app/device-detail/updateDeviceConfiguration",
@@ -727,47 +712,42 @@ class UMSWUMSApi:
 
         assert resp.status_code in (200, 202)
 
-    def reboot_device(self, device_id: int):
-        log.info("[API] Sending reboot command")
+    def _execute_device_command(self, device_id: int, command_name: str, command_params=None):
+        """
+        Send a device command via the WUMS execute endpoint.
+
+        Centralizes the duplicated pattern used by reboot, shutdown, wake-up,
+        and similar device commands.
+        """
+        log.info(f"[API] Sending {command_name} command to device {device_id}")
+
+        payload = {
+            "command": {
+                "name": command_name,
+                "commandParams": command_params or {},
+            },
+            "deviceId": device_id,
+        }
 
         resp = self.api.post(
             "/wums-app/device-command/execute",
             headers={"Authorization": self.bearer},
-            json={
-                "command": {"name": "REBOOT", "commandParams": {}},
-                "deviceId": device_id
-            }
+            json=payload,
         )
 
-        assert resp.status_code in (200, 202)
+        assert resp.status_code in (200, 202), (
+            f"{command_name} failed: {resp.status_code} {resp.text}"
+        )
+        return resp
+
+    def reboot_device(self, device_id: int):
+        self._execute_device_command(device_id, "REBOOT")
 
     def shutdown_device(self, device_id: int):
-        log.info("[API] Sending shutdown command")
-
-        resp = self.api.post(
-            "/wums-app/device-command/execute",
-            headers={"Authorization": self.bearer},
-            json={
-                "command": {"name": "SHUTDOWN", "commandParams": {}},
-                "deviceId": device_id
-            }
-        )
-
-        assert resp.status_code in (200, 202)
+        self._execute_device_command(device_id, "SHUTDOWN")
 
     def wake_up_device(self, device_id: int):
-        log.info("[API] Sending wake-up command")
-
-        resp = self.api.post(
-            "/wums-app/device-command/execute",
-            headers={"Authorization": self.bearer},
-            json={
-                "command": {"name": "WAKEUP", "commandParams": {}},
-                "deviceId": device_id
-            }
-        )
-
-        assert resp.status_code in (200, 202)
+        self._execute_device_command(device_id, "WAKEUP")
 
     # ==========================================================
     # PROFILE
@@ -1017,33 +997,12 @@ class UMSWUMSApi:
 
         return resp.json()
 
-    # TO reset the device form UMS:
-
     def reset_device_to_factory(self, device_id: int):
         """
         Executes RESET_TO_FACTORY_DEFAULTS on the given device.
         This will wipe the device and unregister it from UMS.
         """
-
-        payload = {
-            "command": {
-                "commandParams": {},
-                "name": "RESET_TO_FACTORY_DEFAULTS",
-                "genericCommandId": None
-            },
-            "deviceId": device_id
-        }
-
-        resp = self.api.post(
-            "/wums-app/device-command/execute",
-            headers={"Authorization": self.bearer},
-            json=payload
-        )
-
-        assert resp.status_code in (200, 202), (
-            f"Factory reset failed: {resp.status_code} {resp.text}"
-        )
-# POOJA
+        self._execute_device_command(device_id, "RESET_TO_FACTORY_DEFAULTS")
 #=======================================================================
     # ==========================================================
     # CERTIFICATE / FILE
@@ -1255,54 +1214,8 @@ class UMSWUMSApi:
             device_id (int): Target device ID
             message (str): Message body to send
         """
-        log.info(f"[API] Sending message to device_id={device_id}")
-
-        payload = {
-            "command": {
-                "name": "SEND_MESSAGE",
-                "commandParams": {
-                    "MESSAGE": message
-                },
-                "genericCommandId": None
-            },
-            "deviceId": device_id
-        }
-
-        resp = self.api.post(
-            "/wums-app/device-command/execute",
-            headers={"Authorization": self.bearer, "Content-Type": "application/json"},
-            json=payload
-        )
-
-        if resp.status_code not in (200, 202):
-            raise Exception(f"Failed to send message to device. Status: {resp.status_code}, Response: {resp.text}")
-
-        log.info("[API] Message sent to device successfully")
-        return resp.json()
-
-    def reset_device_to_factory(self, device_id: int):
-        """
-        Executes RESET_TO_FACTORY_DEFAULTS on the given device.
-        This will wipe the device and unregister it from UMS.
-        """
-
-        payload = {
-            "command": {
-                "commandParams": {},
-                "name": "RESET_TO_FACTORY_DEFAULTS",
-                "genericCommandId": None
-            },
-            "deviceId": device_id
-        }
-
-        resp = self.api.post(
-            "/wums-app/device-command/execute",
-            headers={"Authorization": self.bearer},
-            json=payload
-        )
-
-        assert resp.status_code in (200, 202), (
-            f"Factory reset failed: {resp.status_code} {resp.text}"
+        return self._execute_device_command(
+            device_id, "SEND_MESSAGE", command_params={"MESSAGE": message}
         )
 
     # ==========================================================

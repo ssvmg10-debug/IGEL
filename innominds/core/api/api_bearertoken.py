@@ -118,76 +118,59 @@ class ApiWithBearerToken:
         self.session = requests.Session()
         self.weburl=ums_cred["weburl"]
 
+    def _assign_or_unassign_profile(self, profile_id, device_id, unassign):
+        """
+        Shared implementation for assign/detach profile operations.
+
+        Args:
+            profile_id: dict with 'id' key
+            device_id: dict with 'id' key
+            unassign: False to assign, True to detach
+        """
+        action = "Detach" if unassign else "Assign"
+        p_id = profile_id["id"]
+        d_id = device_id["id"]
+
+        payload = {
+            "assignOrUnassignObjects": [
+                {"objectId": p_id, "objectType": "PROFILE", "unassign": unassign}
+            ],
+            "deviceId": d_id,
+            "updateTime": "NOW"
+        }
+
+        response = self.session.post(
+            (self.weburl + "/wums-app/device-profile/assignOrUnassignObjectToDevice"),
+            headers={
+                "Authorization": self.bearer_token,
+                "Content-Type": "application/json"
+            },
+            json=payload,
+            verify=False
+        )
+
+        print(f"[INFO] Status Code: {response.status_code}")
+        print(f"[INFO] Response Body: {response.text}")
+
+        if response.status_code != 200:
+            raise Exception(f"Profile {action.lower()} failed: {response.text}")
+
+        print(f"[INFO] Profile {action.lower()} request sent successfully")
+        return response.json()
+
     def assign_profile_to_device_now(self, profile_id, device_id):
         """
         Assign a profile to a device using the bearer token.
         profile_id and device_id should be dictionaries with 'id' keys.
         """
-        profile_id = profile_id["id"]
-        device_id = device_id["id"]
-
-        payload = {
-            "assignOrUnassignObjects": [
-                {"objectId": profile_id, "objectType": "PROFILE", "unassign": False}
-            ],
-            "deviceId": device_id,
-            "updateTime": "NOW"
-        }
-
-        response = self.session.post(
-            (self.weburl + "/wums-app/device-profile/assignOrUnassignObjectToDevice"),
-            headers={
-                "Authorization": self.bearer_token,
-                "Content-Type": "application/json"
-            },
-            json=payload,
-            verify=False
-        )
-
-        print(f"[INFO] Status Code: {response.status_code}")
-        print(f"[INFO] Response Body: {response.text}")
-
-        if response.status_code != 200:
-            raise Exception(f"Profile assignment failed: {response.text}")
-
-        print("[INFO] Profile assignment request sent successfully")
-        return response.json()
+        return self._assign_or_unassign_profile(profile_id, device_id, unassign=False)
 
     def detach_profile_to_device_now(self, profile_id, device_id):
         """
-        Assign a profile to a device using the bearer token.
+        Detach a profile from a device using the bearer token.
         profile_id and device_id should be dictionaries with 'id' keys.
         """
-        profile_id = profile_id["id"]
-        device_id = device_id["id"]
-
-        payload = {
-            "assignOrUnassignObjects": [
-                {"objectId": profile_id, "objectType": "PROFILE", "unassign": True}
-            ],
-            "deviceId": device_id,
-            "updateTime": "NOW"
-        }
-
-        response = self.session.post(
-            (self.weburl + "/wums-app/device-profile/assignOrUnassignObjectToDevice"),
-            headers={
-                "Authorization": self.bearer_token,
-                "Content-Type": "application/json"
-            },
-            json=payload,
-            verify=False
-        )
-
-        print(f"[INFO] Status Code: {response.status_code}")
-        print(f"[INFO] Response Body: {response.text}")
-
-        if response.status_code != 200:
-            raise Exception(f"Profile Detachment failed: {response.text}")
-
-        print("[INFO] Profile Detach request sent successfully")
-        return response.json()
-
+        return self._assign_or_unassign_profile(profile_id, device_id, unassign=True)
 
 
 

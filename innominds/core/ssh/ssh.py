@@ -105,17 +105,6 @@ class SSHClient:
         else:
             return True
 
-    def close(self):
-        handle=self.handle
-        try:
-
-            if handle:
-                handle.close()
-                print(f"[-] Disconnected from {self.host}")
-        except Exception as e:
-            print(f"Error closing connection {self.host}: {e}")
-
-	
     def reboot(self):
         if not self.handle:
             print("SSH client not connected.")

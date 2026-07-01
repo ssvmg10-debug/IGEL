@@ -25,6 +25,7 @@ import hashlib
 
 from urllib.parse import urlparse, parse_qs
 from core.utils.logger import get_logger
+from core.api.device_config_payloads import SSH_VNC_SETTINGS, make_device_config_payload
 
 log = get_logger(__name__)
 
@@ -388,47 +389,13 @@ class UMSWUMSApi:
         raise Exception(f"Unexpected create_profile response: {data}")
 
     def assign_profile(self, device_id, profile_id):
-
-        payload = {
-            "assignOrUnassignObjects": [
-                {
-                    "objectId": profile_id,
-                    "objectType": "PROFILE",
-                    "unassign": False
-                }
-            ],
-            "deviceId": device_id,
-            "updateTime": "NOW"
-        }
-
-        return self._request(
-            "post",
-            "/wums-app/device-profile/assignOrUnassignObjectToDevice",
-            json=payload
-        )
+        return self.assign_object(device_id, profile_id, "PROFILE", unassign=False)
 
     # --------------------------------------------------
     # APPLICATION
     # --------------------------------------------------
     def assign_app(self, device_id, app_id):
-
-        payload = {
-            "assignOrUnassignObjects": [
-                {
-                    "objectId": app_id,
-                    "objectType": "INSTALLED_APP",
-                    "unassign": False
-                }
-            ],
-            "deviceId": device_id,
-            "updateTime": "NOW"
-        }
-
-        return self._request(
-            "post",
-            "/wums-app/device-profile/assignOrUnassignObjectToDevice",
-            json=payload
-        )
+        return self.assign_object(device_id, app_id, "INSTALLED_APP", unassign=False)
 
     # --------------------------------------------------
     # PROFILE DIRECTORY
@@ -568,22 +535,7 @@ class UMSWUMSApi:
 
     def enable_ssh_vnc(self, device_id):
 
-        payload = {
-            "id": {"id": device_id, "type": "DEVICE"},
-            "data": (
-                "{\"network.ssh_server.enabled\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.ssh_server.permit_empty_passwords\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.ssh_server.permit_root_login\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.vncserver.enabled\":{\"uiType\":\"bool\",\"value\":true,\"type\":2},"
-                "\"network.vncserver.secure_mode\":{\"uiType\":\"bool\",\"value\":false,\"type\":2},"
-                "\"network.vncserver.promptuser\":{\"uiType\":\"bool\",\"value\":false,\"type\":2},"
-                "\"network.vncserver.showdisconnectbtn\":{\"uiType\":\"bool\",\"value\":false,\"type\":2},"
-                "\"userinterface.vncserver.indicatorposition\":{\"uiType\":\"string\",\"value\":\"top-right\",\"type\":2},"
-                "\"update.auto_reboot_timeout\":{\"uiType\":\"integer\",\"value\":240,\"type\":2}}"
-            ),
-            "language": "en",
-            "sendSettingsNow": True
-        }
+        payload = make_device_config_payload(device_id, SSH_VNC_SETTINGS)
 
         return self._request(
             "post",
@@ -644,24 +596,7 @@ class UMSWUMSApi:
             object_type,
             unassign=True
     ):
-
-        payload = {
-            "assignOrUnassignObjects": [
-                {
-                    "objectId": object_id,
-                    "objectType": object_type,
-                    "unassign": unassign
-                }
-            ],
-            "deviceId": device_id,
-            "updateTime": "NOW"
-        }
-
-        resp = self._request(
-            "post",
-            "/wums-app/device-profile/assignOrUnassignObjectToDevice",
-            json=payload
-        )
+        resp = self.assign_object(device_id, object_id, object_type, unassign)
         return resp.status_code, resp.text
 
 
@@ -715,15 +650,7 @@ class UMSWUMSApi:
         Update device configuration (used for default browser, SSH, etc.)
         """
 
-        payload = {
-            "id": {
-                "id": device_id,
-                "type": "DEVICE"
-            },
-            "data": data_payload,  # IMPORTANT: string JSON
-            "language": "en",
-            "sendSettingsNow": send_now
-        }
+        payload = make_device_config_payload(device_id, data_payload, send_now=send_now)
 
         resp = self._request(
             "post",

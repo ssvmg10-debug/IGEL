@@ -405,12 +405,3 @@ class UMS:
 		except Exception as e:
 			print(f"Exception cleaning up UMS session: {e}")
 
-# UM=UMS("https://192.168.10.28:8443/umsapi/v3","vikas.hiremath.ums","igelxinnominds")
-# # vm=UM.get_vm_details("ITC005056AD4200")
-# vm=UM.get_vm_details("ITC005056AD3496")
-# print(vm)
-# # reset, data =UM.reset_to_defaults(vm)
-# # print(reset, data)
-# # tc_dir=UM.get_tc_directory_details("12.8.0")
-# # print(tc_dir['id'])
-# status, data = UM.device_reboot(vm)

@@ -34,7 +34,8 @@ class SSHClientIGEL:
     def connect(self, timeout: int = 10) -> bool:
         print(f"[SSH] Trying SSH connection to {self.host}:{self.port} as {self.username}...")
         ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(paramiko.WarningPolicy())
 
         try:
             ssh.connect(

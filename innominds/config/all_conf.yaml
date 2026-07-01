@@ -1,28 +1,28 @@
+# ──────────────────────────────────────────────────────────────────────
+# IGEL Test Automation - Main Configuration
+#
+# SECURITY NOTE: Do NOT commit real passwords or secrets here.
+# Store credentials in environment variables or a local .env file
+# (which should be listed in .gitignore).
+#
+# Required environment variables:
+#   UMS_PASSWORD          – UMS login password
+#   OTP_SECRET_KEY        – Entra ID OTP secret
+# ──────────────────────────────────────────────────────────────────────
+
 device:
   host: "192.168.11.135"
   port: "22"
   user: "root"
   pwd: ""
   version : "12.8.0-1.rc.20"
-  # hostname : "ITCBC24114B99E2"
   hostname: "ITC005056ADE39C"
   chrome: "chromium-143.0.7499.+1"
-
-# device:
-#   host: "192.168.9.76"
-#   port: "22"
-#   user: "root"
-#   pwd: ""
-
-    
-#       version : "12.8.0-1.rc.20"
-#   hostname : "ITCBC24114B99E2"
-#   chrome: "chromium-143.0.7499.+1"
 
 UMS:
   base_url: "https://192.168.10.28:8443/umsapi/v3"
   username: "laxmikanth.ghali.ums"
-  password: "igelxinnominds"
+  password: "${UMS_PASSWORD}"
   weburl: "https://192.168.10.28:8443"
   current_device_version: "12.8.0-1.rc.20"
   previous_device_version: "12.8.0-1.rc.20"
@@ -36,93 +36,4 @@ logger:
 otp_secret_cred:
   Entra_ID:
     testuser1:
-      secret_key: "xz7xrqbgqmdfrlkq"
-
-
-
-#======
-# device:
-#   host: "192.168.11.135"
-#   port: "22"
-#   user: "root"
-#   pwd: ""
-#   version : "12.8.0-1.rc.21"
-#   hostname : "ITCBC24114B99E2"
-#   # hostname: "ITC005056ADE39C"
-#   chrome: "chromium-143.0.7499.+1"
-# LG
-# Uncomment when running 4225 and comment same field above.
-  # host: "192.168.9.161"
-  # hostname: "ITC005056AD9677"
-  # mac: "005056AD9677"
-  # chrome: "chromium-143.0.7499.+1"
-
-# # ========================================
-# device:
-#   host: "192.168.11.135"
-#   # host: "192.168.9.23"
-#   port: "22"
-#   user: "root"
-#   pwd: ""
-#   version : "12.7.4"
-#   hostname: "ITC005056ADE39C"
-#   # hostname: "ITC005056AD60B5"
-#   chrome: "chromium-143.0.7499.+1"
-
-# # Uncomment when running 4225 and comment same field above.
-#   # host: "192.168.9.161"
-#   # hostname: "ITC005056AD9677"
-#   # mac: "005056AD9677"
-#   # chrome: "chromium-143.0.7499.+1"
-
-# UMS:
-#   base_url: "https://192.168.10.28:8443/umsapi/v3"
-#   username: "laxmikanth.ghali.ums"
-#   # username: "sachin..ums"
-#   password: "igelxinnominds"
-#   weburl: "https://192.168.10.28:8443"
-#   current_device_version: "12.7.4"
-#   previous_device_version: "12.7.3"
-#   current_version_dir: "LG Igel 12.7.4"
-#   previous_version_dir: "LG Igel 12.7.3"
-
-# logger:
-# # INFO DEBUG ERROR WARN, default INFO
-#   logLevel: "INFO"
-
-
-# otp_secret_cred:
-#   Entra_ID:
-#     testuser1:
-#       secret_key: "xz7xrqbgqmdfrlkq"
-
-# =====VIKAS
-
-# device:
-#   host: "192.168.11.161"
-#   port: "22"
-#   user: "root"
-#   pwd: ""
-#   version : "12.7.6-1.rc.1"
-#   hostname: "ITC005056AD1486"
-#   chrome: "chromium-143.0.7499.+1"
-
-# UMS:
-#   base_url: "https://192.168.10.28:8443/umsapi/v3"
-#   username: "vikas.hiremath.ums"
-#   password: "igelxinnominds"
-#   weburl: "https://192.168.10.28:8443"
-#   current_device_version: "12.7.6-1.rc.1"
-#   previous_device_version: "12.7.4"
-#   current_version_dir: "pooja 12.7.6rc"
-#   previous_version_dir: "pooja 12.7.4"
-
-# logger:
-# # INFO DEBUG ERROR WARN, default INFO
-#   logLevel: "DEBUG"
-
-# otp_secret_cred:
-#   Entra_ID:
-#     testuser1:
-#       secret_key: "xz7xrqbgqmdfrlkq"
-
+      secret_key: "${OTP_SECRET_KEY}"

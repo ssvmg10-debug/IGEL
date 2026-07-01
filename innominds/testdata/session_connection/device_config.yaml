@@ -2,4 +2,4 @@ igel:
   # ums login credential
   url: "https://192.168.10.28:8443/webapp/#/device-shadow/shadow/210"
   username_browser: "laxmikanth.ghali.ums"
-  password_browser: "igelxinnominds"
+  password_browser: "${UMS_PASSWORD}"

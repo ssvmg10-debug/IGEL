@@ -2,14 +2,14 @@ ums:
   base_url: "https://192.168.10.28:8443"
   webapp_url: "https://192.168.10.28:8443/webapp/"
   username: "sai.arokala.ums"
-  password: "igelxinnominds"
+  password: "${UMS_PASSWORD}"
 
 
 
 shadow:
   base_webapp_url: "https://192.168.10.28:8443"
   username: "sai.arokala.ums"
-  password: "igelxinnominds"
+  password: "${UMS_PASSWORD}"
 
 browser:
   headless: false
@@ -222,14 +222,14 @@ step20_apps:
 vmware:
   url: "https://itga-vcs-test.igel.local/ui/webconsole.html?vmId=vm-17439&vmName=qa-ta-OS12-3&numMksConnections=0&serverGuid=2a94a1be-cb58-4251-bf7a-85484d255652&locale=en-US"
   username: "sai.arakola_ext"
-  password: "Inno@121976"
+  password: "${VMWARE_PASSWORD}"
 
 paths:
   setup_ini: "/wfs/setup.ini"
 
 OBS_Creds:
   OBS_Email: "obs_tu1@qata.onmicrosoft.com"
-  OBS_Password: "PR4rjnL3Yq"
+  OBS_Password: "${OBS_PASSWORD}"
   OBS_device_ip: "192.168.11.107"
   OBS_device_name: "ITC005056AD573D"
   Structure_Tag_name: "IGEL Testing"
@@ -289,9 +289,9 @@ QCL_4438_profile:
 web_console:
   url: "https://itga-vcs-test.igel.local/ui/webconsole.html?vmId=vm-17439&vmName=qa-ta-OS12-3&numMksConnections=0&serverGuid=2a94a1be-cb58-4251-bf7a-85484d255652&locale=en-US"
   username: "sai.arakola_ext"
-  password: "Inno@121976"
+  password: "${VMWARE_PASSWORD}"
 vcenter:
   base_url: "https://itga-vcs-test.igel.local"
   username: "sai.arakola_ext"
-  password: "Inno@121976"
+  password: "${VMWARE_PASSWORD}"
   vm_id: "vm-17439"                 # vm-17050 (192.168.9.0) #vm-17439(192.168.11.107)

@@ -20,7 +20,8 @@ class SSHClient:
     def _connect_(self):
         try:
             handle = paramiko.SSHClient()
-            handle.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            handle.load_system_host_keys()
+            handle.set_missing_host_key_policy(paramiko.WarningPolicy())
             print(f"Connecting to host: {self.host} ")
 
             if self.key_file:

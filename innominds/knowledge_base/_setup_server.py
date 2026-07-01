@@ -1,14 +1,15 @@
-"""One-shot setup: install pgvector + create IGEL DB & igle user on 192.168.204.65."""
+"""One-shot setup: install pgvector + create IGEL DB & igle user."""
+import os
 import paramiko
 import sys
 
-HOST = "192.168.204.65"
-SSH_USER = "root"
-SSH_PASS = "FRIDEbAsec"
+HOST = os.environ["DB_SSH_HOST"]
+SSH_USER = os.environ.get("DB_SSH_USER", "root")
+SSH_PASS = os.environ["DB_SSH_PASSWORD"]
 
-DB_NAME = "IGEL"
-DB_ROLE = "igle"
-DB_PASS = "12345"
+DB_NAME = os.environ.get("DB_NAME", "IGEL")
+DB_ROLE = os.environ.get("DB_ROLE", "igle")
+DB_PASS = os.environ["DB_ROLE_PASSWORD"]
 
 
 def run(client, cmd, hide_output=False):

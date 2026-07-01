@@ -10,7 +10,7 @@ device:
 UMS:
   base_url: "https://192.168.10.28:8443/umsapi/v3"
   username: "laxmikanth.ghali.ums"
-  password: "igelxinnominds"
+  password: "${UMS_PASSWORD}"
   weburl: "https://192.168.10.28:8443"
 
 logger:
@@ -19,4 +19,4 @@ logger:
 otp_secret_cred:
   Entra_ID:
     testuser1:
-      secret_key: "xz7xrqbgqmdfrlkq"
+      secret_key: "${OTP_SECRET_KEY}"

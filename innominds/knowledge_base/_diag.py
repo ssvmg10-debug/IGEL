@@ -1,5 +1,6 @@
 import paramiko
-HOST="192.168.204.65"; SSH_USER="root"; SSH_PASS="FRIDEbAsec"
+import os
+HOST = os.environ["DB_SSH_HOST"]; SSH_USER = os.environ.get("DB_SSH_USER", "root"); SSH_PASS = os.environ["DB_SSH_PASSWORD"]
 
 c = paramiko.SSHClient()
 c.set_missing_host_key_policy(paramiko.AutoAddPolicy())

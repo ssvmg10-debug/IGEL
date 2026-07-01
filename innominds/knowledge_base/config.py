@@ -19,7 +19,7 @@ class Config:
     DB_PORT: int = int(os.getenv("DB_PORT", "5432"))
     DB_NAME: str = os.getenv("DB_NAME", "genai")
     DB_USER: str = os.getenv("DB_USER", "genai")
-    DB_PASSWORD: str = os.getenv("DB_PASSWORD", "1234")
+    DB_PASSWORD: str = os.getenv("DB_PASSWORD", "")
 
     # Azure OpenAI - LLM
     AZURE_API_KEY: str = os.getenv("AZURE_API_KEY", "")

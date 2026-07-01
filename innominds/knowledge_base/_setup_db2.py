@@ -1,6 +1,11 @@
+import os
 import paramiko
-HOST="192.168.204.65"; SSH_USER="root"; SSH_PASS="FRIDEbAsec"
-DB_NAME="IGEL"; DB_ROLE="igle"; DB_PASS="12345"
+HOST = os.environ["DB_SSH_HOST"]
+SSH_USER = os.environ.get("DB_SSH_USER", "root")
+SSH_PASS = os.environ["DB_SSH_PASSWORD"]
+DB_NAME = os.environ.get("DB_NAME", "IGEL")
+DB_ROLE = os.environ.get("DB_ROLE", "igle")
+DB_PASS = os.environ["DB_ROLE_PASSWORD"]
 
 c = paramiko.SSHClient(); c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 c.connect(HOST, username=SSH_USER, password=SSH_PASS, timeout=15, allow_agent=False, look_for_keys=False)

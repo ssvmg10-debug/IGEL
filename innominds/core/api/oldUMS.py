@@ -220,26 +220,4 @@ class UMS:
 
 
 
-#ums_url = "https://192.168.10.28:8443/umsapi/v3"
-#username = "vikas.hiremath.ums"
-#password = "igelxinnominds"
 
-#UM=UMS(ums_url,username,password)
-#vm=UM.get_vm_details("ITC005056AD3496")
-#print(vm)
-#prfs=UM.get_profile_assigned_device(vm)
-#print(prfs)
-
-#prof=UM.get_profile__details("vikas_edge")
-#print(f"Profile id = {prof['id']}")
-#print(f"Profile is {prof['name']}")
-#assmt=UM.assign_profile_to_device(prof,vm)
-#print(assmt)
-#delete = UM.delete_profile_from_device(prof,vm)
-#print(delete)
-#get_profs=UM.get_all_profile_directories()
-#print(get_profs)
-#dirs=UM.get_all_tc_directories()
-#print(dirs)
-#prt_profs=UM.get_all_priority_profiles()
-#print(prt_profs)

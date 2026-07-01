@@ -17,15 +17,15 @@ igel:
  
   # ── Credntials for pingone────────────────────────────────────────────────────────
   pingone_username : "testuser2"
-  pingone_password : "Luxa990928"
+  pingone_password : "${PINGONE_PASSWORD}"
 
   # ── Credntials for Entra ID────────────────────────────────────────────────────────
   entraid_username : "testuser1@igelsso.onmicrosoft.com"
-  entraid_password : "Tabu787656"
+  entraid_password : "${ENTRAID_PASSWORD}"
 
   # ── Credntials for OpenID ────────────────────────────────────────────────────────
   openid_username : "shashi.negi_ext@igel.com"
-  openid_password : "Winter2025."
+  openid_password : "${OPENID_PASSWORD}"
 #--
 
   device_name : "ITC005056ADE39C"
@@ -60,15 +60,15 @@ igel:
 
   # ── Credntials for pingone────────────────────────────────────────────────────────
   # pingone_username : "testuser2"
-  # pingone_password : "Luxa990928"
+  # pingone_password : "${PINGONE_PASSWORD}"
 
   # # ── Credntials for Entra ID────────────────────────────────────────────────────────
   # entraid_username : "testuser1@igelsso.onmicrosoft.com"
-  # entraid_password : "Tabu787656"
+  # entraid_password : "${ENTRAID_PASSWORD}"
 
     # ── Credntials for OKTA ID────────────────────────────────────────────────────────Winter2025.
   oktaid_username : "shashi.negi_ext@igel.com"
-  oktaid_password : "Winter2025."
+  oktaid_password : "${OKTAID_PASSWORD}"
 
 #------------
 # ── profile details for Omnissa────────────────────────────────────────────────────────
@@ -79,15 +79,15 @@ igel:
 
   # # ── Credntials for pingone────────────────────────────────────────────────────────
   # pingone_username : "testuser2"
-  # pingone_password : "Luxa990928"
+  # pingone_password : "${PINGONE_PASSWORD}"
 
   # # ── Credntials for Entra ID────────────────────────────────────────────────────────
   # entraid_username : "testuser1@igelsso.onmicrosoft.com"
-  # entraid_password : "Tabu787656"
+  # entraid_password : "${ENTRAID_PASSWORD}"
 
   # ── Credntials for Omnissa────────────────────────────────────────────────────────
   omnissa_username : "testuser1"
-  omnissa_password : "Tabu#787655"
+  omnissa_password : "${OMNISSA_PASSWORD}"
 
 # ── profile details for actdir────────────────────────────────────────────────────────
   profile_sso_actdir : "sso_active_dir_sachin"
@@ -97,4 +97,4 @@ igel:
 
   # ── Credntials for actdir────────────────────────────────────────────────────────
   actdir_username : "sachin@qa.test"
-  actdir_password : "IGEL2026"
+  actdir_password : "${ACTDIR_PASSWORD}"

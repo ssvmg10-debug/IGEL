@@ -4,4 +4,10 @@ __pycache__/
 .idea/
 venv/
 .env
+.env.*
 *.log
+
+# Secrets / credentials (never commit these)
+*.secrets
+*credentials*
+*secret*key*

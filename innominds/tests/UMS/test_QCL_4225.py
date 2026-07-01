@@ -43,7 +43,7 @@ from locators.read_config import web_element, get_element_by_name
 
 URL = "https://192.168.10.28:8443/webapp/#/devices"
 USERNAME = "sachin.ums"
-PASSWORD = "igelxinnominds"
+PASSWORD = ums_cred["password"]
 
 def ums_enable_shadow(playwright):
     browser = playwright.chromium.launch(headless=False, args=["--start-maximized"])

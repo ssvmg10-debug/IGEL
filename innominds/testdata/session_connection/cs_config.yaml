@@ -8,7 +8,7 @@ igel:
 
   # ── Credntials for pingone────────────────────────────────────────────────────────
   pingone_username : "qatest1@igel.com"
-  pingone_password : "has.gel123"
+  pingone_password : "${PINGONE_PASSWORD}"
 
 ##--
   # ── profile details for citrix ────────────────────────────────────────────────────────
@@ -17,7 +17,7 @@ igel:
 
   # ── QA Credntials for citrix ────────────────────────────────────────────────────────
   qa_test_username : "ta_tu1@qa.test"
-  qa_test_password : "pih4v7sb3s"
+  qa_test_password : "${QA_TEST_PASSWORD}"
 
   # ── profile details for AVD ────────────────────────────────────────────────────────
   profile_avd : "AVD_QCL1689"

@@ -1,14 +1,19 @@
 """Upload a shell script + SQL file via SFTP, then execute as root."""
+import os
 import paramiko
-HOST="192.168.204.65"; SSH_USER="root"; SSH_PASS="FRIDEbAsec"
+HOST = os.environ["DB_SSH_HOST"]
+SSH_USER = os.environ.get("DB_SSH_USER", "root")
+SSH_PASS = os.environ["DB_SSH_PASSWORD"]
 
-SETUP_SQL = """\
+DB_ROLE_PASSWORD = os.environ["DB_ROLE_PASSWORD"]
+
+SETUP_SQL = f"""\
 -- Run as the postgres superuser. Idempotent.
 DO $do$ BEGIN
   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname='igle') THEN
-    CREATE ROLE igle WITH LOGIN PASSWORD '12345' CREATEDB;
+    CREATE ROLE igle WITH LOGIN PASSWORD '{DB_ROLE_PASSWORD}' CREATEDB;
   ELSE
-    ALTER ROLE igle WITH LOGIN PASSWORD '12345';
+    ALTER ROLE igle WITH LOGIN PASSWORD '{DB_ROLE_PASSWORD}';
   END IF;
 END $do$;
 

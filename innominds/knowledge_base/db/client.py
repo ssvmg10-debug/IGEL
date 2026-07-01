@@ -1,7 +1,11 @@
+import logging
+
 import psycopg2
 import psycopg2.pool
 from contextlib import contextmanager
 from knowledge_base.config import cfg
+
+log = logging.getLogger(__name__)
 
 _pool: psycopg2.pool.ThreadedConnectionPool | None = None
 
@@ -40,10 +44,10 @@ def test_connection() -> bool:
             with conn.cursor() as cur:
                 cur.execute("SELECT version();")
                 version = cur.fetchone()[0]
-                print(f"  Connected: {version[:60]}")
+                log.info("DB connected: %s", version[:60])
         return True
-    except Exception as e:
-        print(f"  DB connection failed: {e}")
+    except psycopg2.Error as e:
+        log.error("DB connection failed: %s", e)
         return False
 
 

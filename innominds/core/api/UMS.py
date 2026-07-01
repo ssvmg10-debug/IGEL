@@ -1,16 +1,21 @@
 import json
+import logging
 import requests
+
+log = logging.getLogger(__name__)
 
 
 def get_ums_creds(file_name):
-	ums=None
 	try:
 		with open(file_name) as f:
-			ums = json.loads(f)
+			ums = json.load(f)
 		return ums
-
-	except Exception as e:
-		print(f"Exception: {e}")
+	except FileNotFoundError:
+		log.error("Credentials file not found: %s", file_name)
+		raise
+	except json.JSONDecodeError as e:
+		log.error("Invalid JSON in credentials file %s: %s", file_name, e)
+		raise
 
 
 class UMS:
@@ -29,388 +34,264 @@ class UMS:
 			session.verify = False
 			login_url = f"{self.base_url}/login"
 			response = session.post(login_url)
-			if (response.ok):
+			if response.ok:
 				return session
 			else:
-				return None
-		except Exception as e:
-			print(f"Exception occured: {e}")
-			return None
+				log.error("UMS login failed with status %s: %s", response.status_code, response.text)
+				raise ConnectionError(
+					f"UMS login failed (HTTP {response.status_code}): {response.text}"
+				)
+		except requests.RequestException as e:
+			log.error("UMS connection failed: %s", e)
+			raise ConnectionError(f"UMS connection failed: {e}") from e
 
 	def get_all_tc_directories(self):
-		try:
-			url=f"{self.base_url}/directories/tcdirectories"
-			tc_dirs=self.session.get(url)
-			if (tc_dirs):
-				return tc_dirs.json()
-			else:
-				return None
-		except Exception as e:
-			print(F"Exception getting all dirs: {e}")
+		url=f"{self.base_url}/directories/tcdirectories"
+		tc_dirs=self.session.get(url)
+		if tc_dirs.ok:
+			return tc_dirs.json()
+		log.error("Failed to get TC directories (HTTP %s): %s", tc_dirs.status_code, tc_dirs.text)
+		raise RuntimeError(
+			f"Failed to get TC directories (HTTP {tc_dirs.status_code})"
+		)
 
 
 	def get_tc_directory_details(self, dir_name=None):
-		try:
-			print(f"dir name = {dir_name}")
-			if dir_name is None:
-				print(f"dir_name is missing/not valid")
-				return None
-			url=f"{self.base_url}/directories/tcdirectories"
+		if dir_name is None:
+			raise ValueError("dir_name is required")
+
+		log.info("Looking up TC directory: %s", dir_name)
+		url=f"{self.base_url}/directories/tcdirectories"
+		tc_dir_list=self.session.get(url)
+
+		if tc_dir_list.status_code in (401, 402):
+			log.warning("Session expired, reconnecting...")
+			self.session = self.__connect__()
 			tc_dir_list=self.session.get(url)
-			if tc_dir_list.status_code in (401, 402):
-				print("Session disconnected, reconnecting...")
-				self.__connect__()
-				tc_dir_list=self.session.get(url)
-				if tc_dir_list.ok:
-					for tc_dir in tc_dir_list.json():
-						if tc_dir['name'] == dir_name:
-							return tc_dir
 
-			elif (tc_dir_list.ok):
+		if not tc_dir_list.ok:
+			raise RuntimeError(
+				f"Failed to list TC directories (HTTP {tc_dir_list.status_code})"
+			)
 
-				for tc_dir in tc_dir_list.json():
-					if tc_dir['name'] == dir_name:
-						print(f"TC Directory found: {dir_name}")
-						return tc_dir
-				print(f"No matching directory found:{dir_name}")
-				return None
-			else:
-				print(f"No matching directory found:{dir_name}")
-				return None
+		for tc_dir in tc_dir_list.json():
+			if tc_dir['name'] == dir_name:
+				log.info("TC Directory found: %s", dir_name)
+				return tc_dir
 
-		except Exception as e:
-			print(f"Exception occurred: {e}")
-			return None
+		return None
 
 
 
 	def get_vm_details(self, vm_name):
-		try:
-			url = f"{self.base_url}/thinclients"
-			vm_List=self.session.get(url)
-			for vm in vm_List.json():
-				if vm_name == vm["name"]:
-					return vm
-
-			return None
-		except Exception as e:
-			print(f"Exception occurred in get vms: {e}")
-			return None
+		url = f"{self.base_url}/thinclients"
+		resp=self.session.get(url)
+		if not resp.ok:
+			raise RuntimeError(
+				f"Failed to list VMs (HTTP {resp.status_code}): {resp.text}"
+			)
+		for vm in resp.json():
+			if vm_name == vm["name"]:
+				return vm
+		return None
 
 	def get_profile_details(self, prof_name):
-		try:
-			url=f"{self.base_url}/profiles"
-			pr_list=self.session.get(url)
-			for profile in pr_list.json():
-				if prof_name==profile["name"]:
-					return profile
-
-			return None
-
-		except Exception as e:
-			print(f"Error while reading profiles: {e}")
-			return None
+		url=f"{self.base_url}/profiles"
+		resp=self.session.get(url)
+		if not resp.ok:
+			raise RuntimeError(
+				f"Failed to list profiles (HTTP {resp.status_code}): {resp.text}"
+			)
+		for profile in resp.json():
+			if prof_name==profile["name"]:
+				return profile
+		return None
 	
 	def assign_profile_to_device (self, profile, device):
-		try:
-			print(f"Assigning profile {profile['name']} to {device['name']}")
-			if profile["id"] and device["id"]:
-				url=f"{self.base_url}/profiles/{profile['id']}/assignments/thinclients"
-				#data=f"('[{"assignee": {"id": profile["id"], "type": "profile"}, "receiver": {"id": device["id"], "type": "tc"}}]')
-				data=[{"assignee": {"id": profile["id"], "type": "profile"}, "receiver": {"id": device["id"], "type": "tc"}}]
-				print(f"data = {data}, url={url}")
-				assignment=self.session.put(url, json=data, verify=False)
-				if (assignment.ok):
-					print(f"Assigned profile {profile['name']} successfully to device {device['name']}")
-					return assignment
-				else:
-					print(f"Error assigning the policy: {assignment.json()}")
-					return assignment
+		if not profile.get("id") or not device.get("id"):
+			raise ValueError("Both profile and device must have an 'id'")
 
-		except Exception as e:
-			print(f"Exception assigning profile to device: {e}")
-			return None
+		log.info("Assigning profile %s to %s", profile['name'], device['name'])
+		url=f"{self.base_url}/profiles/{profile['id']}/assignments/thinclients"
+		data=[{"assignee": {"id": profile["id"], "type": "profile"}, "receiver": {"id": device["id"], "type": "tc"}}]
+		assignment=self.session.put(url, json=data, verify=False)
+		if assignment.ok:
+			log.info("Assigned profile %s successfully to device %s", profile['name'], device['name'])
+		else:
+			log.error("Error assigning profile: %s", assignment.text)
+		return assignment
 		
 	
 	def delete_profile_from_device(self, profile, device):
-		try:
-			print(f"Deleting profile {profile['name']} from {device['name']}")
-			if profile["id"] and device["id"]:
-				url=f"{self.base_url}/profiles/{profile['id']}/assignments/thinclients/{device['id']}"
-				print(f"URL is {url}")
-				delete=self.session.delete(url)
-				if (delete.ok):
-					print(f"Deleted profile {profile['name']} from {device['name']} successfully")
-					return delete
+		if not profile.get("id") or not device.get("id"):
+			raise ValueError("Both profile and device must have an 'id'")
 
-				else:
-					print(f"Error deleting the profile: {delete.json()}")
-					return delete
-
-		except Exception as e:
-			print(f"Exception deleting profile: {e}")
-			return None
+		log.info("Deleting profile %s from %s", profile['name'], device['name'])
+		url=f"{self.base_url}/profiles/{profile['id']}/assignments/thinclients/{device['id']}"
+		resp=self.session.delete(url)
+		if resp.ok:
+			log.info("Deleted profile %s from %s successfully", profile['name'], device['name'])
+		else:
+			log.error("Error deleting profile: %s", resp.text)
+		return resp
 
 	def get_all_profile_directories(self):
-		try:
-			url=f"{self.base_url}/directories/profiledirectories"
-			print(f"url is {url}")
-			prof_dirs=self.session.get(url)
-			if prof_dirs.ok:
-				print("Rxd profiles")
-				return prof_dirs.json()
-			else:
-				print(f"Error reading all profiles: {prof_dirs.json()}")
-				return None
-		except Exception as e:
-			print(f"Exception during read all profiles: {e}")
-			return None
+		url=f"{self.base_url}/directories/profiledirectories"
+		resp=self.session.get(url)
+		if resp.ok:
+			return resp.json()
+		log.error("Failed to read profile directories (HTTP %s): %s", resp.status_code, resp.text)
+		raise RuntimeError(
+			f"Failed to read profile directories (HTTP {resp.status_code})"
+		)
 
 	def get_all_priority_profiles(self):
-		try:
-			url=f"{self.base_url}/masterprofiles"
-			prt_prof_dirs=self.session.get(url)
-			if prt_prof_dirs.ok:
-				print("Rxd priority profiles:")
-				return prt_prof_dirs.json()
-			elif prt_prof_dirs.status_code in (401, 403):
-				print("Connection lost, reconnecting..");
-				self.__connect__()
-				prt_prof_dirs=self.session.get(url)
-				if prt_prof_dirs.ok:
-					print("Rxd priority profiles:")
-					return prt_prof_dirs.json()
-			else:
-				print(f"Error reading prt profiles: {prt_prof_dirs.json()}")
-				return None
-
-		except Exception as e:
-			print(f"Exception reading prt profiles: {e}")
-			return None
+		url=f"{self.base_url}/masterprofiles"
+		resp=self.session.get(url)
+		if resp.status_code in (401, 403):
+			log.warning("Session expired, reconnecting...")
+			self.session = self.__connect__()
+			resp=self.session.get(url)
+		if resp.ok:
+			return resp.json()
+		log.error("Failed to read priority profiles (HTTP %s): %s", resp.status_code, resp.text)
+		raise RuntimeError(
+			f"Failed to read priority profiles (HTTP {resp.status_code})"
+		)
 
 	def create_profile_directory(self, name):
-		try:
-			url=(f"{self.base_url}/directories/profiledirectories")
-			if name:
-				data={"name":name}
-			else:
-				print("Dir name not valid")
-				return None
-			crt_prf_dir=self.session.put(url, data=data)
-			if crt_prf_dir.status_code in (401, 403):
-				self.__connect__()
-				crt_prf_dir=self.session.put(url, data=data)
-				if crt_prf_dir.ok:
-					print ("Created profile directory successfully")
-					return crt_prf_dir.json()
-				else:
-					print(f"Error creating profile dir: {crt_prf_dir.json()}")
-		
-		except Exception as e:
-			print(f"Exception creating profile directory: {e}")
-			return None
+		if not name:
+			raise ValueError("Directory name is required")
+
+		url=(f"{self.base_url}/directories/profiledirectories")
+		data={"name":name}
+		resp=self.session.put(url, data=data)
+		if resp.status_code in (401, 403):
+			log.warning("Session expired, reconnecting...")
+			self.session = self.__connect__()
+			resp=self.session.put(url, data=data)
+		if resp.ok:
+			log.info("Created profile directory: %s", name)
+			return resp.json()
+		log.error("Failed to create profile directory (HTTP %s): %s", resp.status_code, resp.text)
+		raise RuntimeError(
+			f"Failed to create profile directory (HTTP {resp.status_code})"
+		)
 
 	def get_profile_assigned_device(self, device):
-		try:
-			device_id=device["id"]
-			url=(f"{self.base_url}/thinclients/{device_id}/assignments/profiles")
-			print(f"url is {url}")
-			profile_assigned=self.session.get(url)
-			if profile_assigned.status_code in (401, 403):
-				self.__connect__()
-				profile_assigned=self.session.get(url)
-			if profile_assigned.ok:
-				print("Rxd profiles")
-				return profile_assigned.json()
-
-			else:
-				print(f"Error getting profile assigned: {profile_assigned.json()}")
-				return None
-		except Exception as e:
-			print(f"Exception getting profile assigned: {e}")
+		device_id=device["id"]
+		url=(f"{self.base_url}/thinclients/{device_id}/assignments/profiles")
+		resp=self.session.get(url)
+		if resp.status_code in (401, 403):
+			log.warning("Session expired, reconnecting...")
+			self.session = self.__connect__()
+			resp=self.session.get(url)
+		if resp.ok:
+			return resp.json()
+		log.error("Failed to get assigned profiles (HTTP %s): %s", resp.status_code, resp.text)
+		raise RuntimeError(
+			f"Failed to get assigned profiles (HTTP {resp.status_code})"
+		)
 
 	def get_device_online_status(self, device):
-		try:
-			device_id=device["id"]
-			url=(f"{self.base_url}/thinclients/{device_id}?facets=online")
-			print(f"url is {url}")
-			online_status=self.session.get(url)
-			return json.loads(online_status.content)['online']
-
-
-		except Exception as e:
-			print(f"Exception getting online status: {e}")
-			return None
-
+		device_id=device["id"]
+		url=(f"{self.base_url}/thinclients/{device_id}?facets=online")
+		resp=self.session.get(url)
+		if not resp.ok:
+			raise RuntimeError(
+				f"Failed to get device online status (HTTP {resp.status_code})"
+			)
+		data = resp.json()
+		if 'online' not in data:
+			raise RuntimeError(f"'online' field missing from response: {data}")
+		return data['online']
 
 	def move_device_to_directory(self, device, dir_name):
 		if device is None or dir_name is None:
-			print(f"Device Directory ({dir_name})or device:{device} details not found!")
-		try:
-			device_id=device["id"]
-			data=[{f"id":device_id, "type":"tc"}]
-			print(f"data is {data}")
-			dirs = self.get_all_tc_directories()
-			tgt_dir = None
-			for dir in dirs:
-				if dir["name"] == dir_name:
-					tgt_dir = dir
+			raise ValueError(
+				f"Both device and dir_name are required (device={device}, dir_name={dir_name})"
+			)
 
-			if tgt_dir is None:
-				print(f"Device Directory not found: {dir_name}")
-				return None
+		device_id=device["id"]
+		data=[{"id":device_id, "type":"tc"}]
+		dirs = self.get_all_tc_directories()
+		tgt_dir = None
+		for d in dirs:
+			if d["name"] == dir_name:
+				tgt_dir = d
 
-			url = f"{self.base_url}/directories/tcdirectories/{tgt_dir['id']}?operation=move"
-			print(f"url is {url}")
-			print(f"data = {data}")
-			resp = self.session.put(url, json=data, verify=False)
-			if resp.status_code in (401, 403):
-				self.__connect__()
-				resp=self.session.put(url, json=data, verify=False)
-				if resp.ok:
-					print(f"Moved device to directory: {dir_name}")
-					return True
-				else:
-					print(f"Error moving device to directory: {dir_name}")
-					print(resp.json())
-					return False
-			else:
-				#resp = self.session.put(url, json=data, verify=False)
-				if resp.ok:
-					print(f"Moved device to directory: {dir_name}")
-					print(resp.json())
-					return True
-				else:
-					print(f"Error moving device to directory: {dir_name}")
-					print(resp.json())
-					return False
-# LG 3 line
-		except Exception as e:
-			print(f"Exception moving device to directory {e}")
-			return None
-# LG 3 line
+		if tgt_dir is None:
+			raise RuntimeError(f"Target directory not found: {dir_name}")
 
+		url = f"{self.base_url}/directories/tcdirectories/{tgt_dir['id']}?operation=move"
+		resp = self.session.put(url, json=data, verify=False)
+		if resp.status_code in (401, 403):
+			log.warning("Session expired, reconnecting...")
+			self.session = self.__connect__()
+			resp=self.session.put(url, json=data, verify=False)
+
+		if resp.ok:
+			log.info("Moved device to directory: %s", dir_name)
+			return True
+		log.error("Error moving device to directory %s (HTTP %s): %s", dir_name, resp.status_code, resp.text)
+		return False
 
 	def enable_ssh(self,device):
-		try:
-			payload={  "sshEnabled": True }
-			id=device["id"]
-			url = (f"{self.base_url}/clients/{id}/apply")
-			###Incomplete
-
-		except Exception as e:
-			print(f"Exception enabling ssh: {e}")
-			return None
-
+		raise NotImplementedError("enable_ssh is not yet implemented")
 
 	def reset_to_defaults(self, device=None):
 		if device is None:
-			print("Device details not found!")
-			return False, "Device details not found!"
-		try:
-			url=f"{self.base_url}/thinclients"
-			params={'command':'tcreset2facdefs'}
-			device_id = f"{device['id']}"
-			data=[{'id':device_id, 'type':'tc'}]
-			print("Sending factory reset api request...")
+			raise ValueError("Device details are required")
+
+		url=f"{self.base_url}/thinclients"
+		params={'command':'tcreset2facdefs'}
+		device_id = f"{device['id']}"
+		data=[{'id':device_id, 'type':'tc'}]
+		log.info("Sending factory reset for device %s", device_id)
+		resp=self.session.post(url, params=params, json=data, verify=False)
+
+		if resp.status_code in (401, 403):
+			log.warning("Session expired, reconnecting...")
+			self.session = self.__connect__()
 			resp=self.session.post(url, params=params, json=data, verify=False)
-			print(resp.text)
-			if resp.status_code in (401, 403):
-				print("Session disconnected, trying to reconnect...")
-				self.__connect__()
-				if self.session:
-					print("Reconnection successful")
-				else:
-					print("Connection failed")
-					return False, resp.json()
-				resp=self.session.put(url, params=params, json=data, verify=False)
-				if resp.ok:
-					print(f"Reset device to defaults: {device_id}")
-					print(resp.text)
-					print("Status here is:")
-					x=resp.json()
-					print(x["CommandExecList"][0]["state"])
-					return True
-				else:
-					print(f"Error resetting device to defaults: {device_id}")
-					print(resp.json())
-					print(resp.text)
-					return False, resp.json()
 
-			elif resp.ok:
-				print(f"Reset device to defaults: {device_id}")
-				print(resp.text)
-				print("Status here is:")
-				x = resp.json()
-				print(x["CommandExecList"][0]["state"])
-				return True, resp.json()
+		if not resp.ok:
+			log.error("Factory reset failed (HTTP %s): %s", resp.status_code, resp.text)
+			return False, resp.json()
 
-
-		except Exception as e:
-			print(f"Exception resetting to defaults: {e}")
-			return False, {e}
+		result = resp.json()
+		state = result.get("CommandExecList", [{}])[0].get("state", "unknown")
+		log.info("Factory reset sent for %s, state=%s", device_id, state)
+		return True, result
 
 	def device_reboot(self, device=None):
 		if device is None:
-			print("Device details not found!")
-			return False, "Device details not found!"
-		try:
-			url=f"{self.base_url}/thinclients"
-			params={'command':'reboot'}
-			device_id = f"{device['id']}"
-			data=[{'id':device_id, 'type':'tc'}]
-			print("Sending device reboot api request...")
+			raise ValueError("Device details are required")
+
+		url=f"{self.base_url}/thinclients"
+		params={'command':'reboot'}
+		device_id = f"{device['id']}"
+		data=[{'id':device_id, 'type':'tc'}]
+		log.info("Sending reboot for device %s", device_id)
+		resp=self.session.post(url, params=params, json=data, verify=False)
+
+		if resp.status_code in (401, 403):
+			log.warning("Session expired, reconnecting...")
+			self.session = self.__connect__()
 			resp=self.session.post(url, params=params, json=data, verify=False)
-			print(resp.text)
-			if resp.status_code in (401, 403):
-				print("Session disconnected, trying to reconnect...")
-				self.__connect__()
-				if self.session:
-					print("Reconnection successful")
-				else:
-					print("Connection failed")
-					return False, resp.json()
-				resp=self.session.put(url, params=params, json=data, verify=False)
-				if resp.ok:
-					print(f"Rebooting device {device_id}")
-					print(resp.text)
-					print("Status here is:")
-					x=resp.json()
-					print(x["CommandExecList"][0]["state"])
-					return True, resp.json()
-				else:
-					print(f"Error rebooting device: {device_id}")
-					print(resp.json())
-					print(resp.text)
-					return False, resp.json()
 
-			elif resp.ok:
-				print(f"Device rebooted: {device_id}")
-				print(resp.text)
-				print("Status here is:")
-				x = resp.json()
-				print(x["CommandExecList"][0]["state"])
-				return True, resp.json()
+		if not resp.ok:
+			log.error("Device reboot failed (HTTP %s): %s", resp.status_code, resp.text)
+			return False, resp.json()
 
-
-		except Exception as e:
-			print(f"Exception rebooting: {e}")
-			return False, {e}
+		result = resp.json()
+		state = result.get("CommandExecList", [{}])[0].get("state", "unknown")
+		log.info("Reboot sent for %s, state=%s", device_id, state)
+		return True, result
 
 	def cleanup(self):
 		try:
 			self.session.close()
-			print("UMS Session closed")
-
+			log.info("UMS session closed")
 		except Exception as e:
-			print(f"Exception cleaning up UMS session: {e}")
-
-# UM=UMS("https://192.168.10.28:8443/umsapi/v3","vikas.hiremath.ums","igelxinnominds")
-# # vm=UM.get_vm_details("ITC005056AD4200")
-# vm=UM.get_vm_details("ITC005056AD3496")
-# print(vm)
-# # reset, data =UM.reset_to_defaults(vm)
-# # print(reset, data)
-# # tc_dir=UM.get_tc_directory_details("12.8.0")
-# # print(tc_dir['id'])
-# status, data = UM.device_reboot(vm)
+			log.warning("Error closing UMS session: %s", e)

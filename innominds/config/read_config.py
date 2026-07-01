@@ -1,35 +1,34 @@
+import logging
 import yaml
 import os
 import sys
 from pathlib import Path
 
-root_path = Path(__file__).resolve().parents[1]
-print(root_path)
+log = logging.getLogger(__name__)
 
+root_path = Path(__file__).resolve().parents[1]
 
 sys.path.append(root_path)
 
 
+file_path = os.path.join(root_path, "config", 'all_conf.yaml')
+
 try:
+    with open(file_path, 'r') as file:
+        config_data = yaml.safe_load(file)
+except FileNotFoundError:
+    log.error("Config file not found: %s", file_path)
+    raise
+except yaml.YAMLError as e:
+    log.error("Invalid YAML in config file %s: %s", file_path, e)
+    raise
 
-    file_path = os.path.join(root_path,"config",'all_conf.yaml')
-    #print(f"file_path = {file_path}")
+_required_keys = ['device', 'UMS', 'logger', 'otp_secret_cred']
+_missing = [k for k in _required_keys if k not in config_data]
+if _missing:
+    raise KeyError(f"Missing required config keys: {_missing}")
 
-
-    with open(file_path,'r') as file:
-        config_data=yaml.safe_load(file)
-
-
-    device_cred = config_data['device']
-    ums_cred = config_data['UMS']
-    logging_level = config_data['logger']
-    otp_secrets_cred = config_data['otp_secret_cred']
-
-
-    # print(f"Device Host: {device_cred['host']}")
-    # print(f"UMS Base URL: {ums_cred['base_url']}")
-    # print(f"loglevel: {logging_level['logLevel']}")
-
-except Exception as e:
-    print(f"Exception occurred reading config file {e}")
-    exit(1)
+device_cred = config_data['device']
+ums_cred = config_data['UMS']
+logging_level = config_data['logger']
+otp_secrets_cred = config_data['otp_secret_cred']

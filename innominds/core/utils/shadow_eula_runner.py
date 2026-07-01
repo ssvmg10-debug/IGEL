@@ -181,8 +181,8 @@ def main():
         page.wait_for_load_state("networkidle", timeout=15000)
         print("[SHADOW] Login successful", flush=True)
 
-    except Exception:
-        print("[SHADOW] Login not required / already logged in", flush=True)
+    except Exception as e:
+        print(f"[SHADOW] Login not required or already logged in ({type(e).__name__})", flush=True)
 
     # Give Shadow time to fully load
     time.sleep(5)

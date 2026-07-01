@@ -1,10 +1,12 @@
+import logging
 import time
-import ctypes
 import subprocess
 from typing import Optional
 import socket
 
-TIGERVNC_PATH = r"\\bin\\vncviewer.exe"#create a folder bin->.exe
+log = logging.getLogger(__name__)
+
+TIGERVNC_PATH = r"\\bin\\vncviewer.exe"
 PROCESS_NAME = "tvncviewer.exe"
 
 class Vnc_utils:
@@ -20,11 +22,12 @@ class Vnc_utils:
     # CHECK IF VNC PORT IS OPEN
     # ----------------------------------------------
     def is_vnc_port_open(self, ip: str, port: int = 5900, timeout: int = 2) -> bool:
-        """Check if VNC server port is reachable"""
+        """Check if VNC server port is reachable."""
         try:
             with socket.create_connection((ip, port), timeout=timeout):
                 return True
-        except Exception:
+        except (OSError, socket.timeout) as e:
+            log.debug("VNC port %d on %s not reachable: %s", port, ip, e)
             return False
 
     # ----------------------------------------------
@@ -76,7 +79,7 @@ class Vnc_utils:
             print(f"Failed to open TigerVNC. Retrying in {delay}s...")
             time.sleep(delay)
 
-        print("Failed to open TigerVNC after all retries")
+        log.error("Failed to open TigerVNC after %d retries for %s", retries, vm_ip)
         return None
 
     

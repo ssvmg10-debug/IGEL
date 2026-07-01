@@ -3,9 +3,13 @@ This Python SSH code establishes a secure connection to a remote server to execu
 It enables automation of remote system management tasks using authenticated SSH sessions.
 """
 
+import logging
 import paramiko
 import time
 import os
+
+log = logging.getLogger(__name__)
+
 max_retries=6
 
 class SSHClient:
@@ -21,7 +25,7 @@ class SSHClient:
         try:
             handle = paramiko.SSHClient()
             handle.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            print(f"Connecting to host: {self.host} ")
+            log.info("Connecting to host: %s", self.host)
 
             if self.key_file:
                 key = paramiko.RSAKey.from_private_key_file(self.key_file)
@@ -31,64 +35,48 @@ class SSHClient:
                 handle.connect(hostname=self.host, port=self.port,
                                     username=self.user, password=self.pwd)
 
-            print(f"[+] Connected to {self.host}")
+            log.info("Connected to %s", self.host)
             return handle
         except Exception as e:
-            print(f"[!] Connection failed: {e}")
+            log.error("SSH connection to %s failed: %s", self.host, e)
             return None
-            #exit()
 
     def reconnect(self):
-        print("[+] Attempting to reconnect...")
+        log.info("Attempting to reconnect...")
         try:
             self.handle = self._connect_()
             if self.handle:
-                print("[+] Reconnected successfully.")
+                log.info("Reconnected successfully.")
+                return self.handle
             else:
-                print("[-] Failed to reconnect.")
+                log.error("Failed to reconnect.")
                 return None
         except Exception as e:
-            print(f"[!] Exception during reconnection : {e}")
+            log.error("Exception during reconnection: %s", e)
             return None
 
-# New Change:
     def exec(self, command):
         if self.handle is None:
             self.handle = self.reconnect()
-        handle=self.handle
-        print(f"Executing command... {command}")
-        if handle is None:
-            print("[!] Server not connected.")
-            return None
+        if self.handle is None:
+            raise ConnectionError(f"SSH not connected to {self.host}")
 
-    # def exec(self, command):
-    #     handle=self.handle
-    #     print(f"Executing command... {command}")
-    #     if handle is None:
-    #         print("[!] Server not connected.")
-    #         return None
-
+        log.debug("Executing command: %s", command)
         try:
-            stdin, stdout, stderr = handle.exec_command(command, timeout = 30)
+            stdin, stdout, stderr = self.handle.exec_command(command, timeout=30)
             output = stdout.read().decode()
             error = stderr.read().decode()
-
-            print(f"Output = {output}")
-
             return output if output else error
         except Exception as e:
-            print(f"[!] Failed to execute command: {e}")
-            return None
+            log.error("Failed to execute command '%s': %s", command, e)
+            raise RuntimeError(f"SSH command execution failed: {e}") from e
 
     def getpid(self, process):
-        try:
-            pid=self.exec(f"pidof {process}")
-            if pid is None:
-                print(f"Error getting pid for {process}")
-            return pid
-        except Exception as e:
-            print(f"Exception getting pid for {process}: {e}");
+        pid=self.exec(f"pidof {process}")
+        if not pid or not pid.strip():
+            log.warning("Process not found: %s", process)
             return None
+        return pid.strip()
 
     def boot_errors(self):
         print("== Checking dmesg for boot-time errors ==")
@@ -106,16 +94,15 @@ class SSHClient:
             return True
 
     def close(self):
-        handle=self.handle
-        try:
+        if self.handle:
+            try:
+                self.handle.close()
+                log.info("Disconnected from %s", self.host)
+            except Exception as e:
+                log.warning("Error closing connection to %s: %s", self.host, e)
+            finally:
+                self.handle = None
 
-            if handle:
-                handle.close()
-                print(f"[-] Disconnected from {self.host}")
-        except Exception as e:
-            print(f"Error closing connection {self.host}: {e}")
-
-	
     def reboot(self):
         if not self.handle:
             print("SSH client not connected.")
@@ -146,74 +133,62 @@ class SSHClient:
         return False
 
     def copy_file_to_remote(self, local_file, remote_file):
-        """Transfer file from local to remote server
-        Note: Suitable for small files only!!!
+        """Transfer file from local to remote server.
+        Note: Suitable for small files only.
         """
+        if not self.handle:
+            raise ConnectionError("SSH not connected")
 
         try:
             with open(local_file, "r") as f:
                 data = f.read()
 
-            sftp =self.handle.open_sftp()
+            sftp = self.handle.open_sftp()
             with sftp.open(remote_file, 'w') as f:
                 f.write(data)
 
             sftp.close()
-            print("[+] Copied file to remote.")
+            log.info("Copied file to remote: %s -> %s", local_file, remote_file)
             return True
         except Exception as e:
-            print(f"[!] Failed to copy file to remote: {e}")
-            return False
+            log.error("Failed to copy file to remote: %s", e)
+            raise
 
     def download_file(self, src_path, dst_path):
-        handle = self.handle
+        if not self.handle:
+            raise ConnectionError("SSH not connected")
+        if src_path is None or dst_path is None:
+            raise ValueError("src_path and dst_path are required")
 
+        sftp = self.handle.open_sftp()
         try:
-            sftp = handle.open_sftp()
-            if src_path is None or dst_path is None:
-                print(f"[!] Invalid source/destination file path provided!")
-                return False
-
-            # ---- Verify remote file ----
             try:
                 sftp.stat(src_path)
             except IOError:
-                print(f"[!] Remote file not found: {src_path}")
-                return
+                raise FileNotFoundError(f"Remote file not found: {src_path}")
 
-            # ---- Verify local path ----
             local_dir = os.path.dirname(dst_path)
             if local_dir and not os.path.exists(local_dir):
                 os.makedirs(local_dir)
-                print(f"[+] Created local directory: {local_dir}")
+                log.info("Created local directory: %s", local_dir)
 
-            # ---- Download file ----
-            print(f"Downloading {src_path} -> {dst_path}")
+            log.info("Downloading %s -> %s", src_path, dst_path)
             sftp.get(src_path, dst_path)
-
-            print("[+] Download completed")
-
-            sftp.close()
+            log.info("Download completed")
             return True
-
-        except Exception as e:
-            print(f"[!] Download failed: {e}")
-            return False
+        finally:
+            sftp.close()
             
     def get_version(self):
-        """
-        This function returns the version of IGEL
-        """
-        try:
-
-            release = self.exec("cat /etc/os-release")
-            result = dict(line.split("=", 1) for line in release.splitlines() if line.strip())
-            result = {k: v.strip('"') for k, v in result.items()}
-            return result['VERSION']
-
-        except Exception as e:
-            print(f"[!] Failed to get version: {e}")
-            return None
+        """Returns the IGEL OS version string."""
+        release = self.exec("cat /etc/os-release")
+        if not release:
+            raise RuntimeError("Could not read /etc/os-release")
+        result = dict(line.split("=", 1) for line in release.splitlines() if "=" in line)
+        result = {k: v.strip('"') for k, v in result.items()}
+        if 'VERSION' not in result:
+            raise RuntimeError(f"VERSION not found in /etc/os-release: {result}")
+        return result['VERSION']
 
 
 #===================================================================================================
@@ -251,21 +226,10 @@ class SSHClient:
             print("[-] SSH did not become ready in time.")
             return False
 
-    def close(self):
-        if self.handle:
-            try:
-                self.handle.close()
-                print(f"[-] Disconnected from {self.host}")
-            except Exception as e:
-                print(f"Error closing connection {self.host}: {e}")
-            finally:
-                self.handle = None
-
 #LG#
     def launch_windows_app(self, app_name="mspaint"):
         if not self.handle:
-            print("SSH not connected")
-            return False
+            raise ConnectionError("SSH not connected")
         cmd = (
             "export DISPLAY=:0 && "
             f"xdotool key Super_L && "
@@ -274,13 +238,9 @@ class SSHClient:
             "sleep 1 && "
             "xdotool key Return"
         )
-        print(f"[+] Launching Windows app: {app_name}")
-        exit_code, out, err = self.run_command(cmd, timeout=20)
-        if exit_code == 0:
-            print("[+] Application launch command sent")
+        log.info("Launching Windows app: %s", app_name)
+        result = self.exec(cmd)
+        if result is not None:
+            log.info("Application launch command sent")
             return True
-        else:
-            print(err)
-            return False
-
-# LG
+        return False

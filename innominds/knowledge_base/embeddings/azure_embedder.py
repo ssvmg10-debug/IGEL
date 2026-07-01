@@ -72,11 +72,19 @@ def embed_texts(texts: list[str], batch_size: int = 32) -> list[list[float]]:
             for idx, emb in zip(indices, embeddings):
                 results[idx] = emb
             logger.debug("Embedded batch %d–%d", batch_start, batch_start + len(batch))
-        except Exception as e:
-            logger.error("Embedding batch %d–%d failed: %s", batch_start, batch_start + len(batch), e)
-            # Fill failed batch with zero vectors rather than crashing ingestion
+        except (RateLimitError, APIConnectionError, APITimeoutError) as e:
+            logger.error(
+                "Embedding batch %d–%d failed after retries: %s",
+                batch_start, batch_start + len(batch), e,
+            )
             for idx in indices:
                 results[idx] = zero_vector
+        except Exception as e:
+            logger.error(
+                "Unexpected error embedding batch %d–%d: %s",
+                batch_start, batch_start + len(batch), e,
+            )
+            raise
 
         # Small pause between batches to stay within rate limits
         if batch_start + batch_size < len(to_embed):

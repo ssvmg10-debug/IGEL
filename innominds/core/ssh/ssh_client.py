@@ -19,8 +19,12 @@
 ############################################################
 
 
+import logging
+
 import paramiko
 import time
+
+log = logging.getLogger(__name__)
 
 
 class SSHClientIGEL:
@@ -32,7 +36,7 @@ class SSHClientIGEL:
         self.client: paramiko.SSHClient | None = None
 
     def connect(self, timeout: int = 10) -> bool:
-        print(f"[SSH] Trying SSH connection to {self.host}:{self.port} as {self.username}...")
+        log.info("SSH connecting to %s:%d as %s", self.host, self.port, self.username)
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -47,10 +51,10 @@ class SSHClientIGEL:
                 look_for_keys=False,
             )
             self.client = ssh
-            print("[SSH] Connection successful.")
+            log.info("SSH connection successful.")
             return True
-        except Exception as e:
-            print(f"[SSH] Connection error: {e}")
+        except (paramiko.SSHException, OSError) as e:
+            log.error("SSH connection error: %s", e)
             try:
                 ssh.close()
             except Exception:
@@ -60,23 +64,18 @@ class SSHClientIGEL:
 
     def run_command(self, command: str, timeout: int = 60) -> tuple[int, str, str]:
         if not self.client:
-            return -1, "", "SSH not connected"
+            raise ConnectionError("SSH not connected")
 
-        print(f"[SSH] Executing: {command}")
+        log.debug("Executing: %s", command)
         try:
             stdin, stdout, stderr = self.client.exec_command(command, timeout=timeout)
             out = stdout.read().decode("utf-8", errors="ignore")
             err = stderr.read().decode("utf-8", errors="ignore")
             exit_code = stdout.channel.recv_exit_status()
-
-            if out:
-                print("[SSH] STDOUT:\n", out)
-            if err:
-                print("[SSH] STDERR:\n", err)
-
             return exit_code, out, err
-        except Exception as e:
-            return -1, "", f"[SSH] exec_command error: {e}"
+        except (paramiko.SSHException, OSError) as e:
+            log.error("SSH command execution failed: %s", e)
+            raise RuntimeError(f"SSH exec_command error: {e}") from e
 
     def reconnect_with_retry(self, attempts: int = 12, delay_sec: int = 15) -> bool:
         if self.client:
